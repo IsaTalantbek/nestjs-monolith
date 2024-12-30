@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountRole {
+	/// Владелец сайта - царь и бог
+	owner
+	/// Пользователь сайта - обычный смертный
+	user
+	/// Разработчик сайта (не владелец) - бравые ребята присоединившиеся после релиза
+	developer
+	/// Модератор сайта (не разработчик) - те кто могут выдать бан
+	moderator
+	/// Тех-поддержка сайта (не модератор) - те кто ответят на любой вопрос и передадут его выше
+	support
+
+	@@map("accounts_roles")
+}
+
+enum AccountState {
+	/// Только создан и не подтверждён по почте и тп
+	created
+	/// Обычный аккаунт
+	activated
+	/// Удалённый аккаунт (пользователем или системой)
+	deleted
+	/// Заблокированный аккаунт
+	banned
+
+	@@map("accounts_states")
+}
+
+model Account {
+	id				Int 			@id @default(autoincrement()) 
+	accountRole 	AccountRole		@map("account_role") @default(user)
+	accountState	AccountState	@map("account_state") @default(created)
+
+	login			String			@unique
+	password		String
+	tfaCode			String?			@unique @map("tfa_code")
+	email			String?			@unique
+	phone			String?			@unique
+	surname			String?		
+	name			String?		
+	patronymic		String?
+
+	createAt		DateTime?		@map("create_at")
+	updateAt		DateTime?		@map("update_at")
+	deleteAt		DateTime?		@map("delete_at")
+	deleted			Boolean?
+
+	@@map("accounts")
+}
