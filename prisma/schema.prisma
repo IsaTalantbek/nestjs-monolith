@@ -42,9 +42,11 @@ enum AccountState {
 }
 
 model Account {
-	id				Int 			@id @default(autoincrement()) 
+	id				String			@id @default(uuid()) 
 	accountRole 	AccountRole		@map("account_role") @default(user)
 	accountState	AccountState	@map("account_state") @default(created)
+	profileId		String? 		@unique
+	profile  		Profile?		@relation("UserInfo", fields: [profileId], references: [id])
 
 	login			String			@unique
 	password		String
@@ -55,10 +57,81 @@ model Account {
 	name			String?		
 	patronymic		String?
 
-	createAt		DateTime?		@map("create_at")
-	updateAt		DateTime?		@map("update_at")
+	createAt		DateTime?		@map("create_at") @default(now())
+	createBy		String?			@map("create_by")
+	updateAt		DateTime?		@map("update_at") @updatedAt
+	updateBy		String?			@map("update_by") 
 	deleteAt		DateTime?		@map("delete_at")
+	deleteBy		String?			@map("delete_by") 
 	deleted			Boolean?
 
 	@@map("accounts")
+}
+
+enum ProfileType {
+	/// Личная страница - 1 профиль к 1 аккаунту
+	personal			
+	/// Сообщество для читателей
+	readers_community	
+	/// Сообщество для авторов
+	authors_community	
+	/// Авторское объединение (для со-авторства)
+	authors_union		
+
+	@@map("profiles_types")
+}
+
+enum ProfileState {
+	/// Только создан и не подтверждён по почте и тп
+	created
+	/// Обычный профиль
+	activated
+	/// Удалённый профиль (одним из владельцев или системой)
+	deleted
+	/// Заблокированный профиль
+	banned
+
+	@@map("profiles_states")
+}
+
+model Profile {
+	id					String			@id @default(uuid()) 
+	profileType			ProfileType		@map("profile_type") @default(readers_community)
+	profileState		ProfileState	@map("profile_state") @default(created)
+	cityId				String?			@map("city_id") 
+	avatarImageId		String?			@map("avatar_image_id") 
+	coverImageId		String?			@map("cover_image_id") 
+
+	user    			Account?  		@relation("UserInfo")
+	userId				String?			
+
+	slug				String?			@map("account_slug")
+	displayName			String?			@map("display_name")
+	verificationInfo	Json?			@map("verification_info")
+	shortInfo			Json?			@map("short_info")
+	extraInfo			Json?			@map("extra_info")
+	otherLinks			Json?			@map("other_links")
+
+	createAt			DateTime?		@map("create_at") @default(now())
+	createBy			String?			@map("create_by") 
+	updateAt			DateTime?		@map("update_at") @updatedAt
+	updateBy			String?			@map("update_by") 
+	deleteAt			DateTime?		@map("delete_at")
+	deleteBy			String?			@map("delete_by") 
+	deleted				Boolean?
+
+	@@map("profiles")
+}
+
+enum AccountProfileRelationRank {
+	/// Владелец личного профиля, сообщества, организатор со-авторства и тд - полный набор прав
+	owner
+	/// Администратор профиля, подчинённый владельца - набор прав согласно выданной роли
+	administrator
+	/// Модератор профиля, подчинённый владельца и администраторов - набор прав согласно выданной роли
+	moderator
+	/// Подписчик профиля, рядовой читатель - набор прав согласно выданной роли
+	subscriber
+
+	@@map("accounts_profiles_relations_types")
 }
