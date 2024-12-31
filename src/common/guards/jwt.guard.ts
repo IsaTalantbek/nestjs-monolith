@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { CanActivate, ExecutionContext } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { cookieClear } from 'src/util/cookie.clear'
 
 @Injectable()
 export class jwtGuard implements CanActivate {
@@ -8,6 +9,7 @@ export class jwtGuard implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest()
+        const reply = context.switchToHttp().getResponse()
         const token = request.cookies?.aAuthToken
 
         if (token) {
@@ -15,7 +17,7 @@ export class jwtGuard implements CanActivate {
                 const decoded = await this.jwtService.verifyAsync(token)
                 request.user = decoded
             } catch (error) {
-                console.error('Token invalid or expired', error)
+                cookieClear(reply)
             }
         }
         return true
