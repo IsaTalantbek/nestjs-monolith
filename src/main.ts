@@ -18,12 +18,9 @@ async function bootstrap() {
     const configService = app.get(ConfigService)
 
     // Получаем секрет из конфигурации (переменные окружения)
-    const jwtSecret = configService.get<string>('JWT_SECRET') // например, из .env
 
     // Регистрация cookie с конфигурацией
-    await app.register(cookie, {
-        secret: jwtSecret, // используем секрет, полученный из конфигурации
-    })
+    await app.register(cookie)
 
     // Запуск сервера на Fastify
     await app.listen(

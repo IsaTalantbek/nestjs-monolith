@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt'
 import { PrismaService } from '../../core/database/prisma.service'
 import * as bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.DTO'
+import { jwtRefreshSetting, jwtAccessSetting } from 'src/core/keys/jwt.settings'
+import { jwtAccessData, jwtRefreshData } from 'src/core/keys/jwt.settings'
 
 @Injectable()
 export class AuthService {
@@ -21,10 +23,18 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const payload = { userId: user.id, accountRole: user.accountRole }
-        console.log(payload)
+        const payload = jwtAccessData(user)
+        const refreshPayload = jwtRefreshData(user)
+
+        const access_token = this.jwtService.sign(payload, jwtAccessSetting)
+        const refresh_token = this.jwtService.sign(
+            refreshPayload,
+            jwtRefreshSetting
+        )
+
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token,
+            refresh_token,
         }
     }
 

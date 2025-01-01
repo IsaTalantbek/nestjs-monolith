@@ -6,7 +6,6 @@ export class ProfileService {
     constructor(private readonly prisma: PrismaService) {}
 
     async profile(userId: string) {
-        console.log(userId)
         return await this.prisma.account.findUnique({
             where: { id: userId },
         })

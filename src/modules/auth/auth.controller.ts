@@ -33,8 +33,10 @@ export class AuthController {
                     .send({ message: 'Неправильные данные' })
             }
 
-            const { access_token } = await this.authService.login(user)
+            const { access_token, refresh_token } =
+                await this.authService.login(user)
             reply.setCookie('aAuthToken', access_token, cookieSettings)
+            reply.setCookie('rAuthToken', refresh_token, cookieSettings)
             return reply
                 .status(200)
                 .send({ message: 'Успешный логин', token: access_token })
