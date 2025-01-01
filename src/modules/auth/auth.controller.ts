@@ -16,7 +16,6 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('login')
-    @UsePipes(new ValidationPipe())
     async login(
         @Body() loginUserDto: LoginUserDto,
         @Res({ passthrough: true }) reply: any
@@ -46,7 +45,6 @@ export class AuthController {
     }
 
     @Post('register')
-    @UsePipes(new ValidationPipe())
     async register(@Body() createUserDto: CreateUserDto, @Res() reply: any) {
         try {
             const { login, email, password } = createUserDto // извлекаем данные
@@ -64,7 +62,6 @@ export class AuthController {
         }
     }
     @Post('preregister')
-    @UsePipes(new ValidationPipe())
     async preregister(
         @Body() preRegisterUserDto: PreRegisterUserDto,
         @Res() reply: any

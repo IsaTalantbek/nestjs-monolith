@@ -7,7 +7,7 @@ import { jwtAccessData } from 'src/core/keys/jwt.settings'
 import { cookieClear } from 'src/util/cookie.clear'
 
 @Injectable()
-export class JwtGuard implements CanActivate {
+export class JwtCheck implements CanActivate {
     constructor(
         private readonly jwtTokenService: JwtTokenService,
         private readonly prisma: PrismaService
@@ -23,6 +23,7 @@ export class JwtGuard implements CanActivate {
         if (accessToken) {
             const decoded = this.jwtTokenService.verifyAccessToken(accessToken)
             if (decoded) {
+                // Токен действителен
                 request.user = decoded
                 return true
             } else {
@@ -53,6 +54,6 @@ export class JwtGuard implements CanActivate {
             }
         }
         reply.clearCookie('rAuthToken')
-        return false
+        return true
     }
 }

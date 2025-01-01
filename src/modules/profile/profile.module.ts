@@ -3,11 +3,12 @@ import { ProfileController } from './profile.controller'
 import { JwtTokenService } from 'src/core/keys/jwt.service'
 import { PrismaService } from 'src/core/database/prisma.service'
 import { ProfileService } from './profile.service'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtCheck } from 'src/common/guards/jwt.check'
+import { BlackListModule } from './blacklist/blacklist.module'
 
 @Module({
-    imports: [],
+    imports: [BlackListModule],
     controllers: [ProfileController],
-    providers: [JwtTokenService, PrismaService, ProfileService, JwtGuard],
+    providers: [JwtTokenService, PrismaService, ProfileService, JwtCheck],
 })
 export class ProfileModule {}

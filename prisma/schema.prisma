@@ -65,6 +65,7 @@ model Account {
 	deleted			Boolean?
 
 	@@map("accounts")
+	@@unique([login, email])
 }
 
 enum ProfileType {
@@ -148,6 +149,10 @@ model BlackList {
 	userId				String
 	vsUserId            String
 	createAt			DateTime		@map("create_at") @default(now())    
-	createBy			String			@map("create_by") 
+	createBy			String			@map("create_by")
+	updateAt			DateTime?		@map("update_at") @updatedAt
+	updateBy			String?			@map("update_by") 
+	active				Boolean 		@default(true)
+	@@unique([userId, vsUserId])
 }
 

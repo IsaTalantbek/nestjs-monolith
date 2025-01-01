@@ -6,6 +6,7 @@ import {
 } from '@nestjs/platform-fastify'
 import cookie from '@fastify/cookie'
 import { ConfigService } from '@nestjs/config'
+import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
@@ -22,6 +23,12 @@ async function bootstrap() {
     // Регистрация cookie с конфигурацией
     await app.register(cookie)
 
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true, // Удаляет поля, которые не указаны в DTO
+            forbidNonWhitelisted: true, // Если есть лишние поля — выбросить ошибку
+        })
+    )
     // Запуск сервера на Fastify
     await app.listen(
         configService.get<number>('PORT') || 3000,
