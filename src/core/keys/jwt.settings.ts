@@ -1,11 +1,11 @@
 export const jwtAccessSetting = {
     secret: process.env.JWT_SECRET,
-    expiresIn: '1h', // срок действия для accessToken
+    expiresIn: '1h',
 }
 
 export const jwtRefreshSetting = {
     secret: process.env.JWT_REFRESH_SECRET,
-    expiresIn: '7d', // срок действия для accessToken
+    expiresIn: '7d',
 }
 
 export const jwtAccessSecret = {

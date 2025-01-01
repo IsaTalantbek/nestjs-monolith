@@ -77,6 +77,7 @@ export class AuthController {
                     .status(409)
                     .send({ message: 'Пользователь уже существует' })
             }
+            return reply.status(200).send({ message: 'Логин не занят' })
         } catch (error: any) {
             return errorStatic(reply, error)
         }

@@ -10,4 +10,18 @@ export class ProfileService {
             where: { id: userId },
         })
     }
+    async addToBlackList(userId: string, vsUserId: string) {
+        if (userId === vsUserId) {
+            return 'Нельзя добавить себя в черный список'
+        }
+        const check = await this.prisma.account.findUnique({
+            where: { id: vsUserId },
+        })
+        if (!check) {
+            return false
+        }
+        return await this.prisma.blackList.create({
+            data: { userId, vsUserId, createBy: 'profileService' },
+        })
+    }
 }

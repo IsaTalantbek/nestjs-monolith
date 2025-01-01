@@ -38,9 +38,9 @@ export class AuthService {
         }
     }
 
-    async ifUserExist(login: string) {
-        const check = await this.prisma.account.findUnique({
-            where: { login: login },
+    async ifUserExist(login: string, email?: string) {
+        const check = await this.prisma.account.findFirst({
+            where: { OR: [{ login: login }, { email: email }] },
         })
         if (check) {
             return true
@@ -49,7 +49,7 @@ export class AuthService {
     }
 
     async register({ login, password, email }: registerForm) {
-        const check = await this.ifUserExist(login)
+        const check = await this.ifUserExist(login, email)
         if (check) {
             return 'Пользователь уже существует'
         }
@@ -66,6 +66,7 @@ export class AuthService {
             data: {
                 userId: user.id,
                 profileType: 'personal',
+                passwordLength: password.length,
                 createBy: 'authService',
             },
         })
