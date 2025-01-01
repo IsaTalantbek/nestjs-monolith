@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { cookieSettings } from '../../core/keys/cookie.settings'
-import { CreateUserDto, LoginUserDto } from './auth.DTO'
+import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.DTO'
 import { errorStatic } from 'src/util/error.static'
 
 @Controller('auth')
@@ -56,9 +56,27 @@ export class AuthController {
                 password,
             })
             if (result === 'Пользователь уже существует') {
-                return reply.status(400).send({ result })
+                return reply.status(409).send({ result })
             }
             return reply.status(200).send({ result })
+        } catch (error: any) {
+            return errorStatic(reply, error)
+        }
+    }
+    @Post('preregister')
+    @UsePipes(new ValidationPipe())
+    async preregister(
+        @Body() preRegisterUserDto: PreRegisterUserDto,
+        @Res() reply: any
+    ) {
+        try {
+            const { login } = preRegisterUserDto
+            const check = this.authService.ifUserExist(login)
+            if (check) {
+                return reply
+                    .status(409)
+                    .send({ message: 'Пользователь уже существует' })
+            }
         } catch (error: any) {
             return errorStatic(reply, error)
         }

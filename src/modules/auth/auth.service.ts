@@ -38,10 +38,18 @@ export class AuthService {
         }
     }
 
-    async register({ login, password, email }: registerForm) {
+    async ifUserExist(login: string) {
         const check = await this.prisma.account.findUnique({
             where: { login: login },
         })
+        if (check) {
+            return true
+        }
+        return false
+    }
+
+    async register({ login, password, email }: registerForm) {
+        const check = await this.ifUserExist(login)
         if (check) {
             return 'Пользователь уже существует'
         }
