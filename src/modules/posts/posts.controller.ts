@@ -17,7 +17,13 @@ export class PostsController {
         const userId = req.user.userId
 
         const { type, tags } = queryDto
-        const result = await this.postsService.givePosts(type, userId, tags)
+        const checktags = []
+        checktags.push(tags)
+        const result = await this.postsService.givePosts(
+            type,
+            userId,
+            checktags
+        )
         if (result === false) {
             return reply.status(400).send({ message: 'Неправильный тип' })
         }

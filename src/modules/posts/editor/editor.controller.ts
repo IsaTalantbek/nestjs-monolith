@@ -4,7 +4,7 @@ import { EditorService } from './editor.service'
 import { EditorDto } from './editor.Dto'
 import { errorStatic } from 'src/util/error.static'
 
-@Controller('feed/editor')
+@Controller('editor')
 @UseGuards(JwtGuard)
 export class EditorCoontroller {
     constructor(private readonly editorService: EditorService) {}

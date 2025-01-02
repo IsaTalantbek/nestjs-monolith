@@ -141,7 +141,7 @@ enum AccountProfileRelationRank {
 enum  PostType {
 	article //Статья
 
-	poerty //Стих
+	poetry //Стих
 	@@map("post_type")
 }
 
