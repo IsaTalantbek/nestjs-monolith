@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as jwt from 'jsonwebtoken'
+import { jwtAccesExpire, jwtRefreshExpire } from './jwt.settings'
 
 @Injectable()
 export class JwtTokenService {
     private readonly accessSecret: string
     private readonly refreshSecret: string
-    private readonly accessExpire = '1h'
-    private readonly refreshExpire = '7d'
+    private readonly accessExpire = jwtAccesExpire
+    private readonly refreshExpire = jwtRefreshExpire
 
     constructor(private readonly configService: ConfigService) {
         this.accessSecret = this.configService.get<string>('JWT_SECRET')
@@ -16,15 +17,11 @@ export class JwtTokenService {
     }
 
     generateAccessToken(payload: any): string {
-        return jwt.sign(payload, this.accessSecret, {
-            expiresIn: this.accessExpire,
-        })
+        return jwt.sign(payload, this.accessSecret, this.accessExpire)
     }
 
     generateRefreshToken(payload: any): string {
-        return jwt.sign(payload, this.refreshSecret, {
-            expiresIn: this.refreshExpire,
-        })
+        return jwt.sign(payload, this.refreshSecret, this.refreshExpire)
     }
 
     verifyAccessToken(token: string): any {

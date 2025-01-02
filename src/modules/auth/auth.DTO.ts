@@ -52,10 +52,10 @@ export class LoginUserDto {
     @Matches(/^[a-zA-Zа-яА-Я0-9_-]+$/, {
         message: 'Неправильный логин или пароль',
     }) // проверка на латиницу, кириллицу, цифры и спецсимволы "-"
+    login: string
     @Matches(/^\S.*\S$/, {
         message: 'Неправильный логин или пароль',
     })
-    login: string
     password: string
 }
 

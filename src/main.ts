@@ -18,8 +18,6 @@ async function bootstrap() {
     // Получаем ConfigService из контейнера зависимостей NestJS
     const configService = app.get(ConfigService)
 
-    // Получаем секрет из конфигурации (переменные окружения)
-
     // Регистрация cookie с конфигурацией
     await app.register(cookie)
 

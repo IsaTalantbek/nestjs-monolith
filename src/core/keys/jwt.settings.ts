@@ -16,10 +16,17 @@ export const jwtRefreshSecret = {
     secret: process.env.JWT_REFRESH_SECRET,
 }
 
+export const jwtAccesExpire = {
+    expiresIn: '1h',
+}
+export const jwtRefreshExpire = {
+    expiresIn: '7d',
+}
+
 export const jwtAccessData = (user) => {
     return {
         userId: user.id,
-        accountRole: user.accountRole,
+        username: user.username,
     }
 }
 

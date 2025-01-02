@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
 import { ProfileModule } from './modules/profile/profile.module'
 import { BlackListModule } from './modules/profile/blacklist/blacklist.module'
+import { PostsModule } from './modules/posts/posts.module'
+import { EditorModule } from './modules/posts/editor/editor.module'
 
 @Module({
     imports: [
@@ -12,6 +14,8 @@ import { BlackListModule } from './modules/profile/blacklist/blacklist.module'
         AuthModule,
         ProfileModule,
         BlackListModule,
+        PostsModule,
+        EditorModule,
     ],
 })
 export class AppModule {}
