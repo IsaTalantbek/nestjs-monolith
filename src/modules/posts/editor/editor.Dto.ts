@@ -1,17 +1,22 @@
 import {
     IsString,
-    IsInt,
     IsOptional,
-    IsPositive,
-    IsBoolean,
     IsUUID,
     MaxLength,
-    IsJSON,
     IsArray,
+    MinLength,
+    ArrayMinSize,
+    ArrayMaxSize,
+    IsEnum,
 } from 'class-validator'
 
+enum EditorDtoTypes {
+    article = 'article',
+    poetry = 'poetry',
+}
+
 export class EditorDto {
-    @IsString()
+    @IsEnum(EditorDtoTypes)
     type: string
 
     @IsUUID()
@@ -23,5 +28,9 @@ export class EditorDto {
 
     @IsOptional()
     @IsArray()
-    tags: Array<string>
+    @IsString({ each: true })
+    @MinLength(1, { each: true })
+    @ArrayMinSize(0)
+    @ArrayMaxSize(20)
+    tags: Array<string> = []
 }

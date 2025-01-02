@@ -32,7 +32,8 @@ export class EditorCoontroller {
             }
             reply.status(200).send(result)
         } catch (error) {
-            console.error(error)
+            errorStatic(error, reply)
+            return
         }
     }
 }

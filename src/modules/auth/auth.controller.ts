@@ -5,13 +5,16 @@ import {
     Res,
     UsePipes,
     ValidationPipe,
+    UseGuards,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { cookieSettings } from '../../core/keys/cookie.settings'
 import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.DTO'
 import { errorStatic } from 'src/util/error.static'
+import { JwtAuthorized } from 'src/common/guards/jwt.authorized'
 
 @Controller('auth')
+@UseGuards(JwtAuthorized)
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
@@ -40,8 +43,9 @@ export class AuthController {
                 .status(200)
                 .send({ message: 'Успешный логин', token: access_token })
         } catch (error) {
-            return errorStatic(reply, error)
-        } // Fastify-style response
+            errorStatic(reply, error)
+            return
+        }
     }
 
     @Post('register')
@@ -76,7 +80,8 @@ export class AuthController {
             }
             return reply.status(200).send({ message: 'Логин не занят' })
         } catch (error: any) {
-            return errorStatic(reply, error)
+            errorStatic(reply, error)
+            return
         }
     }
 }

@@ -28,7 +28,8 @@ export class BlackListController {
             }
             return reply.status(200).send(result)
         } catch (error) {
-            return errorStatic(error, reply)
+            errorStatic(error, reply)
+            return
         }
     }
 
@@ -52,7 +53,8 @@ export class BlackListController {
                 message: 'Пользователь успешно добавлен в черный список',
             })
         } catch (error: any) {
-            return errorStatic(error, reply)
+            errorStatic(error, reply)
+            return
         }
     }
     @Put()
@@ -75,7 +77,8 @@ export class BlackListController {
                 message: 'Пользователь успешно удален из черного списка',
             })
         } catch (error: any) {
-            return errorStatic(error, reply)
+            errorStatic(error, reply)
+            return
         }
     }
     @Delete()
@@ -91,7 +94,8 @@ export class BlackListController {
                 message: 'Пользователи успешно удалены из черного списка',
             })
         } catch (error) {
-            return errorStatic(error, reply)
+            errorStatic(error, reply)
+            return
         }
     }
 }
