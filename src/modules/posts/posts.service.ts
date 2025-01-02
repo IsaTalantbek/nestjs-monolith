@@ -5,8 +5,7 @@ import { PrismaService } from 'src/core/database/prisma.service'
 export class PostsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async givePosts(type, tags?, userId?) {
-        console.log(tags)
+    async givePosts(type, userId?, tags?) {
         if (type !== 'article' && type !== 'poetry') {
             return false
         }

@@ -22,8 +22,8 @@ export class EditorCoontroller {
                 type,
                 tags,
                 userId,
-                text,
-                profileId
+                profileId,
+                text
             )
             if (!result) {
                 reply
@@ -32,7 +32,7 @@ export class EditorCoontroller {
             }
             reply.status(200).send(result)
         } catch (error) {
-            return errorStatic(error, reply)
+            console.error(error)
         }
     }
 }

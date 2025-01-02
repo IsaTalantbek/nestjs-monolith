@@ -22,8 +22,7 @@ export class EditorService {
                 }
             })
         )
-
-        // Создание поста и связывание его с тегами
+        console.log(profileId)
         const post = await this.prisma.post.create({
             data: {
                 type: type,
