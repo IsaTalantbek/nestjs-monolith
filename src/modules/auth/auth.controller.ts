@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { cookieSettings } from '../../core/keys/cookie.settings'
-import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.DTO'
-import { errorStatic } from 'src/util/error.static'
+import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto'
+import { errorStatic } from 'src/common/util/error.static'
 import { JwtAuthorized } from 'src/common/guards/jwt.authorized'
 
 @Controller('auth')

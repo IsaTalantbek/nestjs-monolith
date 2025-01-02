@@ -1,8 +1,8 @@
 import { Controller, Delete, Get, Req, Res, UseGuards } from '@nestjs/common'
 import { ProfileService } from './profile.service'
-import { errorStatic } from 'src/util/error.static'
+import { errorStatic } from 'src/common/util/error.static'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
-import { cookieClear } from 'src/util/cookie.clear'
+import { cookieClear } from 'src/common/util/cookie.clear'
 
 @Controller('profile')
 @UseGuards(JwtGuard)

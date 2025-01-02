@@ -1,8 +1,8 @@
 import { Controller, Get, Query, Req, UseGuards, Res } from '@nestjs/common'
 import { JwtCheck } from 'src/common/guards/jwt.check'
 import { PostsService } from './posts.service'
-import { QueryDto } from './postsDto'
-import { errorStatic } from 'src/util/error.static'
+import { QueryDto } from './posts.dto'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('feed')
 @UseGuards(JwtCheck)

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../core/database/prisma.service'
 import * as bcrypt from 'bcryptjs'
-import { loginForm, registerForm } from './auth.DTO'
+import { loginForm, registerForm } from './auth.dto'
 import { jwtAccessData, jwtRefreshData } from 'src/core/keys/jwt.settings'
 import { JwtTokenService } from 'src/core/keys/jwt.service'
 

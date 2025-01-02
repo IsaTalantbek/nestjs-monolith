@@ -8,6 +8,6 @@ import { BlackListController } from './blacklist.controller'
 @Module({
     imports: [],
     controllers: [BlackListController],
-    providers: [JwtTokenService, PrismaService, BlackLIstService, JwtCheck],
+    providers: [JwtTokenService, PrismaService, BlackLIstService],
 })
 export class BlackListModule {}

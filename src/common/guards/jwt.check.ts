@@ -4,7 +4,7 @@ import { PrismaService } from 'src/core/database/prisma.service'
 import { cookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtTokenService } from 'src/core/keys/jwt.service'
 import { jwtAccessData } from 'src/core/keys/jwt.settings'
-import { cookieClear } from 'src/util/cookie.clear'
+import { cookieClear } from 'src/common/util/cookie.clear'
 
 @Injectable()
 export class JwtCheck implements CanActivate {

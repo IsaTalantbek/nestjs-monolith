@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
-import { errorStatic } from 'src/util/error.static'
-import { VsUserIdDto } from './blacklist.DTO.ts'
+import { errorStatic } from 'src/common/util/error.static'
+import { VsUserIdDto } from './blacklist.dto'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)
