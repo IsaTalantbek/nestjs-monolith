@@ -61,7 +61,7 @@ export class BlackLIstService {
                             vsUserId: vsUserId,
                         },
                     },
-                    data: { active: true, updateBy: 'blackListService' },
+                    data: { active: true, updateBy: 'BlackListService' },
                 })
                 return true
             }
@@ -72,7 +72,7 @@ export class BlackLIstService {
                 return 'Пользователя не существует'
             }
             await this.prisma.blackList.create({
-                data: { userId, vsUserId, createBy: 'blackListService' },
+                data: { userId, vsUserId, createBy: 'BlackListService' },
             })
             return true
         } finally {
@@ -110,7 +110,7 @@ export class BlackLIstService {
                 },
                 data: {
                     active: false,
-                    updateBy: 'blackListService',
+                    updateBy: 'BlackListService',
                 },
             })
             return true
@@ -132,7 +132,7 @@ export class BlackLIstService {
             }
             await this.prisma.blackList.updateMany({
                 where: { userId: userId },
-                data: { active: false, updateBy: 'blackListService' },
+                data: { active: false, updateBy: 'BlackListService' },
             })
             return true
         } finally {

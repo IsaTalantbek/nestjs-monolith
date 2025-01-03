@@ -94,8 +94,11 @@ export class BlackListController {
                 message: 'Пользователи успешно удалены из черного списка',
             })
         } catch (error) {
-            errorStatic(error, reply)
-            return
+            console.error(`Black-List-Controller-Remove-All-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке удалить всех из списка. Пожалуйста, сообщите нам подробности',
+            })
         }
     }
 }

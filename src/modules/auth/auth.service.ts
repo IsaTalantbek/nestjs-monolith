@@ -57,7 +57,7 @@ export class AuthService {
                 login,
                 password: hashedPassword,
                 email,
-                createBy: 'authService',
+                createBy: 'AuthService',
             },
         })
         const profile = await this.prisma.profile.create({

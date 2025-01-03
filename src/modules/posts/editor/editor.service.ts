@@ -10,11 +10,17 @@ export class EditorService {
         const data: Prisma.PostCreateInput = {
             type,
             text,
-            createBy: 'editorService',
+            createBy: 'EditorService',
             user: { connect: { id: userId } }, // Связь с пользователем
             profile: { connect: { id: profileId } }, // Связь с профилем
         }
 
+        const check = this.prisma.profile.findFirst({
+            where: { id: profileId },
+        })
+        if (!check) {
+            return false
+        }
         if (tags && tags.length > 0) {
             const tagObjects = await Promise.all(
                 tags.map(async (tag) => {
@@ -25,7 +31,7 @@ export class EditorService {
                         return existingTag
                     } else {
                         return await this.prisma.tags.create({
-                            data: { name: tag },
+                            data: { name: tag, createBy: userId },
                         })
                     }
                 })

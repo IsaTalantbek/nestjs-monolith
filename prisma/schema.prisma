@@ -43,6 +43,7 @@ model Account {
 	profile  		Profile?		@relation("UserInfo", fields: [profileId], references: [id])
 	blacklist		BlackList[]
 	post			Post[]
+	like			Like[]
 
 	login			String			@unique
 	password		String
@@ -51,9 +52,9 @@ model Account {
 	phone			String?			@unique
 	
 	createAt		DateTime		@map("create_at") @default(now())
-	createBy		String			@map("create_by")
-	updateAt		DateTime?		@map("update_at") @updatedAt
-	updateBy		String?			@map("update_by") 
+	createBy		String			@map("create_by") @default("System")	
+	updateAt		DateTime		@map("update_at") @updatedAt
+	updateBy		String			@map("update_by") @default("System")
 	deleteAt		DateTime?		@map("delete_at")
 	deleteBy		String?			@map("delete_by") 
 	deleted			Boolean?
@@ -95,10 +96,14 @@ model Profile {
 	cityId				String?			@map("city_id") 
 	avatarImageId		String?			@map("avatar_image_id") 
 	coverImageId		String?			@map("cover_image_id") 
-	passwordLength		Int             @map("password-length")
-	like				Like[]			
+	passwordLength		Int             @map("password-length")		
 	post				Post[]			
 	
+	subcribes			Int				@default(0)
+	likes				Int				@default(0)
+	dislikes			Int				@default(0)
+	ratio				Int				@default(0)
+
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
 
 	username            String?
@@ -113,9 +118,9 @@ model Profile {
 	otherLinks			Json?			@map("other_links")
 
 	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") 
-	updateAt			DateTime?		@map("update_at") @updatedAt
-	updateBy			String?			@map("update_by") 
+	createBy			String			@map("create_by") @default("System")
+	updateAt			DateTime		@map("update_at") @updatedAt
+	updateBy			String			@map("update_by") @default("System")
 	deleteAt			DateTime?		@map("delete_at")
 	deleteBy			String?			@map("delete_by") 
 	deleted				Boolean?
@@ -140,8 +145,8 @@ enum AccountProfileRelationRank {
 
 enum  PostType {
 	article //Статья
-
 	poetry //Стих
+	announcement //Анонс
 	@@map("post_type")
 }
 
@@ -163,9 +168,9 @@ model Post {
 	tags				Tags[]			@relation("post-tags")
 
 	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") 
-	updateAt			DateTime?		@map("update_at") @updatedAt
-	updateBy			String?			@map("update_by") 
+	createBy			String			@map("create_by") @default("System")
+	updateAt			DateTime		@map("update_at") @updatedAt
+	updateBy			String			@map("update_by") @default("System")
 	deleteAt			DateTime?		@map("delete_at")
 	deleteBy			String?			@map("delete_by") 
 	deleted				Boolean?
@@ -173,9 +178,11 @@ model Post {
 }
 
 model Tags {
-	id      Int      @id @default(autoincrement())
-  name    String   @unique
-  posts   Post[]   @relation("post-tags")
+	id      			Int      		@id @default(autoincrement())
+  	name    			String   		@unique
+  	posts   			Post[]   		@relation("post-tags")
+  	createAt			DateTime		@map("create_at") @default(now())
+	createBy			String			@map("create_by") @default("System")
 }
 
 
@@ -184,13 +191,13 @@ model Like {
 	userId				String
 	postId				String
 	type				String			@default("like")
-	user				Profile			@relation(fields: [userId], references: [id])
+	user				Account			@relation(fields: [userId], references: [id])
   	post    			Post     		@relation(fields: [postId], references: [id]) 
 	
 	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") 
-	updateAt			DateTime?		@map("update_at") @updatedAt
-	updateBy			String?			@map("update_by") 
+	createBy			String			@map("create_by") @default("System")
+	updateAt			DateTime		@map("update_at") @updatedAt
+	updateBy			String			@map("update_by") @default("System")
 	deleteAt			DateTime?		@map("delete_at")
 	deleteBy			String?			@map("delete_by") 
 	deleted				Boolean?	
@@ -205,10 +212,10 @@ model BlackList {
 	vsUserId            String
 
 	createAt			DateTime		@map("create_at") @default(now())    
-	createBy			String			@map("create_by")
-	updateAt			DateTime?		@map("update_at") @updatedAt
-	updateBy			String?			@map("update_by") 
-	active				Boolean 		@default(true)
+	createBy			String			@map("create_by") @default("System")	
+	updateAt			DateTime		@map("update_at") @updatedAt
+	updateBy			String			@map("update_by") @default("System")
+	active				Boolean 		@default(false)
 	@@unique([userId, vsUserId])
 	@@map("black_list")
 }

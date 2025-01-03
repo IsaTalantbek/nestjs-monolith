@@ -28,12 +28,17 @@ export class EditorCoontroller {
             if (!result) {
                 reply
                     .status(400)
-                    .send({ message: 'Похоже, что-то пошло не так' })
+                    .send({
+                        message: 'Профиля, который создает пост не существует',
+                    })
             }
             reply.status(200).send(result)
         } catch (error) {
-            errorStatic(error, reply)
-            return
+            console.error(`Editor-Controller-Create-Post-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка, при попытке публикации поста. Пожалуйста, сообщите нам подробности случившегося',
+            })
         }
     }
 }

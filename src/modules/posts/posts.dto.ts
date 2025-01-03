@@ -1,9 +1,20 @@
-import { IsString, IsOptional } from 'class-validator'
+import { IsString, IsOptional, IsEnum, IsUUID } from 'class-validator'
 
-export class QueryDto {
+enum PostsDtoTypes {
+    article = 'article',
+    poetry = 'poetry',
+}
+
+export class GivePostQueryDto {
     @IsString()
+    @IsEnum(PostsDtoTypes)
     type: string
 
     @IsOptional()
     tags?: Array<string>
+}
+
+export class PostIdDto {
+    @IsString()
+    postId: string
 }
