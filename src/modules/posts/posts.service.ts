@@ -209,16 +209,13 @@ export class PostsService {
                     },
                 })
 
-                let updatedPost
-                let updatedProfile
-
                 if (existingLike) {
                     await prisma.like.update({
                         where: { id: existingDislike.id },
                         data: { type: 'dislike', updateBy: 'PostsService' },
                     })
 
-                    updatedPost = await prisma.post.update({
+                    await prisma.post.update({
                         where: { id: postId },
                         data: {
                             likes: { decrement: 1 },
@@ -226,7 +223,7 @@ export class PostsService {
                         },
                     })
 
-                    updatedProfile = await prisma.profile.update({
+                    await prisma.profile.update({
                         where: { id: postWithInfo.profile.id },
                         data: {
                             likes: { decrement: 1 },
@@ -248,14 +245,14 @@ export class PostsService {
                     },
                 })
 
-                updatedPost = await prisma.post.update({
+                await prisma.post.update({
                     where: { id: postId },
                     data: {
                         dislikes: { increment: 1 },
                     },
                 })
 
-                updatedProfile = await prisma.profile.update({
+                await prisma.profile.update({
                     where: { id: postWithInfo.profile.id },
                     data: {
                         dislikes: { increment: 1 },

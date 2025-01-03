@@ -1,16 +1,7 @@
-import {
-    Controller,
-    Post,
-    Body,
-    Res,
-    UsePipes,
-    ValidationPipe,
-    UseGuards,
-} from '@nestjs/common'
+import { Controller, Post, Body, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { cookieSettings } from '../../core/keys/cookie.settings'
 import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto'
-import { errorStatic } from 'src/common/util/error.static'
 import { JwtAuthorized } from 'src/common/guards/jwt.authorized'
 
 @Controller('auth')
@@ -43,8 +34,11 @@ export class AuthController {
                 .status(200)
                 .send({ message: 'Успешный логин', token: access_token })
         } catch (error) {
-            errorStatic(reply, error)
-            return
+            console.error(`Auth-Login-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке войти в аккаунт. Пожалуйста, сообщите нам подробности ',
+            })
         }
     }
 
@@ -62,7 +56,11 @@ export class AuthController {
             }
             return reply.status(200).send({ result })
         } catch (error: any) {
-            return errorStatic(reply, error)
+            console.error(`Auth-Register-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке создать аккаунт. Пожалуйста, сообщите нам подробности ',
+            })
         }
     }
     @Post('preregister')
@@ -80,8 +78,11 @@ export class AuthController {
             }
             return reply.status(200).send({ message: 'Логин не занят' })
         } catch (error: any) {
-            errorStatic(reply, error)
-            return
+            console.error(`Auth-PreRegister-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке проверить данные. Пожалуйста, сообщите нам подробности ',
+            })
         }
     }
 }

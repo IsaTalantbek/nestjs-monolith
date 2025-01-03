@@ -1,6 +1,5 @@
-import { Controller, Delete, Get, Req, Res, UseGuards } from '@nestjs/common'
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
 import { ProfileService } from './profile.service'
-import { errorStatic } from 'src/common/util/error.static'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { cookieClear } from 'src/common/util/cookie.clear'
 
@@ -17,8 +16,11 @@ export class ProfileController {
 
             return reply.status(200).send(result)
         } catch (error: any) {
-            errorStatic(error, reply)
-            return
+            console.error(`Profile-Give-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при получить данные профиля. Пожалуйста, сообщите нам подробности ',
+            })
         }
     }
     @Get('logout')
@@ -37,8 +39,11 @@ export class ProfileController {
                 .status(500)
                 .send({ message: 'Странно, но похоже у вас нет аккаунта' })
         } catch (error) {
-            errorStatic(error, reply)
-            return
+            console.error(`Profile-Logout-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке выйти из аккаунта. Пожалуйста, сообщите нам подробности ',
+            })
         }
     }
 }

@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
-import { errorStatic } from 'src/common/util/error.static'
 import { VsUserIdDto } from './blacklist.dto'
 
 @Controller('profile/blacklist')
@@ -28,8 +27,11 @@ export class BlackListController {
             }
             return reply.status(200).send(result)
         } catch (error) {
-            errorStatic(error, reply)
-            return
+            console.error(`BlackList-Give-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке получить пользователей из ЧС. Пожалуйста, сообщите нам подробности',
+            })
         }
     }
 
@@ -53,8 +55,11 @@ export class BlackListController {
                 message: 'Пользователь успешно добавлен в черный список',
             })
         } catch (error: any) {
-            errorStatic(error, reply)
-            return
+            console.error(`BlackList-Add-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке добавить пользователя в ЧС. Пожалуйста, сообщите нам подробности',
+            })
         }
     }
     @Put()
@@ -77,8 +82,11 @@ export class BlackListController {
                 message: 'Пользователь успешно удален из черного списка',
             })
         } catch (error: any) {
-            errorStatic(error, reply)
-            return
+            console.error(`BlackList-Remove-Error: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке удалить пользоваля из ЧС. Пожалуйста, сообщите нам подробности',
+            })
         }
     }
     @Delete()
@@ -94,10 +102,10 @@ export class BlackListController {
                 message: 'Пользователи успешно удалены из черного списка',
             })
         } catch (error) {
-            console.error(`Black-List-Controller-Remove-All-Error: ${error}`)
+            console.error(`BlackList-RemoveAll-Error: ${error}`)
             return reply.status(500).send({
                 message:
-                    'Возникла ошибка при попытке удалить всех из списка. Пожалуйста, сообщите нам подробности',
+                    'Возникла ошибка при попытке удалить всех пользователей из ЧС. Пожалуйста, сообщите нам подробности',
             })
         }
     }

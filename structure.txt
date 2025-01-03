@@ -1,10 +1,16 @@
 src/
 ├── common/         - тут находятся чаще всего используемые плагины или шаблоны
 │   ├── guards/     - гварды, чаще всего для проверки jwt
-│   ├── middleware/ - мидлвары
-│   └── utils/      - утилиты, или же шаблоны. 
-├── core/           - ядро сервера
-│   ├── database/   - все что связано с базой данных
+│   │    ├── jwt.authorized.ts - выкидывает тебя, если у тебя есть куки
+│   │    ├── jwt.check.ts      - не выкидывает тебя, просто проверяет   
+│   │    └── jwt.guard.ts      - выкидывает тебя, если у тебя нет куки       
+│   ├── middleware/            - мидлвары (идут до запроса на маршрут)
+│   ├── pipes/                 - пайпы    (проверяют исходящие запросы) 
+│   │    └── paramUUID.pipe.ts - для параметров запроса проверяет UUID это или нет
+│   └── utils/                 - утилиты, или же шаблоны.
+│        └── cookie.clear.ts   - удаляет у пользователя куки авторизации
+├── core/                      - ядро. Важная информация
+│   ├── database/              - все что связано с базой данных
 │   │   ├── prisma.module.ts   - связывает призму с основным модулем
 │   │   └── prisma.service.ts  - сама призма
 │   └── keys/                  - ключи
@@ -34,51 +40,57 @@ src/
 │       │   ├── blacklist.dto.ts        - dto для проверки айди против кого блокировка
 │       │   ├── blacklist.module.ts     - ядро
 │       │   └── blacklist.service.ts    - добавить/удалить/изменить/удалить всех из списка
-│       ├── profile.controller.ts    - profile/. @Get
+│       ├── profile.controller.ts    - profile/. @Get, @Put: :postId/like, :postId/dislike
 │       ├── profile.module.ts        - ядро   
-│       └── profile.service.ts       - Получает профиль из БД
+│       └── profile.service.ts       - Получает профиль из БД - like, profile, post
 ├── app.module.ts   - где начинается сервер. (там же и ее настройки)
 └── main.ts         - ядро сервера. Управляет всеми ядрами модулей
 
 
 src/
-├── common/         
+├── common/        
 │   ├── guards/     
-│   ├── middleware/ 
-│   └── utils/      
-├── core/           
-│   ├── database/   
-│   │   ├── prisma.module.ts  
+│   │    ├── jwt.authorized.ts 
+│   │    ├── jwt.check.ts      
+│   │    └── jwt.guard.ts            
+│   ├── middleware/            
+│   ├── pipes/                 
+│   │    └── paramUUID.pipe.t
+│   └── utils/             
+│        └── cookie.clear.ts   
+├── core/                     
+│   ├── database/              
+│   │   ├── prisma.module.ts   
 │   │   └── prisma.service.ts  
-│   └── keys/                  
+│   └── keys/                 
 │       ├── cookie.settings.ts 
-│       ├── jwt.service.ts    
-│       ├── jwt.settings.ts    
+│       ├── jwt.service.ts     
+│       ├── jwt.settings.ts   
 │       └── jwt.strategy.ts    
-├── modules/                   
-│   ├── auth/                  
+├── modules/                  
+│   ├── auth/                
 │   │   ├── auth.controller.ts 
 │   │   ├── auth.dto.ts        
 │   │   ├── auth.module.ts     
 │   │   └── auth.service.ts    
-│   ├── posts/                   
+│   ├── posts/                  
 │   │   ├── editor/            
 │   │   │   ├── editor.controller.ts 
 │   │   │   ├── editor.dto.ts        
-│   │   │   ├── editor.module.ts    
+│   │   │   ├── editor.module.ts     
 │   │   │   └── editor.service.ts    
-│   │   ├── posts.controller.ts      
-│   │   ├── posts.dto.ts               
-│   │   ├── posts.module.ts            
+│   │   ├── posts.controller.ts       
+│   │   ├── posts.dto.ts             
+│   │   ├── posts.module.ts           
 │   │   └── posts.service.ts         
-│   └── profile/                        
-│       ├── blacklist/               
+│   └── profile/                           
+│       ├── blacklist/                 
 │       │   ├── blacklist.controller.ts 
 │       │   ├── blacklist.dto.ts        
 │       │   ├── blacklist.module.ts     
 │       │   └── blacklist.service.ts    
 │       ├── profile.controller.ts    
-│       ├── profile.module.ts          
+│       ├── profile.module.ts        
 │       └── profile.service.ts       
 ├── app.module.ts   
 └── main.ts         
