@@ -5,6 +5,7 @@ import { ProfileModule } from './modules/profile/profile.module'
 import { BlackListModule } from './modules/profile/blacklist/blacklist.module'
 import { PostsModule } from './modules/posts/posts.module'
 import { EditorModule } from './modules/posts/editor/editor.module'
+import { SupportModule } from './modules/support/support.module'
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { EditorModule } from './modules/posts/editor/editor.module'
         BlackListModule,
         PostsModule,
         EditorModule,
+        SupportModule,
     ],
 })
 export class AppModule {}
