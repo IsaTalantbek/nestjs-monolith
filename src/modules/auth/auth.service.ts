@@ -62,17 +62,13 @@ export class AuthService {
                     password: hashedPassword,
                     email,
                     createdBy: 'AuthService',
-                    updatedBy: 'AuthService',
-                    passwordLength: password.length,
                     profile: {
                         create: {
                             profileType: 'personal',
                             createdBy: 'AuthService',
-                            updatedBy: 'AuthService',
                             privacy: {
                                 create: {
                                     createdBy: 'AuthService',
-                                    updatedBy: 'AuthService',
                                 },
                             },
                         },

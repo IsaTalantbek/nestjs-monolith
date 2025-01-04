@@ -25,7 +25,7 @@ export class ProfileService {
             'coverImageId',
         ])
         const subscribes = await this.prisma.subcribe.findMany({
-            where: { userId: userProfileId, active: true },
+            where: { subscribesAid: userProfileId, active: true },
         })
         const posts = await this.prisma.post.findMany({
             where: { userId: userProfileId, deleted: false },
@@ -40,10 +40,10 @@ export class ProfileService {
             'otherLinks',
         ])
         const check1 = await this.prisma.subcribe.findFirst({
-            where: { userId: userId, profileId: userProfileId },
+            where: { subscribesAid: userId, authorPid: userProfileId },
         })
         const check2 = await this.prisma.subcribe.findFirst({
-            where: { userId: userProfileId, profileId: userId },
+            where: { subscribesAid: userProfileId, authorPid: userId },
         })
         let friend = false
         if (check1 && check2) {
