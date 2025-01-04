@@ -32,21 +32,21 @@ export class BlackLIstService {
         }
     }
 
-    async addToBlackList(userId: string, vsUserId: string) {
+    async addToBlackList(userId: string, vsProfileId: string) {
         const userMutex = this.getMutex(userId)
 
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
-            if (userId === vsUserId) {
+            if (userId === vsProfileId) {
                 return 'Нельзя добавить себя в черный список'
             }
             const checkList = await this.prisma.blackList.findUnique({
                 where: {
-                    userId_vsUserId: {
+                    userId_vsProfileId: {
                         // Указываем составной уникальный ключ
                         userId: userId,
-                        vsUserId: vsUserId,
+                        vsProfileId: vsProfileId,
                     },
                 },
             })
@@ -56,30 +56,34 @@ export class BlackLIstService {
             if (checkList) {
                 await this.prisma.blackList.update({
                     where: {
-                        userId_vsUserId: {
+                        userId_vsProfileId: {
                             userId: userId,
-                            vsUserId: vsUserId,
+                            vsProfileId: vsProfileId,
                         },
                     },
-                    data: { active: true, updateBy: 'BlackListService' },
+                    data: { active: true, updatedBy: userId },
                 })
                 return true
             }
             const check = await this.prisma.account.findUnique({
-                where: { id: vsUserId },
+                where: { id: vsProfileId },
             })
             if (!check) {
                 return 'Пользователя не существует'
             }
             await this.prisma.blackList.create({
-                data: { userId, vsUserId, createBy: 'BlackListService' },
+                data: {
+                    userId: userId,
+                    vsProfileId: vsProfileId,
+                    createdBy: userId,
+                },
             })
             return true
         } finally {
             release()
         }
     }
-    async removeToBlackList(userId: string, vsUserId: string) {
+    async removeToBlackList(userId: string, vsProfileId: string) {
         const userMutex = this.getMutex(userId)
 
         // Блокируем операцию до её завершения
@@ -87,10 +91,10 @@ export class BlackLIstService {
         try {
             const checkList = await this.prisma.blackList.findUnique({
                 where: {
-                    userId_vsUserId: {
+                    userId_vsProfileId: {
                         // Указываем составной уникальный ключ
                         userId: userId,
-                        vsUserId: vsUserId,
+                        vsProfileId: vsProfileId,
                     },
                 },
             })
@@ -103,14 +107,14 @@ export class BlackLIstService {
 
             await this.prisma.blackList.update({
                 where: {
-                    userId_vsUserId: {
+                    userId_vsProfileId: {
                         userId: userId,
-                        vsUserId: vsUserId,
+                        vsProfileId: vsProfileId,
                     },
                 },
                 data: {
                     active: false,
-                    updateBy: 'BlackListService',
+                    updatedBy: userId,
                 },
             })
             return true
@@ -132,7 +136,7 @@ export class BlackLIstService {
             }
             await this.prisma.blackList.updateMany({
                 where: { userId: userId },
-                data: { active: false, updateBy: 'BlackListService' },
+                data: { active: false, updatedBy: userId },
             })
             return true
         } finally {

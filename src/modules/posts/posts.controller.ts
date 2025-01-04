@@ -52,7 +52,7 @@ export class PostsController {
 
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Give-Posts-Error: ${error}`)
+            console.error(`Give-Posts: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникли ошибки при попытке получения контента. Пожалуйста, сообщите нам подробности случившегося',
@@ -75,7 +75,7 @@ export class PostsController {
             }
             return reply.status(200).send({ message: 'Лайк успешно поставлен' })
         } catch (error) {
-            console.error(`Like-Post-Error: ${error}`)
+            console.error(`Like-Post: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке поставить лайк. Пожалуйста, сообщите нам подробности',
@@ -100,7 +100,7 @@ export class PostsController {
                 .status(200)
                 .send({ message: 'Дизлайк успешно поставлен' })
         } catch (error) {
-            console.error(`Dislike-Post-Error: ${error}`)
+            console.error(`Dislike-Post: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке поставить дизлайк. Пожалуйста, сообщите нам подробности',

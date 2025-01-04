@@ -15,7 +15,9 @@ export class PostsService {
     }
 
     async givePosts(type: string, userId?: string, tags?: Array<string>) {
+        const deleted = false
         const where: {
+            deleted: any
             type: any
             tags?: any
             NOT?: {
@@ -27,6 +29,7 @@ export class PostsService {
             }
         } = {
             type,
+            deleted,
         }
         // Если теги переданы, добавляем условие для поиска по тегам
         if (tags && tags.length > 0) {
@@ -53,7 +56,7 @@ export class PostsService {
             where: where,
             take: 3,
             orderBy: {
-                createAt: 'desc', // Сортировка по дате создания
+                createdAt: 'desc', // Сортировка по дате создания
             },
         })
 
@@ -118,7 +121,7 @@ export class PostsService {
                 if (existingDislike) {
                     await prisma.like.update({
                         where: { id: existingDislike.id },
-                        data: { type: 'like', updateBy: 'PostsService' },
+                        data: { type: 'like', updatedBy: userId },
                     })
 
                     updatedPost = await prisma.post.update({
@@ -146,8 +149,8 @@ export class PostsService {
                         userId,
                         postId,
                         type: 'like',
-                        createBy: 'PostsService',
-                        updateBy: 'PostsService',
+                        createdBy: userId,
+                        updatedBy: userId,
                     },
                 })
 
@@ -212,7 +215,7 @@ export class PostsService {
                 if (existingLike) {
                     await prisma.like.update({
                         where: { id: existingDislike.id },
-                        data: { type: 'dislike', updateBy: 'PostsService' },
+                        data: { type: 'dislike', updatedBy: userId },
                     })
 
                     await prisma.post.update({
@@ -240,8 +243,8 @@ export class PostsService {
                         userId,
                         postId,
                         type: 'dislike',
-                        createBy: 'PostsService',
-                        updateBy: 'PostsService',
+                        createdBy: userId,
+                        updatedBy: userId,
                     },
                 })
 

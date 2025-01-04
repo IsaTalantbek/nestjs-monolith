@@ -1,32 +1,42 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Param,
+    Req,
+    Res,
+    UseGuards,
+    UsePipes,
+} from '@nestjs/common'
 import { ProfileService } from './profile.service'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { cookieClear } from 'src/common/util/cookie.clear'
+import { JwtCheck } from 'src/common/guards/jwt.check'
+import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @Controller('profile')
-@UseGuards(JwtGuard)
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
+    @UseGuards(JwtGuard)
     @Get()
-    async userProfile(@Res() reply: any, @Req() req: any) {
+    async profile(@Res() reply: any, @Req() req: any) {
         try {
             const userId = req.user?.userId
 
             const result = await this.profileService.profile(userId)
-
             return reply.status(200).send(result)
         } catch (error: any) {
-            console.error(`Profile-Give-Error: ${error}`)
+            console.error(`Profile-Give: ${error}`)
             return reply.status(500).send({
                 message:
-                    'Возникла ошибка при получить данные профиля. Пожалуйста, сообщите нам подробности ',
+                    'Возникла ошибка при получении данных профиля. Пожалуйста, сообщите нам подробности ',
             })
         }
     }
+    @UseGuards(JwtGuard)
     @Get('logout')
     async logout(@Res() reply: any, @Req() req: any) {
         try {
-            const userId = req.user?.vsUserId
+            const userId = req.user?.userId
             if (userId) {
                 cookieClear(reply)
                 reply
@@ -39,10 +49,33 @@ export class ProfileController {
                 .status(500)
                 .send({ message: 'Странно, но похоже у вас нет аккаунта' })
         } catch (error) {
-            console.error(`Profile-Logout-Error: ${error}`)
+            console.error(`Profile-Logout: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке выйти из аккаунта. Пожалуйста, сообщите нам подробности ',
+            })
+        }
+    }
+    @UseGuards(JwtCheck)
+    @UsePipes(ParamUuidPipe)
+    @Get(':userId')
+    async userProfile(
+        @Param('userId') userProfileId: string,
+        @Res() reply: any,
+        @Req() req: any
+    ) {
+        try {
+            const userId = req.user?.userId
+            const result = await this.profileService.userProfile(
+                userId,
+                userProfileId
+            )
+            return reply.status(200).send(result)
+        } catch (error) {
+            console.error(`Profile-UserProfile: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке получения данных профиля. Пожалуйста, сообщите нам подробности',
             })
         }
     }

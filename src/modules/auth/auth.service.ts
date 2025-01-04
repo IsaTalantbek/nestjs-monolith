@@ -51,23 +51,41 @@ export class AuthService {
         if (check) {
             return 'Пользователь уже существует'
         }
+
         const hashedPassword = await bcrypt.hash(password, 10)
-        const user = await this.prisma.account.create({
-            data: {
-                login,
-                password: hashedPassword,
-                email,
-                createBy: 'AuthService',
-            },
+
+        const result = await this.prisma.$transaction(async (prisma) => {
+            // Внутри транзакции все операции должны быть атомарными и независимыми
+            const user = await prisma.account.create({
+                data: {
+                    login,
+                    password: hashedPassword,
+                    email,
+                    passwordLength: password.length,
+                    createdBy: 'AuthService',
+                    updatedBy: 'AuthService',
+                },
+            })
+
+            const profile = await prisma.profile.create({
+                data: {
+                    profileType: 'personal',
+                    createdBy: 'AuthService',
+                    ownerId: user.id, // Используем user.id
+                },
+            })
+
+            const privacy = await prisma.privacy.create({
+                data: {
+                    profileId: profile.id, // Используем profile.id
+                    createdBy: 'AuthService',
+                    updatedBy: 'AuthService',
+                },
+            })
+
+            return { user, profile, privacy } // Возвращаем результаты
         })
-        const profile = await this.prisma.profile.create({
-            data: {
-                userId: user.id,
-                profileType: 'personal',
-                passwordLength: password.length,
-                createBy: 'authService',
-            },
-        })
-        return { user, profile }
+
+        return result // Если все прошло успешно, возвращаем данные
     }
 }

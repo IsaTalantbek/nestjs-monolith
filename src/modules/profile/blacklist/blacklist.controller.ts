@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
-import { VsUserIdDto } from './blacklist.dto'
+import { VsProfileIdDto } from './blacklist.dto'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)
@@ -27,7 +27,7 @@ export class BlackListController {
             }
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`BlackList-Give-Error: ${error}`)
+            console.error(`BlackList-Give: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке получить пользователей из ЧС. Пожалуйста, сообщите нам подробности',
@@ -37,16 +37,16 @@ export class BlackListController {
 
     @Post()
     async addToBlackList(
-        @Body() vsUserIdDto: VsUserIdDto,
+        @Body() vsUserIdDto: VsProfileIdDto,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const userId = req.user.userId
-            const { vsUserId } = vsUserIdDto
+            const { vsProfileId } = vsUserIdDto
             const result = await this.blackListService.addToBlackList(
                 userId,
-                vsUserId
+                vsProfileId
             )
             if (result !== true) {
                 return reply.status(400).send({ message: result })
@@ -55,7 +55,7 @@ export class BlackListController {
                 message: 'Пользователь успешно добавлен в черный список',
             })
         } catch (error: any) {
-            console.error(`BlackList-Add-Error: ${error}`)
+            console.error(`BlackList-Add: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке добавить пользователя в ЧС. Пожалуйста, сообщите нам подробности',
@@ -64,16 +64,16 @@ export class BlackListController {
     }
     @Put()
     async removeToBlackList(
-        @Body() vsUserIdDto: VsUserIdDto,
+        @Body() vsProfileIdDto: VsProfileIdDto,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const userId = req.user.userId
-            const { vsUserId } = vsUserIdDto
+            const { vsProfileId } = vsProfileIdDto
             const result = await this.blackListService.removeToBlackList(
                 userId,
-                vsUserId
+                vsProfileId
             )
             if (result !== true) {
                 return reply.status(400).send({ message: result })
@@ -82,7 +82,7 @@ export class BlackListController {
                 message: 'Пользователь успешно удален из черного списка',
             })
         } catch (error: any) {
-            console.error(`BlackList-Remove-Error: ${error}`)
+            console.error(`BlackList-Remove: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке удалить пользоваля из ЧС. Пожалуйста, сообщите нам подробности',
@@ -102,7 +102,7 @@ export class BlackListController {
                 message: 'Пользователи успешно удалены из черного списка',
             })
         } catch (error) {
-            console.error(`BlackList-RemoveAll-Error: ${error}`)
+            console.error(`BlackList-RemoveAll: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке удалить всех пользователей из ЧС. Пожалуйста, сообщите нам подробности',

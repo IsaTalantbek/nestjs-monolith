@@ -39,24 +39,26 @@ model Account {
 	id				String			@id @default(uuid()) 
 	accountRole 	AccountRole		@map("account_role") @default(user)
 	accountState	AccountState	@map("account_state") @default(created)
-	profileId		String? 		@unique
-	profile  		Profile?		@relation("UserInfo", fields: [profileId], references: [id])
-	blacklist		BlackList[]
+	profile  		Profile?			@relation(fields: [profileId], references: [id])
+	profileId		String?			
 	post			Post[]
 	like			Like[]
+	subscribe		Subcribe[]
+	blacklist		BlackList[]
 
 	login			String			@unique
 	password		String
+	passwordLength	Int             @map("password-length")		
 	tfaCode			String?			@unique @map("tfa_code")
 	email			String?			@unique
 	phone			String?			@unique
 	
-	createAt		DateTime		@map("create_at") @default(now())
-	createBy		String			@map("create_by") @default("System")	
-	updateAt		DateTime		@map("update_at") @updatedAt
-	updateBy		String			@map("update_by") @default("System")
-	deleteAt		DateTime?		@map("delete_at")
-	deleteBy		String?			@map("delete_by") 
+	createdAt		DateTime		@map("create_at") @default(now())
+	createdBy		String			@map("create_by") @default("System")	
+	updatedAt		DateTime		@map("update_at") @updatedAt
+	updatedBy		String			@map("update_by") @default("System")
+	deletedAt		DateTime?		@map("delete_at")
+	deletedBy		String?			@map("delete_by") 
 	deleted			Boolean?
 
 	@@map("accounts")
@@ -89,15 +91,40 @@ enum ProfileState {
 	@@map("profiles_states")
 }
 
+enum profilePrivacy {
+	all
+	friends
+	nobody
+}
+
+model Privacy {
+	id					String			@id	@default(uuid())
+	profile				Profile[]			
+	profileId			String
+	viewProfile			profilePrivacy	@default(all)
+	subscribe			profilePrivacy	@default(all)
+	posts				profilePrivacy	@default(all)
+	like				profilePrivacy	@default(all)
+
+	createdAt			DateTime		@map("create_at") @default(now())
+	createdBy			String			@map("create_by") @default("System")
+	updatedAt			DateTime		@map("update_at") @updatedAt
+	updatedBy			String			@map("update_by") @default("System")
+	deletedAt			DateTime?		@map("delete_at")
+	deletedBy			String?			@map("delete_by") 
+	deleted				Boolean?
+}
+
 model Profile {
 	id					String			@id @default(uuid()) 
-	profileType			ProfileType		@map("profile_type") @default(readers_community)
+	profileType			ProfileType		@map("profile_type") @default(personal)
 	profileState		ProfileState	@map("profile_state") @default(created)
 	cityId				String?			@map("city_id") 
 	avatarImageId		String?			@map("avatar_image_id") 
 	coverImageId		String?			@map("cover_image_id") 
-	passwordLength		Int             @map("password-length")		
-	post				Post[]			
+	post				Post[]
+	subscribe			Subcribe[]			
+	name        		String?
 	
 	subcribes			Int				@default(0)
 	likes				Int				@default(0)
@@ -106,26 +133,40 @@ model Profile {
 
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
 
-	username            String?
-	user    			Account?  		@relation("UserInfo")
-	userId				String?			
+	privacy				Privacy?		@relation(fields: [privacyId], references: [id])	
+	owner				Account[]		@relation()
+	ownerId				String?
+	privacyId 			String?						
 
-	slug				String?			@map("account_slug")
-	displayName			String?			@map("display_name")
 	verificationInfo	Json?			@map("verification_info")
 	shortInfo			Json?			@map("short_info")
 	extraInfo			Json?			@map("extra_info")
 	otherLinks			Json?			@map("other_links")
 
-	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") @default("System")
-	updateAt			DateTime		@map("update_at") @updatedAt
-	updateBy			String			@map("update_by") @default("System")
-	deleteAt			DateTime?		@map("delete_at")
-	deleteBy			String?			@map("delete_by") 
+	createdAt			DateTime		@map("create_at") @default(now())
+	createdBy			String			@map("create_by") @default("System")
+	updatedAt			DateTime		@map("update_at") @updatedAt
+	updatedBy			String			@map("update_by") @default("System")
+	deletedAt			DateTime?		@map("delete_at")
+	deletedBy			String?			@map("delete_by") 
 	deleted				Boolean?
 
 	@@map("profiles")
+}
+
+model Subcribe {
+	id 					String			@id @default(uuid())
+	userId				String
+	profileId			String
+	user				Account			@relation(fields: [userId], references: [id])
+  	profile    			Profile     	@relation(fields: [profileId], references: [id]) 
+	
+	createdAt			DateTime		@map("create_at") @default(now())
+	createdBy			String			@map("create_by") @default("System")
+	updatedAt			DateTime		@map("update_at") @updatedAt
+	updatedBy			String			@map("update_by") @default("System")
+	active				Boolean	
+  	@@unique([userId, profileId]) // Гарантирует уникальность комбинации
 }
 
 
@@ -159,6 +200,7 @@ model Post {
 	actual				Boolean			@default(true)
 	like				Like[]
 
+	title				String
 	type				PostType
 	text				String			 			
 	links				Json?
@@ -167,12 +209,12 @@ model Post {
 	dislikes			Int				@default(0)
 	tags				Tags[]			@relation("post-tags")
 
-	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") @default("System")
-	updateAt			DateTime		@map("update_at") @updatedAt
-	updateBy			String			@map("update_by") @default("System")
-	deleteAt			DateTime?		@map("delete_at")
-	deleteBy			String?			@map("delete_by") 
+	createdAt			DateTime		@map("create_at") @default(now())
+	createdBy			String			@map("create_by") @default("System")
+	updatedAt			DateTime		@map("update_at") @updatedAt
+	updatedBy			String			@map("update_by") @default("System")
+	deletedAt			DateTime?		@map("delete_at")
+	deletedBy			String?			@map("delete_by") 
 	deleted				Boolean?
 	@@map("post")				
 }
@@ -181,8 +223,8 @@ model Tags {
 	id      			Int      		@id @default(autoincrement())
   	name    			String   		@unique
   	posts   			Post[]   		@relation("post-tags")
-  	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") @default("System")
+  	createdAt			DateTime		@map("create_at") @default(now())
+	createdBy			String			@map("create_by") @default("System")
 }
 
 
@@ -194,12 +236,12 @@ model Like {
 	user				Account			@relation(fields: [userId], references: [id])
   	post    			Post     		@relation(fields: [postId], references: [id]) 
 	
-	createAt			DateTime		@map("create_at") @default(now())
-	createBy			String			@map("create_by") @default("System")
-	updateAt			DateTime		@map("update_at") @updatedAt
-	updateBy			String			@map("update_by") @default("System")
-	deleteAt			DateTime?		@map("delete_at")
-	deleteBy			String?			@map("delete_by") 
+	createdAt			DateTime		@map("create_at") @default(now())
+	createdBy			String			@map("create_by") @default("System")
+	updatedAt			DateTime		@map("update_at") @updatedAt
+	updatedBy			String			@map("update_by") @default("System")
+	deletedAt			DateTime?		@map("delete_at")
+	deletedBy			String?			@map("delete_by") 
 	deleted				Boolean?	
   	@@unique([userId, postId, type]) // Гарантирует уникальность комбинации
 }
@@ -207,16 +249,16 @@ model Like {
 
 model BlackList {
 	id					String			@id @default(uuid()) 
-	account             Account			@relation(fields: [userId], references: [id])
-	userId				String
-	vsUserId            String
+	user                Account			@relation(fields: [userId], references: [id])
+	userId			    String
+	vsProfileId         String
 
-	createAt			DateTime		@map("create_at") @default(now())    
-	createBy			String			@map("create_by") @default("System")	
-	updateAt			DateTime		@map("update_at") @updatedAt
-	updateBy			String			@map("update_by") @default("System")
+	createdAt			DateTime		@map("create_at") @default(now())    
+	createdBy			String			@map("create_by") @default("System")	
+	updatedAt			DateTime		@map("update_at") @updatedAt
+	updatedBy			String			@map("update_by") @default("System")
 	active				Boolean 		@default(false)
-	@@unique([userId, vsUserId])
+	@@unique([userId, vsProfileId])
 	@@map("black_list")
 }
 

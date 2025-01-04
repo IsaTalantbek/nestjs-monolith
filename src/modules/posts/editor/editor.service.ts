@@ -6,11 +6,12 @@ import { Prisma } from '@prisma/client'
 export class EditorService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async createPost(type, tags, userId, profileId, text) {
+    async createPost(type, tags, userId, profileId, text, title) {
         const data: Prisma.PostCreateInput = {
+            title,
             type,
             text,
-            createBy: 'EditorService',
+            createdBy: userId,
             user: { connect: { id: userId } }, // Связь с пользователем
             profile: { connect: { id: profileId } }, // Связь с профилем
         }
@@ -31,7 +32,7 @@ export class EditorService {
                         return existingTag
                     } else {
                         return await this.prisma.tags.create({
-                            data: { name: tag, createBy: userId },
+                            data: { name: tag, createdBy: userId },
                         })
                     }
                 })

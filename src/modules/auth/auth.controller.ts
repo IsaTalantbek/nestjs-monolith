@@ -34,7 +34,7 @@ export class AuthController {
                 .status(200)
                 .send({ message: 'Успешный логин', token: access_token })
         } catch (error) {
-            console.error(`Auth-Login-Error: ${error}`)
+            console.error(`Auth-Login: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке войти в аккаунт. Пожалуйста, сообщите нам подробности ',
@@ -56,7 +56,7 @@ export class AuthController {
             }
             return reply.status(200).send({ result })
         } catch (error: any) {
-            console.error(`Auth-Register-Error: ${error}`)
+            console.error(`Auth-Register: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке создать аккаунт. Пожалуйста, сообщите нам подробности ',
@@ -78,7 +78,7 @@ export class AuthController {
             }
             return reply.status(200).send({ message: 'Логин не занят' })
         } catch (error: any) {
-            console.error(`Auth-PreRegister-Error: ${error}`)
+            console.error(`Auth-PreRegister: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка при попытке проверить данные. Пожалуйста, сообщите нам подробности ',

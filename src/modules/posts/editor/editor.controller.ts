@@ -31,7 +31,7 @@ export class EditorCoontroller {
             }
             reply.status(200).send(result)
         } catch (error) {
-            console.error(`Editor-Create-Post-Error: ${error}`)
+            console.error(`Editor-CreatePost: ${error}`)
             return reply.status(500).send({
                 message:
                     'Возникла ошибка, при попытке публикации поста. Пожалуйста, сообщите нам подробности случившегося',

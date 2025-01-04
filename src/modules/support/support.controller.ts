@@ -32,7 +32,7 @@ export class SupportController {
                 .status(200)
                 .send({ message: 'Ваше сообщение успешно отправлено' })
         } catch (error) {
-            console.error(`Whire-Support-Error: ${error}`)
+            console.error(`Write-Support: ${error}`)
             return reply.status(500).send({
                 message: 'Возникла ошибка при попытке написать в поддержку',
             })
@@ -53,7 +53,7 @@ export class SupportController {
             )
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Read-Support-Error: ${error}`)
+            console.error(`Read-Support: ${error}`)
             return reply.status(500).send({
                 message: 'Возникла ошибка при попытке прочитать файлы',
                 error,
@@ -75,7 +75,7 @@ export class SupportController {
             )
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Read-Support-Error: ${error}`)
+            console.error(`Read-Support: ${error}`)
             return reply.status(500).send({
                 message: 'Возникла ошибка при попытке удалить файлы',
                 error,

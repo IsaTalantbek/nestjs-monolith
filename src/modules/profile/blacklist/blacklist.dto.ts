@@ -1,6 +1,6 @@
 import { IsUUID } from 'class-validator'
 
-export class VsUserIdDto {
+export class VsProfileIdDto {
     @IsUUID()
-    vsUserId: string
+    vsProfileId: string
 }

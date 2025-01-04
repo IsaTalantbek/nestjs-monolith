@@ -27,6 +27,7 @@ export const jwtAccessData = (user) => {
     return {
         userId: user.id,
         username: user.username,
+        profileId: user.profileId,
     }
 }
 
