@@ -58,17 +58,17 @@ export class ProfileController {
     }
     @UseGuards(JwtCheck)
     @UsePipes(ParamUuidPipe)
-    @Get(':userId')
+    @Get(':profileId')
     async userProfile(
-        @Param('userId') userProfileId: string,
+        @Param('profileId') userProfileId: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const userId = req.user?.userId
             const result = await this.profileService.userProfile(
-                userId,
-                userProfileId
+                userProfileId,
+                userId
             )
             return reply.status(200).send(result)
         } catch (error) {

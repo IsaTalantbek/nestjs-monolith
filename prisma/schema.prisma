@@ -145,12 +145,12 @@ model Profile {
 	extraInfo			Json?			@map("extra_info")
 	otherLinks			Json?			@map("other_links")
 
-	createdAt			DateTime		@map("create_at") @default(now())
-	createdBy			String			@map("create_by") @default("System")
-	updatedAt			DateTime		@map("update_at") @updatedAt
-	updatedBy			String?			@map("update_by") 
-	deletedAt			DateTime?		@map("delete_at")
-	deletedBy			String?			@map("delete_by") 
+	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String?			@map("updated_by") 
+	deletedAt			DateTime?		@map("deleted_at")
+	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
 
 	@@map("profiles")
@@ -212,12 +212,12 @@ model Post {
 	dislikes			Int				@map("dislike")	  @default(0)	
 	tags				Tags[]			@relation("post-tags")
 
-	createdAt			DateTime		@map("create_at") @default(now())
-	createdBy			String			@map("create_by") @default("System")
-	updatedAt			DateTime		@map("update_at") @updatedAt
-	updatedBy			String			@map("update_by") @default("System")
-	deletedAt			DateTime?		@map("delete_at")
-	deletedBy			String?			@map("delete_by") 
+	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String			@map("updated_by") @default("System")
+	deletedAt			DateTime?		@map("deleted_at")
+	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
 	@@map("posts")				
 }
@@ -226,8 +226,8 @@ model Tags {
 	id      			Int      		@id @default(autoincrement())
   	name    			String   		@unique
   	posts   			Post[]   		@relation("post-tags")
-  	createdAt			DateTime		@map("create_at") @default(now())
-	createdBy			String			@map("create_by") @default("System")
+  	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
 
 	@@map("tags")
 }
@@ -241,12 +241,12 @@ model Like {
 	user				Account			@relation(fields: [userId], references: [id])
   	post    			Post     		@relation(fields: [postId], references: [id]) 
 	
-	createdAt			DateTime		@map("create_at") @default(now())
-	createdBy			String			@map("create_by") @default("System")
-	updatedAt			DateTime		@map("update_at") @updatedAt
-	updatedBy			String			@map("update_by") @default("System")
-	deletedAt			DateTime?		@map("delete_at")
-	deletedBy			String?			@map("delete_by") 
+	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String			@map("updated_by") @default("System")
+	deletedAt			DateTime?		@map("deleted_at")
+	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
   	@@unique([userId, postId, type]) // Гарантирует уникальность комбинации
 	@@map("likes")
@@ -259,10 +259,10 @@ model BlackList {
 	userId			    String
 	vsProfileId         String
 
-	createdAt			DateTime		@map("create_at") @default(now())    
-	createdBy			String			@map("create_by") @default("System")	
-	updatedAt			DateTime		@map("update_at") @updatedAt
-	updatedBy			String?			@map("update_by") 
+	createdAt			DateTime		@map("created_at") @default(now())    
+	createdBy			String			@map("created_by") @default("System")	
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String?			@map("updated_by") 
 	active				Boolean 		@default(false)
 	@@unique([userId, vsProfileId])
 	@@map("black_list")

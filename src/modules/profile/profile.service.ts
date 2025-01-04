@@ -11,7 +11,7 @@ export class ProfileService {
             where: { id: userId },
         })
     }
-    async userProfile(userId: string, userProfileId: string) {
+    async userProfile(userProfileId: string, userId?: string) {
         const result = await this.prisma.profile.findUnique({
             where: { id: userProfileId, deleted: false },
             include: { privacy: true },
@@ -30,6 +30,17 @@ export class ProfileService {
         const posts = await this.prisma.post.findMany({
             where: { userId: userProfileId, deleted: false },
         })
+        let check1
+        let check2
+
+        if (userId) {
+            check1 = await this.prisma.subcribe.findFirst({
+                where: { subscribesAid: userId, authorPid: userProfileId },
+            })
+            check2 = await this.prisma.subcribe.findFirst({
+                where: { subscribesAid: userProfileId, authorPid: userId },
+            })
+        }
         const fullData = _.pick(result, [
             'name',
             'avatarImageId',
@@ -39,12 +50,7 @@ export class ProfileService {
             'extraInf',
             'otherLinks',
         ])
-        const check1 = await this.prisma.subcribe.findFirst({
-            where: { subscribesAid: userId, authorPid: userProfileId },
-        })
-        const check2 = await this.prisma.subcribe.findFirst({
-            where: { subscribesAid: userProfileId, authorPid: userId },
-        })
+
         let friend = false
         if (check1 && check2) {
             friend = true
