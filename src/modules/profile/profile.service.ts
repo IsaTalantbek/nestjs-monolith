@@ -12,6 +12,7 @@ export class ProfileService {
         })
     }
     async userProfile(userId: string, userProfileId: string) {
+        console.log(userProfileId)
         const result = await this.prisma.profile.findUnique({
             where: { id: userProfileId, deleted: false },
             include: { owner: true, privacy: true },

@@ -59,7 +59,7 @@ model Account {
 	updatedBy		String			@map("update_by") @default("System")
 	deletedAt		DateTime?		@map("delete_at")
 	deletedBy		String?			@map("delete_by") 
-	deleted			Boolean?
+	deleted			Boolean?		@default(false)
 
 	@@map("accounts")
 	@@unique([login, email])
@@ -112,7 +112,7 @@ model Privacy {
 	updatedBy			String			@map("update_by") @default("System")
 	deletedAt			DateTime?		@map("delete_at")
 	deletedBy			String?			@map("delete_by") 
-	deleted				Boolean?
+	deleted				Boolean?		@default(false)
 }
 
 model Profile {
@@ -149,7 +149,7 @@ model Profile {
 	updatedBy			String			@map("update_by") @default("System")
 	deletedAt			DateTime?		@map("delete_at")
 	deletedBy			String?			@map("delete_by") 
-	deleted				Boolean?
+	deleted				Boolean?		@default(false)
 
 	@@map("profiles")
 }
@@ -165,7 +165,7 @@ model Subcribe {
 	createdBy			String			@map("create_by") @default("System")
 	updatedAt			DateTime		@map("update_at") @updatedAt
 	updatedBy			String			@map("update_by") @default("System")
-	active				Boolean	
+	active				Boolean			@default(false)
   	@@unique([userId, profileId]) // Гарантирует уникальность комбинации
 }
 
@@ -215,7 +215,7 @@ model Post {
 	updatedBy			String			@map("update_by") @default("System")
 	deletedAt			DateTime?		@map("delete_at")
 	deletedBy			String?			@map("delete_by") 
-	deleted				Boolean?
+	deleted				Boolean?		@default(false)
 	@@map("post")				
 }
 
@@ -242,7 +242,7 @@ model Like {
 	updatedBy			String			@map("update_by") @default("System")
 	deletedAt			DateTime?		@map("delete_at")
 	deletedBy			String?			@map("delete_by") 
-	deleted				Boolean?	
+	deleted				Boolean?		@default(false)
   	@@unique([userId, postId, type]) // Гарантирует уникальность комбинации
 }
 

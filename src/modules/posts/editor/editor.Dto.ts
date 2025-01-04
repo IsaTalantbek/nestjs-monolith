@@ -26,6 +26,10 @@ export class EditorDto {
     @MaxLength(2000)
     text: string
 
+    @IsString()
+    @MaxLength(30)
+    title: string
+
     @IsOptional()
     @IsArray()
     @IsString({ each: true })
