@@ -16,13 +16,14 @@ export class EditorCoontroller {
     ) {
         try {
             const userId = req.user.userId
-            let { type, tags, text, profileId } = editorDto
+            let { type, tags, text, profileId, title } = editorDto
             const result = await this.editorService.createPost(
                 type,
                 tags,
                 userId,
                 profileId,
-                text
+                text,
+                title
             )
             if (!result) {
                 reply.status(400).send({
