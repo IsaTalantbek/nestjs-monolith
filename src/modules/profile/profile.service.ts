@@ -35,10 +35,18 @@ export class ProfileService {
 
         if (userId) {
             check1 = await this.prisma.subcribe.findFirst({
-                where: { subscribesAid: userId, authorPid: userProfileId },
+                where: {
+                    subscribesAid: userId,
+                    authorPid: userProfileId,
+                    active: true,
+                },
             })
             check2 = await this.prisma.subcribe.findFirst({
-                where: { subscribesAid: userProfileId, authorPid: userId },
+                where: {
+                    subscribesAid: userProfileId,
+                    authorPid: userId,
+                    active: true,
+                },
             })
         }
         const fullData = _.pick(result, [
@@ -60,7 +68,6 @@ export class ProfileService {
             subscribes: undefined,
             posts: undefined,
         }
-        console.log(result)
         if (result.privacy.viewProfile === 'nobody') {
             return minData
         } else if (result.privacy.viewProfile === 'friends' && !friend) {

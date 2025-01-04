@@ -73,7 +73,7 @@ enum ProfileType {
 	/// Авторское объединение (для со-авторства)
 	authors_union		
 
-	@@map("profiles_types")
+	@@map("profiles_type_enum")
 }
 
 enum ProfileState {
@@ -114,7 +114,7 @@ model Privacy {
 	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
 
-	@@map("privacys")
+	@@map("privacy")
 }
 
 model Profile {
@@ -158,8 +158,8 @@ model Profile {
 
 model Subcribe {
 	id 					String			@id @default(uuid())
-	subscribesAid		String			@map("subscribesAid")
-	authorPid			String			@map("authorPid")
+	subscribesAid		String			@map("subscribes_aid")
+	authorPid			String			@map("author_pid")
 	user				Account			@relation(fields: [subscribesAid], references: [id])
   	profile    			Profile     	@relation(fields: [authorPid], references: [id]) 
 	
@@ -184,22 +184,22 @@ enum AccountProfileRelationRank {
 	/// Подписчик профиля, рядовой читатель - набор прав согласно выданной роли
 	subscriber
 
-	@@map("accounts_profiles_relations_types")
+	@@map("accounts_profiles_relations_type_enum")
 }
 
 enum  PostType {
 	article //Статья
 	poetry //Стих
 	announcement //Анонс
-	@@map("posts_type")
+	@@map("posts_type_enum")
 }
 
 model Post {
 	id                 	String			@id @default(uuid())
 	profile				Profile			@relation(fields: [profileId], references: [id])
 	user				Account			@relation(fields: [userId], references: [id])
-	userId				String			@map("userId")
-	profileId			String			@map("profileId")
+	userId				String			@map("user_id")
+	profileId			String			@map("profile_id")
 	actual				Boolean			@default(true)
 	like				Like[]			
 
@@ -209,7 +209,7 @@ model Post {
 	links				Json?			@map("links")
 	image				String?			@map("image")
 	likes				Int				@map("likes")	  @default(0)	
-	dislikes			Int				@map("dislike")	  @default(0)	
+	dislikes			Int				@map("dislikes")  @default(0)	
 	tags				Tags[]			@relation("post-tags")
 
 	createdAt			DateTime		@map("created_at") @default(now())
@@ -265,6 +265,6 @@ model BlackList {
 	updatedBy			String?			@map("updated_by") 
 	active				Boolean 		@default(false)
 	@@unique([userId, vsProfileId])
-	@@map("black_list")
+	@@map("black_lists")
 }
 
