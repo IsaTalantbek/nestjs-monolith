@@ -39,8 +39,7 @@ model Account {
 	id				String			@id @default(uuid()) 
 	accountRole 	AccountRole		@map("account_role") @default(user)
 	accountState	AccountState	@map("account_state") @default(created)
-	profile  		Profile?			@relation(fields: [profileId], references: [id])
-	profileId		String?			
+	profile  		Profile[]					
 	post			Post[]
 	like			Like[]
 	subscribe		Subcribe[]
@@ -99,8 +98,8 @@ enum profilePrivacy {
 
 model Privacy {
 	id					String			@id	@default(uuid())
-	profile				Profile[]			
-	profileId			String
+	profile      		Profile?        @relation("profile-privacy")
+  	profileId    		String?         @unique
 	viewProfile			profilePrivacy	@default(all)
 	subscribe			profilePrivacy	@default(all)
 	posts				profilePrivacy	@default(all)
@@ -133,10 +132,10 @@ model Profile {
 
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
 
-	privacy				Privacy?		@relation(fields: [privacyId], references: [id])	
-	owner				Account[]		@relation()
-	ownerId				String?
-	privacyId 			String?						
+	owner				Account?		@relation(fields: [ownerId], references: [id])
+	ownerId				String?			
+	privacy      		Privacy?     	@relation("profile-privacy", fields: [privacyId], references: [id])
+    privacyId    		String?      	@unique			
 
 	verificationInfo	Json?			@map("verification_info")
 	shortInfo			Json?			@map("short_info")

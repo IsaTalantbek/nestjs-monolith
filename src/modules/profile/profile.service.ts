@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../core/database/prisma.service'
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 @Injectable()
 export class ProfileService {
@@ -12,10 +12,9 @@ export class ProfileService {
         })
     }
     async userProfile(userId: string, userProfileId: string) {
-        console.log(userProfileId)
         const result = await this.prisma.profile.findUnique({
             where: { id: userProfileId, deleted: false },
-            include: { owner: true, privacy: true },
+            include: { privacy: true },
         })
         if (!result) {
             return 'Такого профиля не существует'
@@ -25,7 +24,6 @@ export class ProfileService {
             'avatarImageId',
             'coverImageId',
         ])
-
         const subscribes = await this.prisma.subcribe.findMany({
             where: { userId: userProfileId, active: true },
         })
@@ -56,6 +54,7 @@ export class ProfileService {
             subscribes: undefined,
             posts: undefined,
         }
+        console.log(result)
         if (result.privacy.viewProfile === 'nobody') {
             return minData
         } else if (result.privacy.viewProfile === 'friends' && !friend) {

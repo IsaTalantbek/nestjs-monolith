@@ -61,29 +61,26 @@ export class AuthService {
                     login,
                     password: hashedPassword,
                     email,
+                    createdBy: 'AuthService',
+                    updatedBy: 'AuthService',
                     passwordLength: password.length,
-                    createdBy: 'AuthService',
-                    updatedBy: 'AuthService',
+                    profile: {
+                        create: {
+                            profileType: 'personal',
+                            createdBy: 'AuthService',
+                            updatedBy: 'AuthService',
+                            privacy: {
+                                create: {
+                                    createdBy: 'AuthService',
+                                    updatedBy: 'AuthService',
+                                },
+                            },
+                        },
+                    },
                 },
             })
 
-            const profile = await prisma.profile.create({
-                data: {
-                    profileType: 'personal',
-                    createdBy: 'AuthService',
-                    ownerId: user.id, // Используем user.id
-                },
-            })
-
-            const privacy = await prisma.privacy.create({
-                data: {
-                    profileId: profile.id, // Используем profile.id
-                    createdBy: 'AuthService',
-                    updatedBy: 'AuthService',
-                },
-            })
-
-            return { user, profile, privacy } // Возвращаем результаты
+            return user // Возвращаем результаты
         })
 
         return result // Если все прошло успешно, возвращаем данные
