@@ -7,8 +7,7 @@ import {
 import cookie from '@fastify/cookie'
 import { ConfigService } from '@nestjs/config'
 import { ValidationPipe } from '@nestjs/common'
-import fastifyRateLimit from 'fastify-rate-limit'
-import { Redis } from 'ioredis'
+import RateLimit from '@fastify/rate-limit'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
@@ -17,16 +16,10 @@ async function bootstrap() {
         new FastifyAdapter()
     )
 
-    const redis = new Redis({
-        host: 'localhost',
-        port: 6379, // Проверьте конфигурацию вашего Redis
-    })
-
-    app.register(fastifyRateLimit, {
+    app.register(RateLimit, {
         max: 100, // максимальное количество запросов
         timeWindow: '1 minute', // за одну минуту
         keyGenerator: (req) => req.ip, // Идентификатор пользователя (по IP)
-        redis,
     })
     // Получаем ConfigService из контейнера зависимостей NestJS
     const configService = app.get(ConfigService)
