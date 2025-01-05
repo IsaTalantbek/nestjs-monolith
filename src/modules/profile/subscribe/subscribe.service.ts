@@ -17,14 +17,14 @@ export class SubscribeService {
 
     async getSubscribe(userId?: string, userProfileId?: string) {
         if (userId) {
-            const result = await this.prisma.subcribe.findMany({
+            const result = await this.prisma.subscribe.findMany({
                 where: { subscribesAid: userId, active: true },
             })
             return result.map((sub) =>
                 _.pick(sub, 'subscribesAid', 'authorPid')
             )
         } else if (userProfileId) {
-            const result = await this.prisma.subcribe.findMany({
+            const result = await this.prisma.subscribe.findMany({
                 where: { authorPid: userProfileId, active: true },
             })
             return result.map((sub) =>
@@ -35,7 +35,6 @@ export class SubscribeService {
     }
     async subscribe(userId: string, userProfileId: string) {
         const userMutex = this.getMutex(userId)
-
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
@@ -45,16 +44,17 @@ export class SubscribeService {
             if (!checkProfile) {
                 return 'Такого профиля не существует'
             }
-            const subscribe = await this.prisma.subcribe.findFirst({
+            const subscribe = await this.prisma.subscribe.findFirst({
                 where: { authorPid: userProfileId, subscribesAid: userId },
             })
             if (!subscribe) {
                 await this.prisma.$transaction(async (prisma) => {
-                    await prisma.subcribe.create({
+                    await prisma.subscribe.create({
                         data: {
                             subscribesAid: userId,
                             authorPid: userProfileId,
                             createdBy: userId,
+                            active: true,
                         },
                     })
                     await prisma.profile.update({
@@ -65,7 +65,7 @@ export class SubscribeService {
                 return true
             } else if (subscribe.active === true) {
                 await this.prisma.$transaction(async (prisma) => {
-                    await prisma.subcribe.update({
+                    await prisma.subscribe.update({
                         where: { id: subscribe.id },
                         data: { active: false, updatedBy: userId },
                     })
@@ -77,7 +77,7 @@ export class SubscribeService {
                 return true
             } else if (subscribe.active === false) {
                 await this.prisma.$transaction(async (prisma) => {
-                    await prisma.subcribe.update({
+                    await prisma.subscribe.update({
                         where: { id: subscribe.id },
                         data: { active: true, updatedBy: userId },
                     })

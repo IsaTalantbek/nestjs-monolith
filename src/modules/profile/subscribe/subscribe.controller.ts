@@ -43,14 +43,14 @@ export class SubscribeController {
     }
     @UseGuards(JwtGuard)
     @UsePipes(ParamUuidPipe)
-    @Put()
+    @Put(':profileId')
     async subscribe(
         @Param('profileId') profileId: string,
         @Req() req: any,
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userid
+            const userId = req.user.userId
             const result = await this.subscribeService.subscribe(
                 userId,
                 profileId

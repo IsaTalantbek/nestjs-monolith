@@ -25,11 +25,11 @@ export class ProfileService {
             'avatarImageId',
             'coverImageId',
         ])
-        const subscribes = await this.prisma.subcribe.findMany({
-            where: { subscribesAid: userProfileId, active: true },
+        const subscription = await this.prisma.subscribe.findMany({
+            where: { subscriberAid: userProfileId, active: true },
         })
         const posts = await this.prisma.post.findMany({
-            where: { userId: userProfileId, deleted: false },
+            where: { profileId: userProfileId, deleted: false },
         })
         let check
 
@@ -59,16 +59,27 @@ export class ProfileService {
             'shortInfo',
             'extraInf',
             'otherLinks',
+            'subscribers',
         ])
 
         let friend = false
         if (check) {
             friend = true
         }
-        const data: { fullData: any; subscribes: any; posts: any } = {
+        const data: {
+            fullData: any
+            subscription: any
+            posts: any
+            likes: any
+            dislikes: any
+            ratio: any
+        } = {
             fullData,
-            subscribes: undefined,
+            subscription: undefined,
             posts: undefined,
+            likes: undefined,
+            dislikes: undefined,
+            ratio: undefined,
         }
         if (result.privacy.viewProfile === 'nobody') {
             return minData
@@ -79,16 +90,22 @@ export class ProfileService {
             result.privacy.subscribe !== 'nobody' &&
             result.privacy.subscribe !== 'friends'
         ) {
-            data.subscribes = subscribes
+            data.subscription = subscription
         } else if (result.privacy.subscribe === 'friends' && friend) {
-            data.subscribes = subscribes
+            data.subscription = subscription
         }
         if (
             result.privacy.posts !== 'nobody' &&
             result.privacy.posts !== 'friends'
         ) {
+            ;(data.likes = result.likes),
+                (data.dislikes = result.dislikes),
+                (data.ratio = result.ratio)
             data.posts = posts
         } else if (result.privacy.posts === 'friends' && friend) {
+            ;(data.likes = result.likes),
+                (data.dislikes = result.dislikes),
+                (data.ratio = result.ratio)
             data.posts = posts
         }
         return data

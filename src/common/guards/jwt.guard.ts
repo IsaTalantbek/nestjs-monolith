@@ -19,7 +19,7 @@ export class JwtGuard implements CanActivate {
 
         const accessToken = request.cookies?.aAuthToken
         const refreshToken = request.cookies?.rAuthToken
-
+        console.log(accessToken)
         if (accessToken) {
             const decoded = this.jwtTokenService.verifyAccessToken(accessToken)
             if (decoded) {

@@ -6,7 +6,7 @@ export class GivePrivacyQueryDto {
     profileId?: string
 }
 
-export class UpdatePrivacyQueryDto {
+export class UpdatePrivacyBodyDto {
     @IsUUID()
     profileId: string
 

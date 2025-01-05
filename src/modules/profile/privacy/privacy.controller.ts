@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Get,
     Param,
@@ -12,7 +13,7 @@ import {
 
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { PrivacyService } from './privacy.service'
-import { GivePrivacyQueryDto, UpdatePrivacyQueryDto } from './privacy.dto'
+import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto'
 import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('profile/privacy')
@@ -44,7 +45,7 @@ export class PrivacyController {
     }
     @Put()
     async updatePrivacy(
-        @Query() updatePrivacyDto: UpdatePrivacyQueryDto,
+        @Body() updatePrivacyDto: UpdatePrivacyBodyDto,
         @Res() reply: any
     ) {
         try {
@@ -55,10 +56,11 @@ export class PrivacyController {
                 value
             )
             if (result !== true) {
-                return reply
-                    .status(200)
-                    .sebd({ message: 'Изменения успешно сохранены' })
+                return reply.status(400).send({ message: result })
             }
+            return reply
+                .status(200)
+                .send({ message: 'Изменения успешно сохранены' })
         } catch (error) {
             return errorStatic(error, reply)
         }

@@ -42,7 +42,7 @@ model Account {
 	profile  		Profile[]					
 	post			Post[]
 	like			Like[]
-	subscribe		Subcribe[]
+	subscribe		Subscribe[]
 	blacklist		BlackList[]
 	friend			Friend[]		
 
@@ -126,10 +126,10 @@ model Profile {
 	avatarImageId		String?			@map("avatar_image_id") 
 	coverImageId		String?			@map("cover_image_id") 
 	post				Post[]
-	subscribe			Subcribe[]			
+	subscribe			Subscribe[]			
 	name        		String?			@map("name")
 	
-	subscribes			Int				@default(0)
+	subscribers			Int				@default(0)
 	likes				Int				@default(0)
 	dislikes			Int				@default(0)
 	ratio				Int				@default(0)
@@ -157,11 +157,11 @@ model Profile {
 	@@map("profiles")
 }
 
-model Subcribe {
+model Subscribe {
 	id 					String			@id @default(uuid())
-	subscribesAid		String			@map("subscribes_aid")
+	subscriberAid		String			@map("subscriber_aid")
 	authorPid			String			@map("author_pid")
-	user				Account			@relation(fields: [subscribesAid], references: [id])
+	user				Account			@relation(fields: [subscriberAid], references: [id])
   	profile    			Profile     	@relation(fields: [authorPid], references: [id]) 
 	
 	createdAt			DateTime		@map("created_at") @default(now())
@@ -169,7 +169,7 @@ model Subcribe {
 	updatedAt			DateTime		@map("updated_at") @updatedAt
 	updatedBy			String?			@map("updated_by") 
 	active				Boolean			@default(false)
-  	@@unique([subscribesAid, authorPid]) // Гарантирует уникальность комбинации
+  	@@unique([subscriberAid, authorPid]) // Гарантирует уникальность комбинации
 	@@map("subscribes")
 }
 

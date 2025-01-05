@@ -53,7 +53,7 @@ CREATE TABLE `profiles` (
     `avatar_image_id` VARCHAR(191) NULL,
     `cover_image_id` VARCHAR(191) NULL,
     `name` VARCHAR(191) NULL,
-    `subcribes` INTEGER NOT NULL DEFAULT 0,
+    `subscribers` INTEGER NOT NULL DEFAULT 0,
     `likes` INTEGER NOT NULL DEFAULT 0,
     `dislikes` INTEGER NOT NULL DEFAULT 0,
     `ratio` INTEGER NOT NULL DEFAULT 0,
@@ -79,7 +79,7 @@ CREATE TABLE `profiles` (
 -- CreateTable
 CREATE TABLE `subscribes` (
     `id` VARCHAR(191) NOT NULL,
-    `subscribes_aid` VARCHAR(191) NOT NULL,
+    `subscriber_aid` VARCHAR(191) NOT NULL,
     `author_pid` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
@@ -87,12 +87,12 @@ CREATE TABLE `subscribes` (
     `updated_by` VARCHAR(191) NULL,
     `active` BOOLEAN NOT NULL DEFAULT false,
 
-    UNIQUE INDEX `subscribes_subscribes_aid_author_pid_key`(`subscribes_aid`, `author_pid`),
+    UNIQUE INDEX `subscribes_subscriber_aid_author_pid_key`(`subscriber_aid`, `author_pid`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Friend` (
+CREATE TABLE `friends` (
     `id` VARCHAR(191) NOT NULL,
     `user_id` VARCHAR(191) NOT NULL,
     `vs_user_id` VARCHAR(191) NOT NULL,
@@ -189,13 +189,13 @@ ALTER TABLE `profiles` ADD CONSTRAINT `profiles_ownerId_fkey` FOREIGN KEY (`owne
 ALTER TABLE `profiles` ADD CONSTRAINT `profiles_privacyId_fkey` FOREIGN KEY (`privacyId`) REFERENCES `privacy`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `subscribes` ADD CONSTRAINT `subscribes_subscribes_aid_fkey` FOREIGN KEY (`subscribes_aid`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `subscribes` ADD CONSTRAINT `subscribes_subscriber_aid_fkey` FOREIGN KEY (`subscriber_aid`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `subscribes` ADD CONSTRAINT `subscribes_author_pid_fkey` FOREIGN KEY (`author_pid`) REFERENCES `profiles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Friend` ADD CONSTRAINT `Friend_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `friends` ADD CONSTRAINT `friends_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `posts` ADD CONSTRAINT `posts_profile_id_fkey` FOREIGN KEY (`profile_id`) REFERENCES `profiles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
