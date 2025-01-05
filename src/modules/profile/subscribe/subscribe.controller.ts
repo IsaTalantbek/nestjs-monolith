@@ -1,0 +1,68 @@
+import {
+    Controller,
+    Get,
+    Param,
+    Put,
+    Query,
+    Req,
+    Res,
+    UseGuards,
+    UsePipes,
+} from '@nestjs/common'
+import { JwtCheck } from 'src/common/guards/jwt.check'
+import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { SubscribeService } from './subscribe.service'
+import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { GiveSubscribesQueryDto } from './subscribe.dto'
+import { errorStatic } from 'src/common/util/error.static'
+
+@Controller('subscribe')
+export class SubscribeController {
+    constructor(private readonly subscribeService: SubscribeService) {}
+    @UseGuards(JwtCheck)
+    @Get()
+    async getSubscribes(
+        @Query() profileIdDto: GiveSubscribesQueryDto,
+        @Req() req: any,
+        @Res() reply: any
+    ) {
+        try {
+            const userId = req.user?.userId
+            const { profileId } = profileIdDto
+            const result = await this.subscribeService.getSubscribe(
+                userId,
+                profileId
+            )
+            if (result === 'Неправильные данные') {
+                return reply.status(400).send({ message: result })
+            }
+            return reply.status(200).send(result)
+        } catch (error) {
+            return errorStatic(error, reply)
+        }
+    }
+    @UseGuards(JwtGuard)
+    @UsePipes(ParamUuidPipe)
+    @Put()
+    async subscribe(
+        @Param('profileId') profileId: string,
+        @Req() req: any,
+        @Res() reply: any
+    ) {
+        try {
+            const userId = req.user.userid
+            const result = await this.subscribeService.subscribe(
+                userId,
+                profileId
+            )
+            if (result !== true) {
+                return reply.status(400).sebd({ message: result })
+            }
+            return reply
+                .status(200)
+                .send({ message: 'Успешная подписка/отписка' })
+        } catch (error) {
+            return errorStatic(error, reply)
+        }
+    }
+}

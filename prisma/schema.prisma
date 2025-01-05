@@ -43,7 +43,8 @@ model Account {
 	post			Post[]
 	like			Like[]
 	subscribe		Subcribe[]
-	blacklist		BlackList[]		
+	blacklist		BlackList[]
+	friend			Friend[]		
 
 	login			String			@unique
 	password		String			@map("password")
@@ -128,7 +129,7 @@ model Profile {
 	subscribe			Subcribe[]			
 	name        		String?			@map("name")
 	
-	subcribes			Int				@default(0)
+	subscribes			Int				@default(0)
 	likes				Int				@default(0)
 	dislikes			Int				@default(0)
 	ratio				Int				@default(0)
@@ -172,6 +173,20 @@ model Subcribe {
 	@@map("subscribes")
 }
 
+model Friend {
+	id 					String			@id @default(uuid())
+	user				Account			@relation(fields: [userId], references: [id])
+	userId				String			@map("user_id")
+	vsUserId			String			@map("vs_user_id")
+
+	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String?			@map("updated_by")			
+	active				Boolean			@map("active")     @default(false)
+
+	@@map("friends")
+}
 
 
 enum AccountProfileRelationRank {

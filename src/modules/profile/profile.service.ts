@@ -9,6 +9,7 @@ export class ProfileService {
     async profile(userId: string) {
         return await this.prisma.account.findUnique({
             where: { id: userId },
+            include: { profile: true },
         })
     }
     async userProfile(userProfileId: string, userId?: string) {
@@ -30,22 +31,23 @@ export class ProfileService {
         const posts = await this.prisma.post.findMany({
             where: { userId: userProfileId, deleted: false },
         })
-        let check1
-        let check2
+        let check
 
         if (userId) {
-            check1 = await this.prisma.subcribe.findFirst({
+            check = await this.prisma.friend.findFirst({
                 where: {
-                    subscribesAid: userId,
-                    authorPid: userProfileId,
-                    active: true,
-                },
-            })
-            check2 = await this.prisma.subcribe.findFirst({
-                where: {
-                    subscribesAid: userProfileId,
-                    authorPid: userId,
-                    active: true,
+                    OR: [
+                        {
+                            userId: userId,
+                            vsUserId: result.ownerId,
+                            active: true,
+                        },
+                        {
+                            userId: result.ownerId,
+                            vsUserId: userId,
+                            active: true,
+                        },
+                    ],
                 },
             })
         }
@@ -60,7 +62,7 @@ export class ProfileService {
         ])
 
         let friend = false
-        if (check1 && check2) {
+        if (check) {
             friend = true
         }
         const data: { fullData: any; subscribes: any; posts: any } = {

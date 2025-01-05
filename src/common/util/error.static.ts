@@ -1,6 +1,6 @@
-export const errorStatic = (error, req) => {
+export const errorStatic = (error, reply) => {
     console.error(error)
-    req.status(500).send({
+    reply.status(500).send({
         message:
             'Ошибка при попытке получения данных. Пожалуйста, сообщите нам подробности случившегося',
     })

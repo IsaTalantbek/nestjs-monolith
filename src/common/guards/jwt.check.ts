@@ -37,7 +37,7 @@ export class JwtCheck implements CanActivate {
                 this.jwtTokenService.verifyRefreshToken(refreshToken)
             if (decoded) {
                 const user = await this.prisma.account.findUnique({
-                    where: { id: decoded.userId },
+                    where: { id: decoded.userId, deleted: false },
                 })
                 if (!user) {
                     cookieClear(reply)
