@@ -6,12 +6,17 @@ import * as _ from 'lodash'
 export class ProfileService {
     constructor(private readonly prisma: PrismaService) {}
 
+    //Возвращает всю информацию о своем аккаунте. Изменить потом,
+    //Сделать меньше информации
     async profile(userId: string) {
         return await this.prisma.account.findUnique({
             where: { id: userId },
             include: { profile: true },
         })
     }
+    //Тут можно получить информацию о профиле. Айди пользователя
+    //по желанию. Но если у профиля включены настройки 'friends'
+    //то только друзья могут получить дополнительную информацию
     async userProfile(userProfileId: string, userId?: string) {
         const result = await this.prisma.profile.findUnique({
             where: { id: userProfileId, deleted: false },

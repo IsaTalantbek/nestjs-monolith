@@ -14,16 +14,17 @@ export class SubscribeService {
         }
         return this.userLocks.get(userId)!
     }
-
+    //Если передан userProfileId, возвращает все подписки которые оформлены на этот профиль
+    //Если передан userId, возвращает все подписки этого аккаунта
     async getSubscribe(userId?: string, userProfileId?: string) {
-        if (userId) {
+        if (userProfileId) {
             const result = await this.prisma.subscribe.findMany({
                 where: { subscriberAid: userId, active: true },
             })
             return result.map((sub) =>
                 _.pick(sub, 'subscribesAid', 'authorPid')
             )
-        } else if (userProfileId) {
+        } else if (userId) {
             const result = await this.prisma.subscribe.findMany({
                 where: { authorPid: userProfileId, active: true },
             })
@@ -33,6 +34,8 @@ export class SubscribeService {
         }
         return 'Неправильные данные'
     }
+    //Ставит подписку или наоборот убирает ее. Большего знать не нужно
+    //Передается аккаунт подписчика и профиль подписки
     async subscribe(userId: string, userProfileId: string) {
         const userMutex = this.getMutex(userId)
         // Блокируем операцию до её завершения
@@ -83,7 +86,7 @@ export class SubscribeService {
                     })
                     await prisma.profile.update({
                         where: { id: userProfileId },
-                        data: { subscribers: { decrement: 1 } },
+                        data: { subscribers: { increment: 1 } },
                     })
                 })
                 return true

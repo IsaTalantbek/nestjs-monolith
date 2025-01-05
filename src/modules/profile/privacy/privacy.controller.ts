@@ -50,14 +50,17 @@ export class PrivacyController {
     @Put()
     async updatePrivacy(
         @Body() updatePrivacyDto: UpdatePrivacyBodyDto,
-        @Res() reply: any
+        @Res() reply: any,
+        @Req() req: any
     ) {
         try {
+            const userId = req.user.userId
             const { profileId, value, update } = updatePrivacyDto
             const result = await this.privacyService.updatePrivacy(
                 profileId,
                 update,
-                value
+                value,
+                userId
             )
             if (result !== true) {
                 return reply.status(400).send({ message: result })
