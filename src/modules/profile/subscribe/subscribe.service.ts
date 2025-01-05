@@ -18,7 +18,7 @@ export class SubscribeService {
     async getSubscribe(userId?: string, userProfileId?: string) {
         if (userId) {
             const result = await this.prisma.subscribe.findMany({
-                where: { subscribesAid: userId, active: true },
+                where: { subscriberAid: userId, active: true },
             })
             return result.map((sub) =>
                 _.pick(sub, 'subscribesAid', 'authorPid')
@@ -45,13 +45,13 @@ export class SubscribeService {
                 return 'Такого профиля не существует'
             }
             const subscribe = await this.prisma.subscribe.findFirst({
-                where: { authorPid: userProfileId, subscribesAid: userId },
+                where: { authorPid: userProfileId, subscriberAid: userId },
             })
             if (!subscribe) {
                 await this.prisma.$transaction(async (prisma) => {
                     await prisma.subscribe.create({
                         data: {
-                            subscribesAid: userId,
+                            subscriberAid: userId,
                             authorPid: userProfileId,
                             createdBy: userId,
                             active: true,
@@ -59,7 +59,7 @@ export class SubscribeService {
                     })
                     await prisma.profile.update({
                         where: { id: userProfileId },
-                        data: { subscribes: { increment: 1 } },
+                        data: { subscribers: { increment: 1 } },
                     })
                 })
                 return true
@@ -71,7 +71,7 @@ export class SubscribeService {
                     })
                     await prisma.profile.update({
                         where: { id: userProfileId },
-                        data: { subscribes: { decrement: 1 } },
+                        data: { subscribers: { decrement: 1 } },
                     })
                 })
                 return true
@@ -83,7 +83,7 @@ export class SubscribeService {
                     })
                     await prisma.profile.update({
                         where: { id: userProfileId },
-                        data: { subscribes: { decrement: 1 } },
+                        data: { subscribers: { decrement: 1 } },
                     })
                 })
                 return true

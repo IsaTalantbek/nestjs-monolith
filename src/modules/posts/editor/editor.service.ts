@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/core/database/prisma.service'
 import { Prisma } from '@prisma/client'
+import * as _ from 'lodash'
 
 @Injectable()
 export class EditorService {
@@ -45,6 +46,15 @@ export class EditorService {
         }
 
         const post = await this.prisma.post.create({ data })
-        return post
+        const postData = _.pick(
+            post,
+            'tags',
+            'title',
+            'text',
+            'links',
+            'image',
+            'profileId'
+        )
+        return postData
     }
 }

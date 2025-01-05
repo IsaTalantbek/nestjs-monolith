@@ -40,7 +40,11 @@ export class PrivacyController {
             }
             return reply.status(200).send(result)
         } catch (error) {
-            return errorStatic(error, reply)
+            console.error(`Get-Privacy: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке получить данные о приватности. Пожалуйста, сообщите нам что случилось',
+            })
         }
     }
     @Put()
@@ -62,7 +66,11 @@ export class PrivacyController {
                 .status(200)
                 .send({ message: 'Изменения успешно сохранены' })
         } catch (error) {
-            return errorStatic(error, reply)
+            console.error(`Update-Privacy: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке обновить настройки приватности. Пожалуйста, сообщите нам что случилось',
+            })
         }
     }
 }

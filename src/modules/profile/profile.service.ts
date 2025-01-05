@@ -29,12 +29,12 @@ export class ProfileService {
             where: { subscriberAid: userProfileId, active: true },
         })
         const posts = await this.prisma.post.findMany({
-            where: { profileId: userProfileId, deleted: false },
+            where: { profileId: result.ownerId, deleted: false },
         })
-        let check
+        let friend
 
         if (userId) {
-            check = await this.prisma.friend.findFirst({
+            friend = await this.prisma.friend.findFirst({
                 where: {
                     OR: [
                         {
@@ -62,10 +62,6 @@ export class ProfileService {
             'subscribers',
         ])
 
-        let friend = false
-        if (check) {
-            friend = true
-        }
         const data: {
             fullData: any
             subscription: any

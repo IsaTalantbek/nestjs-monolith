@@ -16,7 +16,7 @@ import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { GiveSubscribesQueryDto } from './subscribe.dto'
 import { errorStatic } from 'src/common/util/error.static'
 
-@Controller('subscribe')
+@Controller('profile/subscribe')
 export class SubscribeController {
     constructor(private readonly subscribeService: SubscribeService) {}
     @UseGuards(JwtCheck)
@@ -38,7 +38,13 @@ export class SubscribeController {
             }
             return reply.status(200).send(result)
         } catch (error) {
-            return errorStatic(error, reply)
+            console.error(`Get-Subscribe: ${error}`)
+            return reply
+                .status(500)
+                .send({
+                    message:
+                        'Возникла ошибка при попытке получить данные подписки. Пожалуйста, сообщите нам что случилось',
+                })
         }
     }
     @UseGuards(JwtGuard)
@@ -62,7 +68,11 @@ export class SubscribeController {
                 .status(200)
                 .send({ message: 'Успешная подписка/отписка' })
         } catch (error) {
-            return errorStatic(error, reply)
+            console.error(`Subscribe: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке поодписаться. Пожалуйста, напишите нам что случилось',
+            })
         }
     }
 }
