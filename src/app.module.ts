@@ -8,6 +8,7 @@ import { EditorModule } from './modules/posts/editor/editor.module'
 import { SupportModule } from './modules/support/support.module'
 import { SubscribeModule } from './modules/profile/subscribe/subscribe.module'
 import { PrivacyModule } from './modules/profile/privacy/privacy.module'
+import { FriendModule } from './modules/profile/friend/friend.module'
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { PrivacyModule } from './modules/profile/privacy/privacy.module'
         SupportModule,
         SubscribeModule,
         PrivacyModule,
+        FriendModule,
     ],
 })
 export class AppModule {}

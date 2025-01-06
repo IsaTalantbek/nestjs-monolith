@@ -17,7 +17,7 @@ async function bootstrap() {
     )
 
     app.register(RateLimit, {
-        max: 100, // максимальное количество запросов
+        max: 60, // максимальное количество запросов
         timeWindow: '1 minute', // за одну минуту
         keyGenerator: (req) => req.ip, // Идентификатор пользователя (по IP)
     })

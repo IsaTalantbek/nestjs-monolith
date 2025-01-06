@@ -3,15 +3,17 @@ import {
     Controller,
     Delete,
     Get,
+    Param,
     Post,
     Put,
     Req,
     Res,
     UseGuards,
+    UsePipes,
 } from '@nestjs/common'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
-import { VsProfileIdDto } from './blacklist.dto'
+import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)
@@ -34,16 +36,15 @@ export class BlackListController {
             })
         }
     }
-
-    @Post()
+    @UsePipes(ParamUuidPipe)
+    @Post(':vsProfileId')
     async addToBlackList(
-        @Body() vsUserIdDto: VsProfileIdDto,
+        @Param('vsProfileId') vsProfileId: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const userId = req.user.userId
-            const { vsProfileId } = vsUserIdDto
             const result = await this.blackListService.addToBlackList(
                 userId,
                 vsProfileId
@@ -62,15 +63,15 @@ export class BlackListController {
             })
         }
     }
-    @Put()
+    @UsePipes(ParamUuidPipe)
+    @Put(':vsProfileId')
     async removeToBlackList(
-        @Body() vsProfileIdDto: VsProfileIdDto,
+        @Param('vsProfileId') vsProfileId: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const userId = req.user.userId
-            const { vsProfileId } = vsProfileIdDto
             const result = await this.blackListService.removeToBlackList(
                 userId,
                 vsProfileId

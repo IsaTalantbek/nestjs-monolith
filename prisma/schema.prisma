@@ -184,7 +184,8 @@ model Friend {
 	updatedAt			DateTime		@map("updated_at") @updatedAt
 	updatedBy			String?			@map("updated_by")			
 	active				Boolean			@map("active")     @default(false)
-
+	wait				Boolean			@map("wait") @default(true)
+	@@unique([userId, vsUserId])
 	@@map("friends")
 }
 
