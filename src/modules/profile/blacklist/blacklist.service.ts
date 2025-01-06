@@ -14,22 +14,10 @@ export class BlackLIstService {
         return this.userLocks.get(userId)!
     }
 
-    async giveBlackList(userId) {
-        const userMutex = this.getMutex(userId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
-            const result = await this.prisma.blackList.findMany({
-                where: { userId: userId },
-            })
-            if (!result) {
-                return 'Похоже, черный список пуст'
-            }
-            return result
-        } finally {
-            release()
-        }
+    async getBlackList(userId) {
+        return await this.prisma.blackList.findMany({
+            where: { userId: userId },
+        })
     }
 
     async addToBlackList(userId: string, vsProfileId: string) {
@@ -38,8 +26,18 @@ export class BlackLIstService {
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
-            if (userId === vsProfileId) {
+            const ownerCheck = await this.prisma.profile.findFirst({
+                where: { ownerId: userId, id: vsProfileId, deleted: false },
+            })
+            if (ownerCheck) {
                 return 'Нельзя добавить себя в черный список'
+            }
+
+            const check = await this.prisma.account.findUnique({
+                where: { id: vsProfileId },
+            })
+            if (!check) {
+                return 'Пользователя не существует'
             }
             const checkList = await this.prisma.blackList.findUnique({
                 where: {
@@ -50,10 +48,11 @@ export class BlackLIstService {
                     },
                 },
             })
-            if (checkList.active === true) {
-                return 'Вы уже добавили этого человека в черный список'
-            }
             if (checkList) {
+                if (checkList.active === true) {
+                    return 'Вы уже добавили этого человека в черный список'
+                }
+
                 await this.prisma.blackList.update({
                     where: {
                         userId_vsProfileId: {
@@ -64,12 +63,6 @@ export class BlackLIstService {
                     data: { active: true, updatedBy: userId },
                 })
                 return true
-            }
-            const check = await this.prisma.account.findUnique({
-                where: { id: vsProfileId },
-            })
-            if (!check) {
-                return 'Пользователя не существует'
             }
             await this.prisma.blackList.create({
                 data: {
@@ -83,7 +76,7 @@ export class BlackLIstService {
             release()
         }
     }
-    async removeToBlackList(userId: string, vsProfileId: string) {
+    async deleteFromBlackList(userId: string, vsProfileId: string) {
         const userMutex = this.getMutex(userId)
 
         // Блокируем операцию до её завершения
@@ -107,10 +100,7 @@ export class BlackLIstService {
 
             await this.prisma.blackList.update({
                 where: {
-                    userId_vsProfileId: {
-                        userId: userId,
-                        vsProfileId: vsProfileId,
-                    },
+                    id: checkList.id,
                 },
                 data: {
                     active: false,
@@ -122,20 +112,20 @@ export class BlackLIstService {
             release()
         }
     }
-    async removeAllToBlackList(userId: string) {
+    async deleteAllFromBlackList(userId: string) {
         const userMutex = this.getMutex(userId)
 
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
             const check = await this.prisma.blackList.findFirst({
-                where: { AND: [{ userId: userId }, { active: true }] },
+                where: { userId: userId, active: true },
             })
             if (!check) {
                 return 'Похоже, ваш черный список пуст'
             }
             await this.prisma.blackList.updateMany({
-                where: { userId: userId },
+                where: { userId: userId, active: true },
                 data: { active: false, updatedBy: userId },
             })
             return true

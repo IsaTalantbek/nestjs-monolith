@@ -1,5 +1,7 @@
 export const cookieSettings = {
     httpOnly: true,
-    path: '/',
     secure: true,
+    signed: true,
+    maxAge: 60400,
+    sameSite: 'strict',
 }

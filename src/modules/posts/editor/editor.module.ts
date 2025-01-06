@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
 import { EditorService } from './editor.service'
-import { EditorCoontroller } from './editor.controller'
+import { EditorController } from './editor.controller'
 import { JwtTokenService } from 'src/core/keys/jwt.service'
 
 @Module({
     imports: [],
     providers: [EditorService, PrismaService, JwtTokenService],
-    controllers: [EditorCoontroller],
+    controllers: [EditorController],
 })
 export class EditorModule {}

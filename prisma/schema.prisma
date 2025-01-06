@@ -100,8 +100,7 @@ enum profilePrivacy {
 
 model Privacy {
 	id					String			@id	@default(uuid())
-	profile      		Profile?        @relation("profile-privacy")
-  	profileId    		String?         @unique
+	profile      		Profile?        @relation("profile-privacy") 
 	viewProfile			profilePrivacy	@default(all)
 	subscribe			profilePrivacy	@default(all)
 	posts				profilePrivacy	@default(all)
@@ -173,6 +172,12 @@ model Subscribe {
 	@@map("subscribes")
 }
 
+enum friendType {
+	active
+	inactive
+	waiting
+}
+
 model Friend {
 	id 					String			@id @default(uuid())
 	user				Account			@relation(fields: [userId], references: [id])
@@ -183,8 +188,10 @@ model Friend {
 	createdBy			String			@map("created_by") @default("System")
 	updatedAt			DateTime		@map("updated_at") @updatedAt
 	updatedBy			String?			@map("updated_by")			
-	active				Boolean			@map("active")     @default(false)
-	wait				Boolean			@map("wait") @default(true)
+	type				friendType		@map("type") 	   @default(waiting)
+
+	@@index([userId, vsUserId])
+	@@index([type])
 	@@unique([userId, vsUserId])
 	@@map("friends")
 }
@@ -280,6 +287,8 @@ model BlackList {
 	updatedAt			DateTime		@map("updated_at") @updatedAt
 	updatedBy			String?			@map("updated_by") 
 	active				Boolean 		@default(false)
+
+	@@index([userId, active])
 	@@unique([userId, vsProfileId])
 	@@map("black_lists")
 }

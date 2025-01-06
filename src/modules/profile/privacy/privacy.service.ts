@@ -15,7 +15,7 @@ export class PrivacyService {
                 include: { privacy: true },
             })
             if (!profile) {
-                return 'Похоже, ващего профиля не существует'
+                return 'Похоже, вашего профиля не существует'
             }
             return _.pick(
                 profile.privacy,

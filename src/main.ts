@@ -16,6 +16,11 @@ async function bootstrap() {
         new FastifyAdapter()
     )
 
+    // app.enableCors({
+    //   origin: 'http://example.com', // Замените на ваш клиентский домен
+    //   credentials: true,
+    // });
+
     app.register(RateLimit, {
         max: 60, // максимальное количество запросов
         timeWindow: '1 minute', // за одну минуту
@@ -25,7 +30,9 @@ async function bootstrap() {
     const configService = app.get(ConfigService)
 
     // Регистрация cookie с конфигурацией
-    await app.register(cookie)
+    await app.register(cookie, {
+        secret: configService.get<string>('COOKIE_SECRET'),
+    })
 
     app.useGlobalPipes(
         new ValidationPipe({
@@ -35,7 +42,7 @@ async function bootstrap() {
     )
     // Запуск сервера на Fastify
     await app.listen(
-        configService.get<number>('PORT') || 3000,
+        configService.get<number>('PORT'),
         '127.0.0.1',
         (err, address) => {
             if (err) {

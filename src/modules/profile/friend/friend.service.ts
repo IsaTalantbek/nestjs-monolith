@@ -19,8 +19,8 @@ export class FriendService {
         const data = await this.prisma.friend.findMany({
             where: {
                 OR: [
-                    { userId: userId, wait: false, active: true },
-                    { vsUserId: userId, wait: false, active: true },
+                    { userId: userId, type: 'active' },
+                    { vsUserId: userId, type: 'active' },
                 ],
             },
         })
@@ -30,8 +30,8 @@ export class FriendService {
         const data = await this.prisma.friend.findMany({
             where: {
                 OR: [
-                    { userId: userId, active: false, wait: true },
-                    { vsUserId: userId, active: false, wait: true },
+                    { userId: userId, type: 'waiting' },
+                    { vsUserId: userId, type: 'waiting' },
                 ],
             },
         })
@@ -58,10 +58,10 @@ export class FriendService {
                     ],
                 },
             })
-            if (check2 && check2.wait === false && check2.active === false) {
+            if (check2 && check2.type === 'inactive') {
                 await this.prisma.friend.update({
                     where: { id: check2.id },
-                    data: { wait: true, updatedBy: userId },
+                    data: { type: 'waiting', updatedBy: userId },
                 })
                 return true
             }
@@ -73,8 +73,7 @@ export class FriendService {
                     userId: userId,
                     vsUserId: vsUserId,
                     createdBy: userId,
-                    wait: true,
-                    active: false,
+                    type: 'active',
                 },
             })
             return true
@@ -87,8 +86,7 @@ export class FriendService {
             where: {
                 userId: friendId,
                 vsUserId: userId,
-                wait: true,
-                active: false,
+                type: 'active',
             },
         })
         if (!check) {
@@ -96,7 +94,7 @@ export class FriendService {
         }
         await this.prisma.friend.update({
             where: { id: check.id },
-            data: { active: true, wait: false, updatedBy: userId },
+            data: { type: 'active', updatedBy: userId },
         })
         return true
     }
@@ -117,7 +115,7 @@ export class FriendService {
         }
         await this.prisma.friend.update({
             where: { id: check.id },
-            data: { active: false, updatedBy: userId },
+            data: { type: 'inactive', updatedBy: userId },
         })
         return true
     }

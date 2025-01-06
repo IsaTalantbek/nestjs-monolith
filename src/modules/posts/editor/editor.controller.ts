@@ -5,7 +5,7 @@ import { EditorDto } from './editor.dto'
 
 @Controller('editor')
 @UseGuards(JwtGuard)
-export class EditorCoontroller {
+export class EditorController {
     constructor(private readonly editorService: EditorService) {}
 
     @Post()

@@ -45,12 +45,12 @@ export class ProfileService {
                         {
                             userId: userId,
                             vsUserId: result.ownerId,
-                            active: true,
+                            type: 'active',
                         },
                         {
                             userId: result.ownerId,
                             vsUserId: userId,
-                            active: true,
+                            type: 'active',
                         },
                     ],
                 },

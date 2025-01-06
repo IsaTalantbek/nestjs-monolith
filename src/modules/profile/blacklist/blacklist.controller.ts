@@ -20,13 +20,10 @@ import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 export class BlackListController {
     constructor(private readonly blackListService: BlackLIstService) {}
     @Get()
-    async giveBlackList(@Res() reply: any, @Req() req: any) {
+    async getBlackList(@Res() reply: any, @Req() req: any) {
         try {
             const userId = req.user.userId
-            const result = await this.blackListService.giveBlackList(userId)
-            if (result === 'Похоже, черный список пуст') {
-                return reply.status(400).send({ message: result })
-            }
+            const result = await this.blackListService.getBlackList(userId)
             return reply.status(200).send(result)
         } catch (error) {
             console.error(`BlackList-Give: ${error}`)
@@ -65,14 +62,14 @@ export class BlackListController {
     }
     @UsePipes(ParamUuidPipe)
     @Put(':vsProfileId')
-    async removeToBlackList(
+    async deleteFromBlackList(
         @Param('vsProfileId') vsProfileId: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const userId = req.user.userId
-            const result = await this.blackListService.removeToBlackList(
+            const result = await this.blackListService.deleteFromBlackList(
                 userId,
                 vsProfileId
             )
@@ -91,11 +88,11 @@ export class BlackListController {
         }
     }
     @Delete()
-    async removeAllToBlackList(@Res() reply: any, @Req() req: any) {
+    async deleteAllFromBlackList(@Res() reply: any, @Req() req: any) {
         try {
             const userId = req.user.userId
             const result =
-                await this.blackListService.removeAllToBlackList(userId)
+                await this.blackListService.deleteAllFromBlackList(userId)
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }

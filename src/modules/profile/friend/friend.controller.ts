@@ -1,5 +1,6 @@
 import {
     Controller,
+    Delete,
     Get,
     Param,
     Post,
@@ -99,7 +100,7 @@ export class FriendController {
         }
     }
     @UsePipes(ParamUuidPipe)
-    @Put('friendId')
+    @Delete('friendId')
     async deleteFriend(
         @Param('friendId') friendId: string,
         @Req() req: any,

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/core/database/prisma.service'
 import { Prisma } from '@prisma/client'
 import * as _ from 'lodash'
+import { Mutex } from 'async-mutex'
 
 @Injectable()
 export class EditorService {
@@ -24,25 +25,34 @@ export class EditorService {
             return false
         }
         if (tags && tags.length > 0) {
-            const tagObjects = await Promise.all(
-                tags.map(async (tag) => {
-                    const existingTag = await this.prisma.tags.findUnique({
-                        where: { name: tag },
-                    })
-                    if (existingTag) {
-                        return existingTag
-                    } else {
-                        return await this.prisma.tags.create({
-                            data: { name: tag, createdBy: userId },
-                        })
-                    }
+            await this.prisma.$transaction(async (prisma) => {
+                const existingTags = await prisma.tags.findMany({
+                    where: { name: { in: tags } },
                 })
-            )
 
-            // Добавление связи с тегами
-            data.tags = {
-                connect: tagObjects.map((tag) => ({ id: tag.id })),
-            }
+                const existingTagNames = existingTags.map((tag) => tag.name)
+                const newTags = tags.filter(
+                    (tag) => !existingTagNames.includes(tag)
+                )
+
+                await prisma.tags.createMany({
+                    data: newTags.map((tag) => ({
+                        name: tag,
+                        createdBy: userId,
+                    })),
+                })
+
+                const tagObjects = [
+                    ...existingTags,
+                    ...(await prisma.tags.findMany({
+                        where: { name: { in: newTags } },
+                    })),
+                ]
+
+                data.tags = {
+                    connect: tagObjects.map((tag) => ({ id: tag.id })),
+                }
+            })
         }
 
         const post = await this.prisma.post.create({ data })
