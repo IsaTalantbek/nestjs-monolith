@@ -27,7 +27,7 @@ export class PrivacyController {
         @Res() reply: any
     ) {
         try {
-            const accountId = req.accountId
+            const accountId = req.user.accountId
             const { profileId } = profileIdDto
             const result = await this.privacyService.getPrivacy(
                 accountId,
@@ -54,7 +54,7 @@ export class PrivacyController {
         @Req() req: any
     ) {
         try {
-            const accountId = req.accountId
+            const accountId = req.user.accountId
             const { profileId, value, update } = updatePrivacyDto
             const result = await this.privacyService.updatePrivacy(
                 profileId,

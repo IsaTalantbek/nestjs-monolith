@@ -60,14 +60,14 @@ export class ProfileController {
     @UsePipes(ParamUuidPipe)
     @Get(':profileId')
     async userProfile(
-        @Param('profileId') userProfileId: string,
+        @Param('profileId') profileId: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const accountId = req.user?.accountId
             const result = await this.profileService.userProfile(
-                userProfileId,
+                profileId,
                 accountId
             )
             return reply.status(200).send(result)

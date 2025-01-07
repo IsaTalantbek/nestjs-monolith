@@ -27,7 +27,7 @@ export class PostsController {
         @Req() req: any
     ) {
         try {
-            const accountId = req.accountId
+            const accountId = req.user.accountId
 
             const { type, tags } = queryDto
 
@@ -68,7 +68,7 @@ export class PostsController {
         @Res() reply: any
     ) {
         try {
-            const accountId = req.accountId
+            const accountId = req.user.accountId
             const result = await this.postsService.likePost(postId, accountId)
             if (result !== true) {
                 return reply.status(500).send({ message: result })
@@ -91,7 +91,7 @@ export class PostsController {
         @Res() reply: any
     ) {
         try {
-            const accountId = req.accountId
+            const accountId = req.user.accountId
             const result = await this.postsService.dislikePost(
                 accountId,
                 postId

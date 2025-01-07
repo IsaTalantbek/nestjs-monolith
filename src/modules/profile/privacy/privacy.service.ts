@@ -21,7 +21,7 @@ export class PrivacyService {
                 viewProfile: profile.privacy.viewProfile,
                 subscriptions: profile.privacy.subscriptions,
                 posts: profile.privacy.posts,
-                likes: profile.privacy.posts,
+                likes: profile.privacy.likes,
             }
         }
         const profile = await this.prisma.profile.findUnique({
@@ -56,10 +56,12 @@ export class PrivacyService {
         if (profile.ownerId !== accountId) {
             return 'Вы не имеете прав менять настройки этого профиля'
         }
-        await this.prisma.privacy.update({
+
+        const result = await this.prisma.privacy.update({
             where: { id: profile.privacy.id },
             data: { [update]: value },
         })
+
         return true
     }
 }

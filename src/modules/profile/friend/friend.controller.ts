@@ -74,7 +74,7 @@ export class FriendController {
         }
     }
     @UsePipes(ParamUuidPipe)
-    @Put('friendId')
+    @Put(':friendId')
     async acceptFriend(
         @Param('friendId') friendId: string,
         @Req() req: any,

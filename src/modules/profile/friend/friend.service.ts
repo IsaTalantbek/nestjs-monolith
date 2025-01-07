@@ -72,7 +72,7 @@ export class FriendService {
                     initAid: accountId,
                     vsAid: vsAid,
                     createdBy: accountId,
-                    type: 'active',
+                    type: 'waiting',
                 },
             })
             return true
@@ -85,7 +85,7 @@ export class FriendService {
             where: {
                 initAid: friendId,
                 vsAid: accountId,
-                type: 'active',
+                type: 'waiting',
             },
         })
         if (!check) {
