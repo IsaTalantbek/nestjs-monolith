@@ -26,13 +26,13 @@ export class AuthController {
                     .send({ message: 'Неправильные данные' })
             }
 
-            const { access_token, refresh_token } =
+            const { newAccessToken, newRefreshToken } =
                 await this.authService.login(user)
-            reply.setCookie('aAuthToken', access_token, cookieSettings)
-            reply.setCookie('rAuthToken', refresh_token, cookieSettings)
+            reply.setCookie('aAuthToken', newAccessToken, cookieSettings)
+            reply.setCookie('rAuthToken', newRefreshToken, cookieSettings)
             return reply
                 .status(200)
-                .send({ message: 'Успешный логин', token: access_token })
+                .send({ message: 'Успешный логин', token: newAccessToken })
         } catch (error) {
             console.error(`Auth-Login: ${error}`)
             return reply.status(500).send({

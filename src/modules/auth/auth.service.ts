@@ -2,14 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../core/database/prisma.service'
 import * as bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto'
-import { jwtAccessData, jwtRefreshData } from 'src/core/keys/jwt.settings'
-import { JwtTokenService } from 'src/core/keys/jwt.service'
+import { JwtService } from 'src/core/keys/jwt/jwt.service'
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtTokenService: JwtTokenService
+        private readonly jwtService: JwtService
     ) {}
 
     async validateUser({ login, password }: loginForm): Promise<any> {
@@ -22,17 +21,12 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const accessPayload = jwtAccessData(user)
-        const refreshPayload = jwtRefreshData(user)
-
-        const access_token =
-            this.jwtTokenService.generateAccessToken(accessPayload)
-        const refresh_token =
-            this.jwtTokenService.generateRefreshToken(refreshPayload)
+        const { newAccessToken } = this.jwtService.generateAccessToken(user)
+        const { newRefreshToken } = this.jwtService.generateRefreshToken(user)
 
         return {
-            access_token,
-            refresh_token,
+            newAccessToken,
+            newRefreshToken,
         }
     }
 

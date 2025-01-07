@@ -36,7 +36,7 @@ export class ProfileService {
         const posts = await this.prisma.post.findMany({
             where: { initPid: result.id, deleted: false },
         })
-        console.log(posts)
+
         let friend
 
         if (accountId) {

@@ -2,14 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
 import { PrismaService } from 'src/core/database/prisma.service'
 import { cookieSettings } from 'src/core/keys/cookie.settings'
-import { JwtTokenService } from 'src/core/keys/jwt.service'
-import { jwtAccessData } from 'src/core/keys/jwt.settings'
+import { JwtService } from 'src/core/keys/jwt/jwt.service'
 import { cookieClear } from 'src/common/util/cookie.clear'
 
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
-        private readonly jwtTokenService: JwtTokenService,
+        private readonly jwtService: JwtService,
         private readonly prisma: PrismaService
     ) {}
 
@@ -21,7 +20,7 @@ export class JwtGuard implements CanActivate {
         const refreshToken = request.cookies?.rAuthToken
 
         if (accessToken) {
-            const decoded = this.jwtTokenService.verifyAccessToken(accessToken)
+            const decoded = this.jwtService.verifyAccessToken(accessToken)
             if (decoded) {
                 request.user = decoded
                 return true
@@ -32,8 +31,7 @@ export class JwtGuard implements CanActivate {
 
         // Если нет действительного access токена, пробуем refresh
         if (refreshToken) {
-            const decoded =
-                this.jwtTokenService.verifyRefreshToken(refreshToken)
+            const decoded = this.jwtService.verifyRefreshToken(refreshToken)
             if (decoded) {
                 const user = await this.prisma.account.findUnique({
                     where: { id: decoded.accountId, deleted: false },
@@ -42,13 +40,12 @@ export class JwtGuard implements CanActivate {
                     cookieClear(reply)
                     return false
                 }
-                const payload = jwtAccessData(user)
 
-                const newAccessToken =
-                    this.jwtTokenService.generateAccessToken(payload)
+                const { newAccessToken, data } =
+                    this.jwtService.generateAccessToken(user)
 
                 reply.setCookie('aAuthToken', newAccessToken, cookieSettings)
-                request.user = jwtAccessData(user)
+                request.user = data
                 return true
             }
         }
