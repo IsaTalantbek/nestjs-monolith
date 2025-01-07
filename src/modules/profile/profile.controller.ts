@@ -16,8 +16,8 @@ import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 @Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
-    @UseGuards(JwtGuard)
     @Get()
+    @UseGuards(JwtGuard)
     async profile(@Res() reply: any, @Req() req: any) {
         try {
             const accountId = req.user?.accountId
@@ -60,14 +60,14 @@ export class ProfileController {
     @UsePipes(ParamUuidPipe)
     @Get(':profileId')
     async userProfile(
-        @Param('profileId') userPid: string,
+        @Param('profileId') userProfileId: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
             const accountId = req.user?.accountId
             const result = await this.profileService.userProfile(
-                userPid,
+                userProfileId,
                 accountId
             )
             return reply.status(200).send(result)

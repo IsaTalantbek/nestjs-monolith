@@ -1,0 +1,329 @@
+@@ -35,32 +35,61 @@ enum AccountState {
+	@@map("accounts_states")
+}
+
+/// TODO: добавить personalPid @map(personal_pid)
+model Account {
+	id				String			@id @default(uuid()) 
+	accountRole 	AccountRole		@map("account_role") @default(user)
+	accountState	AccountState	@map("account_state") @default(created)
+	profile  		Profile[]					
+	///	TODO BigArray: Не так критично как ниже но всё же.
+	/// TODO CodeStyle: переименовать в ownedProfiles @map(owned_profiles)
+	profile  		Profile[]	
+	/// TODO TooBigArray: Опасно так загружать массив большого размера!
+	/// Так же Модель Post содержит немало полей!
+	/// Требуется создать механизм ленивой загрузки или пагинацию! 
+	/// Если нужно число постов - postsCounter @map(posts_counter)
+	/// Если нужен список постов пользователя - пиши отдельный запрос
+	/// Если нужен быстрая проверка является ли Аккаунт автором Поста тогда выбирай:
+	///		1. ownedPostsIdList String[] @map(owned_posts_id_list)
+	///		2. В модели Post добавить authorsIdList String[] @map(authors_id_list)
+	///		3. Добавить модель AuthorPost {authorAid, PostId, ..., @map(authors_posts_link)}			
+	post			Post[]
+	///	TODO TooBigArray: Опять массив потенциально большого размера.
+	like			Like[]
+	///	TODO TooBigArray: Опять массив потенциально большого размера.
+	/// TODO CodeStyle: переименовать в subscriptions @map(subscriptions)
+	subscribe		Subscribe[]
+	///	TODO TooBigArray: Опять массив потенциально большого размера.
+	blacklist		BlackList[]
+	///	TODO TooBigArray: Опять массив потенциально большого размера.
+	friend			Friend[]		
+	/// TODO DataProtection: зашифровать
+	login			String			@unique
+	/// TODO DataProtection: зашифровать
+	password		String			@map("password")
+	/// TODO DataProtection: зашифровать
+	tfaCode			String?			@unique @map("tfa_code")
+	/// TODO DataProtection: зашифровать
+	email			String?			@unique	@map("email")
+	/// TODO DataProtection: зашифровать
+	phone			String?			@unique	@map("phone")
+	
+	createdAt		DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy		String			@map("created_by") @default("System")	
+	updatedAt		DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy		String?			@map("updated_by") 
+	deletedAt		DateTime?		@map("deleted_at")
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	deletedBy		String?			@map("deleted_by") 
+	deleted			Boolean?		@default(false)
+	@@map("accounts")
+	/// TODO UniqueFail: Ты создал уникальную пару логин+почта
+	/// Уникальный логин и уникальная почта уже созданы выше, зачем это?
+	/// Оно во первых не сработает (персональная уникальность выше охватом)
+	/// Во вторых не логично, то что у тебя другой логин - не даёт право использовать ту же почту и наоборот
+	@@unique([login, email])
+}
+
+@@ -90,6 +119,7 @@ enum ProfileState {
+	@@map("profiles_states_enum")
+}
+
+/// TODO CodeStyle: Переименовать в ProfilePermission @map(profiles_permissions_enum)
+enum profilePrivacy {
+	all
+	friends
+@@ -100,17 +130,33 @@ enum profilePrivacy {
+
+model Privacy {
+	id					String			@id	@default(uuid())
+	profile      		Profile?        @relation("profile-privacy") 
+	profile      		Profile?        @relation("profile-privacy")
+  	profileId    		String?         @unique
+	/// TODO CodeStyle: readPermission @map(read_permission)
+	viewProfile			profilePrivacy	@default(all)
+	/// TODO CodeStyle: subscribePermission @map(subscribe_permission)
+	/// TODO Zachem?: Запрещает подписываться? ась? 
+	/// мб это связано с дружбой по обоюдной подписке?
+	subscribe			profilePrivacy	@default(all)
+	/// TODO CodeStyle: postPermission @map(post_permission)
+	/// TODO WhatItDose: оно разрешает постить другим на моей стене?
+	/// Или может даёт права на репост моих записей? 
+	/// Или на что??
+	posts				profilePrivacy	@default(all)
+	/// TODO CodeStyle: likePermission @map(like_permission)
+	/// TODO Zachem?: Запрещает лайкать/дизлайкать? ась? 
+	like				profilePrivacy	@default(all)
+	/// TODO CodeStyle: friendingPermission @map(friending_permission)
+	/// friending		profilePrivacy	@default(all)
+	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String?			@map("updated_by") 
+	deletedAt			DateTime?		@map("deleted_at")
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+@@ -124,20 +170,32 @@ model Profile {
+	cityId				String?			@map("city_id") 
+	avatarImageId		String?			@map("avatar_image_id") 
+	coverImageId		String?			@map("cover_image_id") 
+	/// TODO Zachem?: У нас же есть такой массив у аккаунта??
+	///	TODO TooBigArray: Опять массив потенциально большого размера.
+	post				Post[]
+	subscribe			Subscribe[]			
+	/// TODO CodeStyle: переименовать в subscribers @map(subscribers)
+	subscribe			Subscribe[]		
+	/// TODO CodeStyle: переименовать в displayedName @map(displayed_name)	
+	name        		String?			@map("name")
+	
+	/// TODO CodeStyle: переименовать в subscribersCounter @map(subscribers_counter)
+	subscribers			Int				@default(0)
+	/// TODO CodeStyle: переименовать в likesCounter @map(likes_counter)
+	likes				Int				@default(0)
+	/// TODO CodeStyle: переименовать в dislikesCounter @map(dislikes_counter)
+	dislikes			Int				@default(0)
+	/// TODO CodeStyle: переименовать в dislikesCounter @map(dislikes_counter)
+	/// TODO WrangWay: стоит заменить вычисляемым полем: https://www.prisma.io/docs/orm/prisma-client/queries/computed-fields
+	ratio				Int				@default(0)
+	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
+	/// TODO Zachem?: У нас же есть verificationInfo...
+	official			Boolean			@default(false) /// Имеется ввиду, подтвержденный человек
+	owner				Account?		@relation(fields: [ownerId], references: [id])
+	/// TODO CodeStyle: добавить @map(owner_id)
+	ownerId				String?			
+	privacy      		Privacy?     	@relation("profile-privacy", fields: [privacyId], references: [id])
+	/// TODO CodeStyle: добавить @map(privacy_id)
+    privacyId    		String?      	@unique			
+	verificationInfo	Json?			@map("verification_info")
+@@ -146,10 +204,13 @@ model Profile {
+	otherLinks			Json?			@map("other_links")
+	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String?			@map("updated_by") 
+	deletedAt			DateTime?		@map("deleted_at")
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+@@ -160,15 +221,22 @@ model Subscribe {
+	id 					String			@id @default(uuid())
+	subscriberAid		String			@map("subscriber_aid")
+	authorPid			String			@map("author_pid")
+	/// TODO CodeStyle: переименовать в subscriber
+	user				Account			@relation(fields: [subscriberAid], references: [id])
+	/// TODO CodeStyle: переименовать в author (или community, publisher и тп)
+	/// Однако ради единства именования следует выбрать одно и на все вхождения
+	/// Мне симпатична пара: Author - Subscriber
+	/// И тут не важно публикует ли Subscriber Книги, а Author подписан на профиль Subscriber
+  	profile    			Profile     	@relation(fields: [authorPid], references: [id]) 
+	
+	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String?			@map("updated_by") 
+	active				Boolean			@default(false)
+  	@@unique([subscriberAid, authorPid]) // Гарантирует уникальность комбинации
+  	@@unique([subscriberAid, authorPid]) /// Гарантирует уникальность комбинации
+	@@map("subscribes")
+}
+
+@@ -180,13 +248,20 @@ enum friendType {
+
+model Friend {
+	id 					String			@id @default(uuid())
+	/// TODO CodeStyle: переименовать в initiator (или firstFriend, friend1 и тп)
+	user				Account			@relation(fields: [userId], references: [id])
+	/// TODO CodeStyle: переименовать в recipient (или receiver, secondFriend, friend2 и тп)
+	/// vsUser			Account			@relation(fields: [userId], references: [id])
+	/// TODO CodeStyle: переименовать в initiatorId (или firstFriendId, friend1Id и тп)
+	userId				String			@map("user_id")
+	/// TODO CodeStyle: переименовать в recipientId (или receiverId, secondFriendId, friend2Id и тп)
+	vsUserId			String			@map("vs_user_id")
+	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String?			@map("updated_by")			
+	type				friendType		@map("type") 	   @default(waiting)
+@@ -211,35 +286,80 @@ enum AccountProfileRelationRank {
+}
+
+enum  PostType {
+	article //Статья
+	poetry //Стих
+	announcement //Анонс
+	/// Статья
+	article 
+	/// Стих
+	poetry 
+	/// Анонс
+	announcement
+	/// TODO CodeStyle: переименовать @map(posts_types_enum)
+	@@map("posts_type_enum")
+}
+
+model Post {
+	id                 	String			@id @default(uuid())
+	/// TODO CodeStyle: переименовать в publisher
+	profile				Profile			@relation(fields: [profileId], references: [id])
+	/// TODO CodeStyle: переименовать в author
+	/// TODO WrangWay: может для поста автор и один, но для Литературы их может быть несколько
+	user				Account			@relation(fields: [userId], references: [id])
+	/// TODO CodeStyle: почему сменил порядок?
+	/// publisher
+	/// author
+	/// author
+	/// publisher
+	/// ONE WAY: Тут либо
+	/// publisher
+	/// publisher
+	/// author
+	/// author
+	/// ONE WAY: Либо
+	/// publisher
+	/// author
+	/// publisher
+	/// author
+	/// TODO CodeStyle: переименовать в authorAid @map(author_aid)
+	userId				String			@map("user_id")
+	/// TODO CodeStyle: переименовать в publisherPid  @map(publisher_pid)
+	profileId			String			@map("profile_id")
+	/// TODO WhatItDose: И что это такое????
+	actual				Boolean			@default(true)
+	///	TODO TooBigArray: Опять массив потенциально большого размера.
+	like				Like[]			
+	/// TODO WrangWay: Нами был выбран путь через хранение динамического Json
+	/// Преимущества:
+	///		легко сменить структуру содержимого не трогая БД
+	///		обратная совместимость старых форматов
+	/// 	меньше полей - меньше кода для изменения
+	/// Недостатки:
+	///		Нужно проверять что внутри
+	///		...всё...
+	/// ВАЖНО!!!
+	/// Некоторые поля, которые будут участвовать в SQL запроса и тп для сортировки и фильтрации - 
+	///	лучше всё-же вынести в поля Модели, а не хранить их в полях Json (так быстрее)
+	title				String			@map("title")
+	type				PostType		@map("type")
+	text				String			@map("text") 			
+	links				Json?			@map("links")
+	/// TODO WrangWay: Вроде нет необходимости запрещать прикреплять к посту несколько фото?
+	/// Если пока не придумал как отображать сразу несколько тогда да...
+	image				String?			@map("image")
+	/// TODO CodeStyle: переименовать в likesCounter @map(likes_counter)
+	likes				Int				@map("likes")	  @default(0)	
+	/// TODO CodeStyle: переименовать в dislikesCounter @map(dislikes_counter)
+	dislikes			Int				@map("dislikes")  @default(0)	
+	tags				Tags[]			@relation("post-tags")
+	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String			@map("updated_by") @default("System")
+	deletedAt			DateTime?		@map("deleted_at")
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+	@@map("posts")				
+@@ -248,43 +368,59 @@ model Post {
+model Tags {
+	id      			Int      		@id @default(autoincrement())
+  	name    			String   		@unique
+	/// TODO WrangWay: Крайне плохая идея!!!
+	///	TODO VeryBigArray: Массив невероятно большого размера!
+  	posts   			Post[]   		@relation("post-tags")
+  	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	/// TODO WrangWay: Где остальные служебные поля?? мб удалять не потребуется, но меняться то они могут...
+	@@map("tags")
+}
+
+
+model Like {
+	id 					String			@id @default(uuid())
+	/// TODO CodeStyle: переименовать в readerAid @map(reader_aid)
+	userId				String
+	postId				String
+	type				String			@default("like")
+	/// TODO CodeStyle: переименовать в reader
+	user				Account			@relation(fields: [userId], references: [id])
+  	post    			Post     		@relation(fields: [postId], references: [id]) 
+	
+	createdAt			DateTime		@map("created_at") @default(now())
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String			@map("updated_by") @default("System")
+	deletedAt			DateTime?		@map("deleted_at")
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+	/// TODO WrangWay: type в этой комбинации лишний )))
+	/// То-есть ты допускаешь возможность одновременно поставить посту и лайк и дизлайк?
+  	@@unique([userId, postId, type]) // Гарантирует уникальность комбинации
+	@@map("likes")
+}
+
+
+model BlackList {
+	id					String			@id @default(uuid()) 
+	/// TODO CodeStyle: переименовать в initiator
+	user                Account			@relation(fields: [userId], references: [id])
+	/// TODO CodeStyle: переименовать в initiatorAid @map(initiator_aid)
+	userId			    String
+	/// TODO CodeStyle: переименовать в guiltyPid @map(initiator_pid) (или targetPid)
+	vsProfileId         String
+	createdAt			DateTime		@map("created_at") @default(now())    
+	createdAt			DateTime		@map("created_at") @default(now())  
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!  
+	createdBy			String			@map("created_by") @default("System")	
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	/// TODO UUID: Поле не должно хранить значения отличные от uuid и null!
+	updatedBy			String?			@map("updated_by") 
+	active				Boolean 		@default(false)
+}

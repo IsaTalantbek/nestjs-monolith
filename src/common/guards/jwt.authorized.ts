@@ -19,7 +19,6 @@ export class JwtAuthorized implements CanActivate {
 
         const accessToken = request.cookies?.aAuthToken
         const refreshToken = request.cookies?.rAuthToken
-
         if (accessToken) {
             const decoded = this.jwtTokenService.verifyAccessToken(accessToken)
             if (decoded) {

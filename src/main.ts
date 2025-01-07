@@ -30,9 +30,7 @@ async function bootstrap() {
     const configService = app.get(ConfigService)
 
     // Регистрация cookie с конфигурацией
-    await app.register(cookie, {
-        secret: configService.get<string>('COOKIE_SECRET'),
-    })
+    await app.register(cookie)
 
     app.useGlobalPipes(
         new ValidationPipe({
