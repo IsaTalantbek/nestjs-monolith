@@ -20,9 +20,9 @@ export class ProfileController {
     @Get()
     async profile(@Res() reply: any, @Req() req: any) {
         try {
-            const userId = req.user?.userId
+            const accountId = req.user?.accountId
 
-            const result = await this.profileService.profile(userId)
+            const result = await this.profileService.profile(accountId)
             return reply.status(200).send(result)
         } catch (error: any) {
             console.error(`Profile-Give: ${error}`)
@@ -36,8 +36,8 @@ export class ProfileController {
     @Get('logout')
     async logout(@Res() reply: any, @Req() req: any) {
         try {
-            const userId = req.user?.userId
-            if (userId) {
+            const accountId = req.user?.accountId
+            if (accountId) {
                 cookieClear(reply)
                 reply
                     .status(200)
@@ -60,15 +60,15 @@ export class ProfileController {
     @UsePipes(ParamUuidPipe)
     @Get(':profileId')
     async userProfile(
-        @Param('profileId') userProfileId: string,
+        @Param('profileId') userPid: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
-            const userId = req.user?.userId
+            const accountId = req.user?.accountId
             const result = await this.profileService.userProfile(
-                userProfileId,
-                userId
+                userPid,
+                accountId
             )
             return reply.status(200).send(result)
         } catch (error) {

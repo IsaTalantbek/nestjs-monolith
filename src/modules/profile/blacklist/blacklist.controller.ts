@@ -22,8 +22,8 @@ export class BlackListController {
     @Get()
     async getBlackList(@Res() reply: any, @Req() req: any) {
         try {
-            const userId = req.user.userId
-            const result = await this.blackListService.getBlackList(userId)
+            const accountId = req.user.accountId
+            const result = await this.blackListService.getBlackList(accountId)
             return reply.status(200).send(result)
         } catch (error) {
             console.error(`BlackList-Give: ${error}`)
@@ -34,17 +34,17 @@ export class BlackListController {
         }
     }
     @UsePipes(ParamUuidPipe)
-    @Post(':vsProfileId')
+    @Post(':vsPid')
     async addToBlackList(
-        @Param('vsProfileId') vsProfileId: string,
+        @Param('vsPid') vsPid: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const result = await this.blackListService.addToBlackList(
-                userId,
-                vsProfileId
+                accountId,
+                vsPid
             )
             if (result !== true) {
                 return reply.status(400).send({ message: result })
@@ -61,17 +61,17 @@ export class BlackListController {
         }
     }
     @UsePipes(ParamUuidPipe)
-    @Put(':vsProfileId')
+    @Put(':vsPid')
     async deleteFromBlackList(
-        @Param('vsProfileId') vsProfileId: string,
+        @Param('vsPid') vsPid: string,
         @Res() reply: any,
         @Req() req: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const result = await this.blackListService.deleteFromBlackList(
-                userId,
-                vsProfileId
+                accountId,
+                vsPid
             )
             if (result !== true) {
                 return reply.status(400).send({ message: result })
@@ -90,9 +90,9 @@ export class BlackListController {
     @Delete()
     async deleteAllFromBlackList(@Res() reply: any, @Req() req: any) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const result =
-                await this.blackListService.deleteAllFromBlackList(userId)
+                await this.blackListService.deleteAllFromBlackList(accountId)
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }

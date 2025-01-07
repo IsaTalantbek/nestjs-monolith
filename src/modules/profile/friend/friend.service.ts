@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
-import * as _ from 'lodash'
 import { Mutex } from 'async-mutex'
 
 @Injectable()
@@ -8,44 +7,44 @@ export class FriendService {
     private readonly userLocks = new Map<string, Mutex>()
     constructor(private readonly prisma: PrismaService) {}
 
-    private getMutex(userId: string): Mutex {
-        if (!this.userLocks.has(userId)) {
-            this.userLocks.set(userId, new Mutex())
+    private getMutex(accountId: string): Mutex {
+        if (!this.userLocks.has(accountId)) {
+            this.userLocks.set(accountId, new Mutex())
         }
-        return this.userLocks.get(userId)!
+        return this.userLocks.get(accountId)!
     }
 
-    async giveActiveFriends(userId: string) {
+    async giveActiveFriends(accountId: string) {
         const data = await this.prisma.friend.findMany({
             where: {
                 OR: [
-                    { userId: userId, type: 'active' },
-                    { vsUserId: userId, type: 'active' },
+                    { initAid: accountId, type: 'active' },
+                    { vsAid: accountId, type: 'active' },
                 ],
             },
         })
-        return data.map((friend) => _.pick(friend, 'userId', 'vsUserId'))
+        return data.map(({ initAid, vsAid }) => ({ initAid, vsAid }))
     }
-    async giveWaitingFriends(userId: string) {
+    async giveWaitingFriends(accountId: string) {
         const data = await this.prisma.friend.findMany({
             where: {
                 OR: [
-                    { userId: userId, type: 'waiting' },
-                    { vsUserId: userId, type: 'waiting' },
+                    { initAid: accountId, type: 'waiting' },
+                    { vsAid: accountId, type: 'waiting' },
                 ],
             },
         })
-        return data.map((friend) => _.pick(friend, 'userId', 'vsUserId'))
+        return data.map(({ initAid, vsAid }) => ({ initAid, vsAid }))
     }
 
-    async addFriend(userId: string, vsUserId: string) {
-        const userMutex = this.getMutex(userId)
+    async addFriend(accountId: string, vsAid: string) {
+        const userMutex = this.getMutex(accountId)
 
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
             const check = await this.prisma.account.findUnique({
-                where: { id: vsUserId },
+                where: { id: vsAid },
             })
             if (!check) {
                 return 'Такого пользователя не существует'
@@ -53,26 +52,26 @@ export class FriendService {
             const check2 = await this.prisma.friend.findFirst({
                 where: {
                     OR: [
-                        { userId: userId, vsUserId: vsUserId },
-                        { userId: vsUserId, vsUserId: userId },
+                        { initAid: accountId, vsAid: vsAid },
+                        { initAid: vsAid, vsAid: accountId },
                     ],
                 },
             })
             if (check2 && check2.type === 'inactive') {
                 await this.prisma.friend.update({
                     where: { id: check2.id },
-                    data: { type: 'waiting', updatedBy: userId },
+                    data: { type: 'waiting', updatedBy: accountId },
                 })
                 return true
             }
             if (check2) {
-                return 'Вы уже друзья'
+                return 'Вы уже друзья, или ваш запрос еще не приняли'
             }
             await this.prisma.friend.create({
                 data: {
-                    userId: userId,
-                    vsUserId: vsUserId,
-                    createdBy: userId,
+                    initAid: accountId,
+                    vsAid: vsAid,
+                    createdBy: accountId,
                     type: 'active',
                 },
             })
@@ -81,11 +80,11 @@ export class FriendService {
             release()
         }
     }
-    async acceptFriend(userId: string, friendId: string) {
+    async acceptFriend(accountId: string, friendId: string) {
         const check = await this.prisma.friend.findFirst({
             where: {
-                userId: friendId,
-                vsUserId: userId,
+                initAid: friendId,
+                vsAid: accountId,
                 type: 'active',
             },
         })
@@ -94,18 +93,18 @@ export class FriendService {
         }
         await this.prisma.friend.update({
             where: { id: check.id },
-            data: { type: 'active', updatedBy: userId },
+            data: { type: 'active', updatedBy: accountId },
         })
         return true
     }
-    async deleteFriend(userId, vsUserId) {
+    async deleteFriend(accountId, vsAid) {
         const check = await this.prisma.friend.findFirst({
             where: {
                 OR: [
-                    { userId: userId, vsUserId: vsUserId },
+                    { initAid: accountId, vsAid: vsAid },
                     {
-                        userId: vsUserId,
-                        vsUserId: userId,
+                        initAid: vsAid,
+                        vsAid: accountId,
                     },
                 ],
             },
@@ -115,7 +114,7 @@ export class FriendService {
         }
         await this.prisma.friend.update({
             where: { id: check.id },
-            data: { type: 'inactive', updatedBy: userId },
+            data: { type: 'inactive', updatedBy: accountId },
         })
         return true
     }

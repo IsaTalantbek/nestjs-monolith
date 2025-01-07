@@ -8,13 +8,13 @@ import { Mutex } from 'async-mutex'
 export class EditorService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async createPost(type, tags, userId, profileId, text, title) {
+    async createPost(type, tags, accountId, profileId, text, title) {
         const data: Prisma.PostCreateInput = {
             title,
             type,
             text,
-            createdBy: userId,
-            user: { connect: { id: userId } }, // Связь с пользователем
+            createdBy: accountId,
+            user: { connect: { id: accountId } }, // Связь с пользователем
             profile: { connect: { id: profileId } }, // Связь с профилем
         }
 
@@ -38,7 +38,7 @@ export class EditorService {
                 await prisma.tags.createMany({
                     data: newTags.map((tag) => ({
                         name: tag,
-                        createdBy: userId,
+                        createdBy: accountId,
                     })),
                 })
 
@@ -56,15 +56,9 @@ export class EditorService {
         }
 
         const post = await this.prisma.post.create({ data })
-        const postData = _.pick(
-            post,
-            'tags',
-            'title',
-            'text',
-            'links',
-            'image',
-            'profileId'
-        )
+        const postData = {
+            id: post.id,
+        }
         return postData
     }
 }

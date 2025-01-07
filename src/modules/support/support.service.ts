@@ -9,17 +9,17 @@ const rm = './messages/rm.txt'
 export class SupportService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async writeSupport(text: string, userId?: string) {
-        const filename = userId ? am : rm
-        const content = userId ? `${userId}: ${text}` : text
+    async writeSupport(text: string, accountId?: string) {
+        const filename = accountId ? am : rm
+        const content = accountId ? `${accountId}: ${text}` : text
 
         await fs.promises.appendFile(filename, content + '\n')
     }
 
     // Функция 2: очистить файл rm или am
-    async clearSupport(userId: string, fileOption: number) {
+    async clearSupport(accountId: string, fileOption: number) {
         const check = await this.prisma.account.findUnique({
-            where: { id: userId },
+            where: { id: accountId },
         })
         if (check.accountRole === 'user') {
             return 'Не имеете доступа'
@@ -31,9 +31,9 @@ export class SupportService {
     }
 
     // Функция 3: вернуть содержимое файла rm или am
-    async readSupport(userId: string, fileOption: number) {
+    async readSupport(accountId: string, fileOption: number) {
         const check = await this.prisma.account.findUnique({
-            where: { id: userId },
+            where: { id: accountId },
         })
         if (check.accountRole === 'user') {
             return 'Не имеете доступа'

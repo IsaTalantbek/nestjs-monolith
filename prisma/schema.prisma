@@ -102,9 +102,9 @@ model Privacy {
 	id					String			@id	@default(uuid())
 	profile      		Profile?        @relation("profile-privacy") 
 	viewProfile			profilePrivacy	@default(all)
-	subscribe			profilePrivacy	@default(all)
+	subscriptions		profilePrivacy	@default(all)
 	posts				profilePrivacy	@default(all)
-	like				profilePrivacy	@default(all)
+	likes				profilePrivacy	@default(all)
 
 	createdAt			DateTime		@map("created_at") @default(now())
 	createdBy			String			@map("created_by") @default("System")
@@ -117,6 +117,24 @@ model Privacy {
 	@@map("privacy")
 }
 
+model statsProfile {
+	id					String			@id	@default(uuid())
+	subscribers			Int				@default(0)
+	likes				Int				@default(0)
+	dislikes			Int				@default(0)
+	ratio				Int				@default(0)
+
+	profile				Profile?		@relation("stats-profile")
+
+	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String?			@map("updated_by") 
+	deletedAt			DateTime?		@map("deleted_at")
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+}
+
 model Profile {
 	id					String			@id @default(uuid()) 
 	profileType			ProfileType		@map("profile_type") @default(personal)
@@ -126,21 +144,17 @@ model Profile {
 	coverImageId		String?			@map("cover_image_id") 
 	post				Post[]
 	subscribe			Subscribe[]			
-	name        		String?			@map("name")
-	
-	subscribers			Int				@default(0)
-	likes				Int				@default(0)
-	dislikes			Int				@default(0)
-	ratio				Int				@default(0)
+	name        		String?			@map("name")	
 
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
 
 	owner				Account?		@relation(fields: [ownerId], references: [id])
 	ownerId				String?			
 	privacy      		Privacy?     	@relation("profile-privacy", fields: [privacyId], references: [id])
-    privacyId    		String?      	@unique			
+    privacyId    		String?      	@unique
+	stats				statsProfile	@relation("stats-profile",fields: [statsId], references: [id] )
+	statsId				String			@unique				
 
-	verificationInfo	Json?			@map("verification_info")
 	shortInfo			Json?			@map("short_info")
 	extraInfo			Json?			@map("extra_info")
 	otherLinks			Json?			@map("other_links")
@@ -180,9 +194,9 @@ enum friendType {
 
 model Friend {
 	id 					String			@id @default(uuid())
-	user				Account			@relation(fields: [userId], references: [id])
-	userId				String			@map("user_id")
-	vsUserId			String			@map("vs_user_id")
+	user				Account			@relation(fields: [initAid], references: [id])
+	initAid				String			@map("user_id")
+	vsAid			String			@map("vs_user_id")
 
 	createdAt			DateTime		@map("created_at") @default(now())
 	createdBy			String			@map("created_by") @default("System")
@@ -190,9 +204,9 @@ model Friend {
 	updatedBy			String?			@map("updated_by")			
 	type				friendType		@map("type") 	   @default(waiting)
 
-	@@index([userId, vsUserId])
+	@@index([initAid, vsAid])
 	@@index([type])
-	@@unique([userId, vsUserId])
+	@@unique([initAid, vsAid])
 	@@map("friends")
 }
 
@@ -219,10 +233,10 @@ enum  PostType {
 
 model Post {
 	id                 	String			@id @default(uuid())
-	profile				Profile			@relation(fields: [profileId], references: [id])
-	user				Account			@relation(fields: [userId], references: [id])
-	userId				String			@map("user_id")
-	profileId			String			@map("profile_id")
+	profile				Profile			@relation(fields: [initPid], references: [id])
+	user				Account			@relation(fields: [initAid], references: [id])
+	initAid				String			@map("user_id")
+	initPid			String			@map("profile_id")
 	actual				Boolean			@default(true)
 	like				Like[]			
 
@@ -258,10 +272,10 @@ model Tags {
 
 model Like {
 	id 					String			@id @default(uuid())
-	userId				String
+	initAid				String
 	postId				String
 	type				String			@default("like")
-	user				Account			@relation(fields: [userId], references: [id])
+	user				Account			@relation(fields: [initAid], references: [id])
   	post    			Post     		@relation(fields: [postId], references: [id]) 
 	
 	createdAt			DateTime		@map("created_at") @default(now())
@@ -271,16 +285,16 @@ model Like {
 	deletedAt			DateTime?		@map("deleted_at")
 	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
-  	@@unique([userId, postId, type]) // Гарантирует уникальность комбинации
+  	@@unique([initAid, postId, type]) // Гарантирует уникальность комбинации
 	@@map("likes")
 }
 
 
 model BlackList {
 	id					String			@id @default(uuid()) 
-	user                Account			@relation(fields: [userId], references: [id])
-	userId			    String
-	vsProfileId         String
+	user                Account			@relation(fields: [initAid], references: [id])
+	initAid			    String
+	vsPid         String
 
 	createdAt			DateTime		@map("created_at") @default(now())    
 	createdBy			String			@map("created_by") @default("System")	
@@ -288,8 +302,8 @@ model BlackList {
 	updatedBy			String?			@map("updated_by") 
 	active				Boolean 		@default(false)
 
-	@@index([userId, active])
-	@@unique([userId, vsProfileId])
+	@@index([initAid, active])
+	@@unique([initAid, vsPid])
 	@@map("black_lists")
 }
 

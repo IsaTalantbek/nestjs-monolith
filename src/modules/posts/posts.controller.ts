@@ -27,7 +27,7 @@ export class PostsController {
         @Req() req: any
     ) {
         try {
-            const userId = req.user?.userId
+            const accountId = req.accountId
 
             const { type, tags } = queryDto
 
@@ -40,13 +40,13 @@ export class PostsController {
             if (tags) {
                 result = await this.postsService.givePosts(
                     type,
-                    userId,
+                    accountId,
                     checktags
                 )
             }
 
             if (!result || result.length === 0) {
-                result = await this.postsService.givePosts(type, userId)
+                result = await this.postsService.givePosts(type, accountId)
                 return reply.status(200).send(result)
             }
 
@@ -68,8 +68,8 @@ export class PostsController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
-            const result = await this.postsService.likePost(postId, userId)
+            const accountId = req.accountId
+            const result = await this.postsService.likePost(postId, accountId)
             if (result !== true) {
                 return reply.status(500).send({ message: result })
             }
@@ -91,8 +91,11 @@ export class PostsController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
-            const result = await this.postsService.dislikePost(postId, userId)
+            const accountId = req.accountId
+            const result = await this.postsService.dislikePost(
+                accountId,
+                postId
+            )
             if (result !== true) {
                 return reply.status(500).send({ message: result })
             }

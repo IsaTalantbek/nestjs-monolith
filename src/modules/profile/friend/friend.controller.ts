@@ -23,8 +23,8 @@ export class FriendController {
     @Get()
     async giveActiveFriends(@Req() req: any, @Res() reply: any) {
         try {
-            const userId = req.user.userId
-            const result = await this.friendService.giveActiveFriends(userId)
+            const accountId = req.user.accountId
+            const result = await this.friendService.giveActiveFriends(accountId)
             return reply.status(200).send(result)
         } catch (error) {
             console.error(`Give-Active-Friends: ${error}`)
@@ -37,8 +37,9 @@ export class FriendController {
     @Get('waiting')
     async giveWaitingFriends(@Req() req: any, @Res() reply: any) {
         try {
-            const userId = req.user.userId
-            const result = await this.friendService.giveWaitingFriends(userId)
+            const accountId = req.user.accountId
+            const result =
+                await this.friendService.giveWaitingFriends(accountId)
             return reply.status(200).send(result)
         } catch (error) {
             console.error(`Give-Active-Friends: ${error}`)
@@ -49,15 +50,15 @@ export class FriendController {
         }
     }
     @UsePipes(ParamUuidPipe)
-    @Post(':vsUserId')
+    @Post(':vsAid')
     async addFriend(
-        @Param('vsProfileId') vsUserId: string,
+        @Param('vsAid') vsAid: string,
         @Req() req: any,
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
-            const result = await this.friendService.addFriend(userId, vsUserId)
+            const accountId = req.user.accountId
+            const result = await this.friendService.addFriend(accountId, vsAid)
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -80,9 +81,9 @@ export class FriendController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const result = await this.friendService.acceptFriend(
-                userId,
+                accountId,
                 friendId
             )
             if (result !== true) {
@@ -107,9 +108,9 @@ export class FriendController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const result = await this.friendService.deleteFriend(
-                userId,
+                accountId,
                 friendId
             )
             if (result !== true) {

@@ -8,60 +8,56 @@ export class SubscribeService {
     private readonly userLocks = new Map<string, Mutex>()
     constructor(private readonly prisma: PrismaService) {}
 
-    private getMutex(userId: string): Mutex {
-        if (!this.userLocks.has(userId)) {
-            this.userLocks.set(userId, new Mutex())
+    private getMutex(accountId: string): Mutex {
+        if (!this.userLocks.has(accountId)) {
+            this.userLocks.set(accountId, new Mutex())
         }
-        return this.userLocks.get(userId)!
+        return this.userLocks.get(accountId)!
     }
-    //Если передан userProfileId, возвращает все подписки которые оформлены на этот профиль
-    //Если передан userId, возвращает все подписки этого аккаунта
-    async getSubscribe(userId?: string, userProfileId?: string) {
-        if (userProfileId) {
+    //Если передан userPid, возвращает все подписки которые оформлены на этот профиль
+    //Если передан accountId, возвращает все подписки этого аккаунта
+    async getSubscribe(accountId?: string, userPid?: string) {
+        if (userPid) {
             const result = await this.prisma.subscribe.findMany({
-                where: { subscriberAid: userId, active: true },
+                where: { authorPid: userPid, active: true },
             })
-            return result.map((sub) =>
-                _.pick(sub, 'subscribesAid', 'authorPid')
-            )
-        } else if (userId) {
+            return result.map(({ subscriberAid }) => ({ subscriberAid }))
+        } else if (accountId) {
             const result = await this.prisma.subscribe.findMany({
-                where: { authorPid: userProfileId, active: true },
+                where: { subscriberAid: accountId, active: true },
             })
-            return result.map((sub) =>
-                _.pick(sub, 'subscribesAid', 'authorPid')
-            )
+            return result.map(({ authorPid }) => ({ authorPid }))
         }
         return 'Неправильные данные'
     }
     //Ставит подписку или наоборот убирает ее. Большего знать не нужно
     //Передается аккаунт подписчика и профиль подписки
-    async subscribe(userId: string, userProfileId: string) {
-        const userMutex = this.getMutex(userId)
+    async subscribe(accountId: string, userPid: string) {
+        const userMutex = this.getMutex(accountId)
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
             const checkProfile = await this.prisma.profile.findUnique({
-                where: { id: userProfileId, deleted: false },
+                where: { id: userPid, deleted: false },
             })
             if (!checkProfile) {
                 return 'Такого профиля не существует'
             }
             const subscribe = await this.prisma.subscribe.findFirst({
-                where: { authorPid: userProfileId, subscriberAid: userId },
+                where: { authorPid: userPid, subscriberAid: accountId },
             })
             if (!subscribe) {
                 await this.prisma.$transaction(async (prisma) => {
                     await prisma.subscribe.create({
                         data: {
-                            subscriberAid: userId,
-                            authorPid: userProfileId,
-                            createdBy: userId,
+                            subscriberAid: accountId,
+                            authorPid: userPid,
+                            createdBy: accountId,
                             active: true,
                         },
                     })
-                    await prisma.profile.update({
-                        where: { id: userProfileId },
+                    await prisma.statsProfile.update({
+                        where: { id: checkProfile.statsId },
                         data: { subscribers: { increment: 1 } },
                     })
                 })
@@ -70,10 +66,10 @@ export class SubscribeService {
                 await this.prisma.$transaction(async (prisma) => {
                     await prisma.subscribe.update({
                         where: { id: subscribe.id },
-                        data: { active: false, updatedBy: userId },
+                        data: { active: false, updatedBy: accountId },
                     })
-                    await prisma.profile.update({
-                        where: { id: userProfileId },
+                    await prisma.statsProfile.update({
+                        where: { id: checkProfile.statsId },
                         data: { subscribers: { decrement: 1 } },
                     })
                 })
@@ -82,10 +78,10 @@ export class SubscribeService {
                 await this.prisma.$transaction(async (prisma) => {
                     await prisma.subscribe.update({
                         where: { id: subscribe.id },
-                        data: { active: true, updatedBy: userId },
+                        data: { active: true, updatedBy: accountId },
                     })
-                    await prisma.profile.update({
-                        where: { id: userProfileId },
+                    await prisma.statsProfile.update({
+                        where: { id: checkProfile.statsId },
                         data: { subscribers: { increment: 1 } },
                     })
                 })

@@ -7,14 +7,14 @@ export class PostsService {
     private readonly userLocks = new Map<string, Mutex>()
 
     constructor(private readonly prisma: PrismaService) {}
-    private getMutex(userId: string): Mutex {
-        if (!this.userLocks.has(userId)) {
-            this.userLocks.set(userId, new Mutex())
+    private getMutex(accountId: string): Mutex {
+        if (!this.userLocks.has(accountId)) {
+            this.userLocks.set(accountId, new Mutex())
         }
-        return this.userLocks.get(userId)!
+        return this.userLocks.get(accountId)!
     }
 
-    async givePosts(type: string, userId?: string, tags?: Array<string>) {
+    async givePosts(type: string, accountId?: string, tags?: Array<string>) {
         const deleted = false
         const where: {
             deleted: any
@@ -23,7 +23,7 @@ export class PostsService {
             NOT?: {
                 like?: {
                     some: {
-                        userId: any
+                        initAid: string
                     }
                 }
             }
@@ -40,12 +40,12 @@ export class PostsService {
             }
         }
 
-        // Если передан userId, исключаем посты, которые уже были лайкнуты этим пользователем
-        if (userId) {
+        // Если передан accountId, исключаем посты, которые уже были лайкнуты этим пользователем
+        if (accountId) {
             where.NOT = {
                 like: {
                     some: {
-                        userId: userId,
+                        initAid: accountId,
                     },
                 },
             }
@@ -80,15 +80,15 @@ export class PostsService {
             result.find((a) => a.id === id)
         )
     }
-    async likePost(postId: string, userId: string) {
-        const userMutex = this.getMutex(userId)
+    async likePost(postId: string, accountId: string) {
+        const userMutex = this.getMutex(accountId)
 
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
         try {
             const result = await this.prisma.$transaction(async (prisma) => {
                 const postWithInfo = await prisma.post.findFirst({
-                    where: { id: postId },
+                    where: { id: postId, deleted: false },
                     include: { profile: true },
                 })
 
@@ -101,7 +101,11 @@ export class PostsService {
 
                 const existingLike = await prisma.like.findUnique({
                     where: {
-                        userId_postId_type: { userId, postId, type: 'like' },
+                        initAid_postId_type: {
+                            initAid: accountId,
+                            postId,
+                            type: 'like',
+                        },
                     },
                 })
 
@@ -111,7 +115,11 @@ export class PostsService {
 
                 const existingDislike = await prisma.like.findUnique({
                     where: {
-                        userId_postId_type: { userId, postId, type: 'dislike' },
+                        initAid_postId_type: {
+                            initAid: accountId,
+                            postId,
+                            type: 'dislike',
+                        },
                     },
                 })
 
@@ -121,7 +129,7 @@ export class PostsService {
                 if (existingDislike) {
                     await prisma.like.update({
                         where: { id: existingDislike.id },
-                        data: { type: 'like', updatedBy: userId },
+                        data: { type: 'like', updatedBy: accountId },
                     })
 
                     updatedPost = await prisma.post.update({
@@ -132,8 +140,8 @@ export class PostsService {
                         },
                     })
 
-                    updatedProfile = await prisma.profile.update({
-                        where: { id: postWithInfo.profile.id },
+                    updatedProfile = await prisma.statsProfile.update({
+                        where: { id: postWithInfo.profile.statsId },
                         data: {
                             likes: { increment: 1 },
                             dislikes: { decrement: 1 },
@@ -146,11 +154,11 @@ export class PostsService {
 
                 await prisma.like.create({
                     data: {
-                        userId,
+                        initAid: accountId,
                         postId,
                         type: 'like',
-                        createdBy: userId,
-                        updatedBy: userId,
+                        createdBy: accountId,
+                        updatedBy: accountId,
                     },
                 })
 
@@ -161,8 +169,8 @@ export class PostsService {
                     },
                 })
 
-                updatedProfile = await prisma.profile.update({
-                    where: { id: postWithInfo.profile.id },
+                updatedProfile = await prisma.statsProfile.update({
+                    where: { id: postWithInfo.profile.statsId },
                     data: {
                         likes: { increment: 1 },
                         ratio: { increment: 1 },
@@ -177,8 +185,8 @@ export class PostsService {
             release()
         }
     }
-    async dislikePost(postId: string, userId: string) {
-        const userMutex = this.getMutex(userId)
+    async dislikePost(postId: string, accountId: string) {
+        const userMutex = this.getMutex(accountId)
 
         // Блокируем операцию до её завершения
         const release = await userMutex.acquire()
@@ -198,7 +206,11 @@ export class PostsService {
 
                 const existingDislike = await prisma.like.findUnique({
                     where: {
-                        userId_postId_type: { userId, postId, type: 'dislike' },
+                        initAid_postId_type: {
+                            initAid: accountId,
+                            postId,
+                            type: 'dislike',
+                        },
                     },
                 })
 
@@ -208,14 +220,18 @@ export class PostsService {
 
                 const existingLike = await prisma.like.findUnique({
                     where: {
-                        userId_postId_type: { userId, postId, type: 'like' },
+                        initAid_postId_type: {
+                            initAid: accountId,
+                            postId,
+                            type: 'like',
+                        },
                     },
                 })
 
                 if (existingLike) {
                     await prisma.like.update({
                         where: { id: existingDislike.id },
-                        data: { type: 'dislike', updatedBy: userId },
+                        data: { type: 'dislike', updatedBy: accountId },
                     })
 
                     await prisma.post.update({
@@ -226,8 +242,8 @@ export class PostsService {
                         },
                     })
 
-                    await prisma.profile.update({
-                        where: { id: postWithInfo.profile.id },
+                    await prisma.statsProfile.update({
+                        where: { id: postWithInfo.profile.statsId },
                         data: {
                             likes: { decrement: 1 },
                             dislikes: { increment: 1 },
@@ -240,11 +256,11 @@ export class PostsService {
 
                 await prisma.like.create({
                     data: {
-                        userId,
+                        initAid: accountId,
                         postId,
                         type: 'dislike',
-                        createdBy: userId,
-                        updatedBy: userId,
+                        createdBy: accountId,
+                        updatedBy: accountId,
                     },
                 })
 
@@ -255,8 +271,8 @@ export class PostsService {
                     },
                 })
 
-                await prisma.profile.update({
-                    where: { id: postWithInfo.profile.id },
+                await prisma.statsProfile.update({
+                    where: { id: postWithInfo.profile.statsId },
                     data: {
                         dislikes: { increment: 1 },
                         ratio: { decrement: 1 },

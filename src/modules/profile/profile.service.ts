@@ -8,64 +8,64 @@ export class ProfileService {
 
     //Возвращает всю информацию о своем аккаунте. Изменить потом,
     //Сделать меньше информации
-    async profile(userId: string) {
+    async profile(accountId: string) {
         return await this.prisma.account.findUnique({
-            where: { id: userId },
+            where: { id: accountId },
             include: { profile: true },
         })
     }
     //Тут можно получить информацию о профиле. Айди пользователя
     //по желанию. Но если у профиля включены настройки 'friends'
     //то только друзья могут получить дополнительную информацию
-    async userProfile(userProfileId: string, userId?: string) {
+    async userProfile(userPid: string, accountId?: string) {
         const result = await this.prisma.profile.findUnique({
-            where: { id: userProfileId, deleted: false },
-            include: { privacy: true },
+            where: { id: userPid, deleted: false },
+            include: { privacy: true, stats: true },
         })
         if (!result) {
             return 'Такого профиля не существует'
         }
-        const minData = _.pick(result, [
-            'name',
-            'avatarImageId',
-            'coverImageId',
-        ])
+        const minData = {
+            name: result.name,
+            avatarImage: result.avatarImageId,
+            coverImage: result.coverImageId,
+        }
         const subscription = await this.prisma.subscribe.findMany({
-            where: { subscriberAid: userProfileId, active: true },
+            where: { subscriberAid: result.ownerId, active: true },
         })
         const posts = await this.prisma.post.findMany({
-            where: { profileId: result.ownerId, deleted: false },
+            where: { initPid: result.ownerId, deleted: false },
         })
         let friend
 
-        if (userId) {
+        if (accountId) {
             friend = await this.prisma.friend.findFirst({
                 where: {
                     OR: [
                         {
-                            userId: userId,
-                            vsUserId: result.ownerId,
+                            initAid: accountId,
+                            vsAid: result.ownerId,
                             type: 'active',
                         },
                         {
-                            userId: result.ownerId,
-                            vsUserId: userId,
+                            initAid: result.ownerId,
+                            vsAid: accountId,
                             type: 'active',
                         },
                     ],
                 },
             })
         }
-        const fullData = _.pick(result, [
-            'name',
-            'avatarImageId',
-            'coverImageId',
-            'verificationInfo',
-            'shortInfo',
-            'extraInf',
-            'otherLinks',
-            'subscribers',
-        ])
+        const fullData = {
+            name: result.name,
+            avatarImage: result.avatarImageId,
+            coverImage: result.coverImageId,
+            offcial: result.official,
+            shortInfo: result.shortInfo,
+            extraInfo: result.extraInfo,
+            otherLinks: result.otherLinks,
+            subscribers: result.stats.subscribers,
+        }
 
         const data: {
             fullData: any
@@ -88,25 +88,25 @@ export class ProfileService {
             return minData
         }
         if (
-            result.privacy.subscribe !== 'nobody' &&
-            result.privacy.subscribe !== 'friends'
+            result.privacy.subscriptions !== 'nobody' &&
+            result.privacy.subscriptions !== 'friends'
         ) {
             data.subscription = subscription
-        } else if (result.privacy.subscribe === 'friends' && friend) {
+        } else if (result.privacy.subscriptions === 'friends' && friend) {
             data.subscription = subscription
         }
         if (
             result.privacy.posts !== 'nobody' &&
             result.privacy.posts !== 'friends'
         ) {
-            ;(data.likes = result.likes),
-                (data.dislikes = result.dislikes),
-                (data.ratio = result.ratio)
+            ;(data.likes = result.stats.likes),
+                (data.dislikes = result.stats.dislikes),
+                (data.ratio = result.stats.ratio)
             data.posts = posts
         } else if (result.privacy.posts === 'friends' && friend) {
-            ;(data.likes = result.likes),
-                (data.dislikes = result.dislikes),
-                (data.ratio = result.ratio)
+            ;(data.likes = result.stats.likes),
+                (data.dislikes = result.stats.dislikes),
+                (data.ratio = result.stats.ratio)
             data.posts = posts
         }
         return data

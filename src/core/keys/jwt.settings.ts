@@ -25,14 +25,13 @@ export const jwtRefreshExpire = {
 
 export const jwtAccessData = (user) => {
     return {
-        userId: user.id,
-        username: user.username,
-        profileId: user.profileId,
+        accountId: user.id,
+        accountRole: user.accountRole,
     }
 }
 
 export const jwtRefreshData = (user) => {
     return {
-        userId: user.id,
+        accountId: user.id,
     }
 }

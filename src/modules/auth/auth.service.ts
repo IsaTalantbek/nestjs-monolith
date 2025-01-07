@@ -61,14 +61,19 @@ export class AuthService {
                     login,
                     password: hashedPassword,
                     email,
-                    createdBy: 'AuthService',
+                    createdBy: login,
                     profile: {
                         create: {
                             profileType: 'personal',
-                            createdBy: 'AuthService',
+                            createdBy: login,
                             privacy: {
                                 create: {
-                                    createdBy: 'AuthService',
+                                    createdBy: login,
+                                },
+                            },
+                            stats: {
+                                create: {
+                                    createdBy: login,
                                 },
                             },
                         },

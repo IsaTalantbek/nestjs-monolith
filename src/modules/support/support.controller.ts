@@ -25,9 +25,9 @@ export class SupportController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user?.userId
+            const accountId = req.user?.accountId
             const { text } = bodyDto
-            await this.supportService.writeSupport(text, userId)
+            await this.supportService.writeSupport(text, accountId)
             return reply
                 .status(200)
                 .send({ message: 'Ваше сообщение успешно отправлено' })
@@ -45,10 +45,10 @@ export class SupportController {
         @Req() req: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const fileOption = parseInt(option, 10)
             const result = await this.supportService.readSupport(
-                userId,
+                accountId,
                 fileOption
             )
             return reply.status(200).send(result)
@@ -67,10 +67,10 @@ export class SupportController {
         @Req() req: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const fileOption = parseInt(option, 10)
             const result = await this.supportService.clearSupport(
-                userId,
+                accountId,
                 fileOption
             )
             return reply.status(200).send(result)

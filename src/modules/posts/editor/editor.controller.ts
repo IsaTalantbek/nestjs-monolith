@@ -15,12 +15,12 @@ export class EditorController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             let { type, tags, text, profileId, title } = editorDto
             const result = await this.editorService.createPost(
                 type,
                 tags,
-                userId,
+                accountId,
                 profileId,
                 text,
                 title

@@ -26,10 +26,10 @@ export class SubscribeController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user?.userId
+            const accountId = req.user?.accountId
             const { profileId } = profileIdDto
             const result = await this.subscribeService.getSubscribe(
-                userId,
+                accountId,
                 profileId
             )
             if (result === 'Неправильные данные') {
@@ -53,9 +53,9 @@ export class SubscribeController {
         @Res() reply: any
     ) {
         try {
-            const userId = req.user.userId
+            const accountId = req.user.accountId
             const result = await this.subscribeService.subscribe(
-                userId,
+                accountId,
                 profileId
             )
             if (result !== true) {
