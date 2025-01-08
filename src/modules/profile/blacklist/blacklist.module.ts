@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common'
-import { JwtService } from 'src/core/keys/jwt/jwt.service'
-import { PrismaService } from 'src/core/database/prisma.service'
 import { BlackLIstService } from './blacklist.service'
 import { BlackListController } from './blacklist.controller'
-import { JwtAuthSettings } from 'src/core/keys/jwt/jwt.auth.settings'
+import { AuthPackModule } from 'src/auth.pack.module'
 
 @Module({
-    imports: [],
+    imports: [AuthPackModule],
     controllers: [BlackListController],
-    providers: [JwtService, PrismaService, BlackLIstService, JwtAuthSettings],
+    providers: [BlackLIstService],
 })
 export class BlackListModule {}

@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
-import { JwtService } from 'src/core/keys/jwt/jwt.service'
-import { PrismaService } from 'src/core/database/prisma.service'
 import { FriendController } from './friend.controller'
 import { FriendService } from './friend.service'
-import { JwtAuthSettings } from 'src/core/keys/jwt/jwt.auth.settings'
+import { AuthPackModule } from 'src/auth.pack.module'
 
 @Module({
+    imports: [AuthPackModule],
     controllers: [FriendController],
-    providers: [JwtService, PrismaService, FriendService, JwtAuthSettings],
+    providers: [FriendService],
 })
 export class FriendModule {}

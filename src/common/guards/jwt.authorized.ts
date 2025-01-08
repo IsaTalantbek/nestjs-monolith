@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
 import { PrismaService } from 'src/core/database/prisma.service'
-import { cookieSettings } from 'src/core/keys/cookie.settings'
+import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
 import { cookieClear } from 'src/common/util/cookie.clear'
 
@@ -9,15 +9,18 @@ import { cookieClear } from 'src/common/util/cookie.clear'
 export class JwtAuthorized implements CanActivate {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly prisma: PrismaService
+        private readonly prisma: PrismaService,
+        private readonly cookieSettings: CookieSettings
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest()
         const reply = context.switchToHttp().getResponse()
 
-        const accessToken = request.cookies?.aAuthToken
-        const refreshToken = request.cookies?.rAuthToken
+        const accessToken =
+            request.cookies?.[this.cookieSettings.accessTokenName]
+        const refreshToken =
+            request.cookies?.[this.cookieSettings.refreshTokenName]
         if (accessToken) {
             const decoded = this.jwtService.verifyAccessToken(accessToken)
             if (decoded) {
@@ -25,7 +28,7 @@ export class JwtAuthorized implements CanActivate {
                 request.user = decoded
                 return false
             } else {
-                reply.clearCookie('aAuthToken')
+                reply.clearCookie(this.cookieSettings.accessTokenName)
             }
         }
 
@@ -44,12 +47,16 @@ export class JwtAuthorized implements CanActivate {
                 const { newAccessToken, data } =
                     this.jwtService.generateAccessToken(user)
 
-                reply.setCookie('aAuthToken', newAccessToken, cookieSettings)
+                reply.setCookie(
+                    this.cookieSettings.accessTokenName,
+                    newAccessToken,
+                    this.cookieSettings.cookieSettings
+                )
                 request.user = data
                 return false
             }
         }
-        reply.clearCookie('rAuthToken')
+        reply.clearCookie(this.cookieSettings.refreshTokenName)
         return true
     }
 }

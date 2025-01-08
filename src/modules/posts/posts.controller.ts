@@ -27,7 +27,7 @@ export class PostsController {
         @Req() req: any
     ) {
         try {
-            const accountId = req.user.accountId
+            const accountId = req.user?.accountId
 
             const { type, tags } = queryDto
 

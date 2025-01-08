@@ -1,13 +1,16 @@
 import { Controller, Post, Body, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { cookieSettings } from '../../core/keys/cookie.settings'
+import { CookieSettings } from '../../core/keys/cookie.settings'
 import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto'
 import { JwtAuthorized } from 'src/common/guards/jwt.authorized'
 
 @Controller('auth')
 @UseGuards(JwtAuthorized)
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly cookieSettings: CookieSettings
+    ) {}
 
     @Post('login')
     async login(
@@ -28,8 +31,16 @@ export class AuthController {
 
             const { newAccessToken, newRefreshToken } =
                 await this.authService.login(user)
-            reply.setCookie('aAuthToken', newAccessToken, cookieSettings)
-            reply.setCookie('rAuthToken', newRefreshToken, cookieSettings)
+            reply.setCookie(
+                this.cookieSettings.accessTokenName,
+                newAccessToken,
+                this.cookieSettings.cookieSettings
+            )
+            reply.setCookie(
+                this.cookieSettings.refreshTokenName,
+                newRefreshToken,
+                this.cookieSettings.cookieSettings
+            )
             return reply
                 .status(200)
                 .send({ message: 'Успешный логин', token: newAccessToken })
