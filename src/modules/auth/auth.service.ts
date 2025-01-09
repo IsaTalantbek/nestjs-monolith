@@ -20,12 +20,29 @@ export class AuthService {
         return null
     }
 
-    async login(user: any) {
-        const { newAccessToken } = this.jwtService.generateAccessToken(user)
-        const { newRefreshToken } = this.jwtService.generateRefreshToken(user)
+    async login(
+        accountId: string,
+        data: Record<string, any>,
+        ipAdress: string,
+        headers: string,
+        ttl: number = 24 * 60 * 60 * 1000
+    ) {
+        const expiresAt = new Date(Date.now() + ttl)
+
+        const session = await this.prisma.session.create({
+            data: {
+                accountId,
+                data,
+                expiresAt,
+                ipAdress,
+                headers,
+            },
+        })
+        const { newRefreshToken } = this.jwtService.generateRefreshToken(
+            session.id
+        )
 
         return {
-            newAccessToken,
             newRefreshToken,
         }
     }

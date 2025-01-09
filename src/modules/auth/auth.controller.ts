@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res, UseGuards } from '@nestjs/common'
+import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { CookieSettings } from '../../core/keys/cookie.settings'
 import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto'
@@ -15,7 +15,8 @@ export class AuthController {
     @Post('login')
     async login(
         @Body() loginUserDto: LoginUserDto,
-        @Res({ passthrough: true }) reply: any
+        @Res({ passthrough: true }) reply: any,
+        @Req() req: any
     ) {
         try {
             const { login, password } = loginUserDto
@@ -29,12 +30,11 @@ export class AuthController {
                     .send({ message: 'Неправильные данные' })
             }
 
-            const { newAccessToken, newRefreshToken } =
-                await this.authService.login(user)
-            reply.setCookie(
-                this.cookieSettings.accessTokenName,
-                newAccessToken,
-                this.cookieSettings.cookieSettings
+            const { newRefreshToken } = await this.authService.login(
+                user.id,
+                user.accountRole,
+                req.ip,
+                req.headers['user-agent']
             )
             reply.setCookie(
                 this.cookieSettings.refreshTokenName,
@@ -43,7 +43,7 @@ export class AuthController {
             )
             return reply
                 .status(200)
-                .send({ message: 'Успешный логин', token: newAccessToken })
+                .send({ message: 'Успешный логин', token: newRefreshToken })
         } catch (error) {
             console.error(`Auth-Login: ${error}`)
             return reply.status(500).send({

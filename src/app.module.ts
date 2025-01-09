@@ -9,6 +9,7 @@ import { SupportModule } from './modules/support/support.module'
 import { SubscribeModule } from './modules/profile/subscribe/subscribe.module'
 import { PrivacyModule } from './modules/profile/privacy/privacy.module'
 import { FriendModule } from './modules/profile/friend/friend.module'
+import { SesionModule } from './modules/auth/session/session.module'
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { FriendModule } from './modules/profile/friend/friend.module'
         SubscribeModule,
         PrivacyModule,
         FriendModule,
+        SesionModule,
     ],
 })
 export class AppModule {}

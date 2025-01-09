@@ -44,13 +44,15 @@ model Account {
 	like			Like[]
 	subscribe		Subscribe[]
 	blacklist		BlackList[]
-	friend			Friend[]		
+	friend			Friend[]
+	sessions		Session[]		
 
 	login			String			@unique
 	password		String			@map("password")
 	tfaCode			String?			@unique @map("tfa_code")
 	email			String?			@unique	@map("email")
 	phone			String?			@unique	@map("phone")
+	accountUI		String?			
 	
 	createdAt		DateTime		@map("created_at") @default(now())
 	createdBy		String			@map("created_by") @default("System")	
@@ -62,6 +64,22 @@ model Account {
 
 	@@map("accounts")
 	@@unique([login, email])
+}
+
+model Session {
+	id        			String      	@id @default(uuid())
+  	accountId     		String
+  	data       			Json
+  	expiresAt  			DateTime
+  	account      		Account     	@relation(fields: [accountId], references: [id], onDelete: Cascade)
+	ipAdress			String			
+	headers				String
+
+	createdAt			DateTime		@map("created_at") @default(now())	
+	deletedAt			DateTime?		@map("deleted_at")
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+  @@index([accountId])
 }
 
 enum ProfileType {

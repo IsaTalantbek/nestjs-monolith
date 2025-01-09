@@ -8,6 +8,7 @@ CREATE TABLE `accounts` (
     `tfa_code` VARCHAR(191) NULL,
     `email` VARCHAR(191) NULL,
     `phone` VARCHAR(191) NULL,
+    `accountUI` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
     `updated_at` DATETIME(3) NOT NULL,
@@ -25,13 +26,26 @@ CREATE TABLE `accounts` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Session` (
+    `id` VARCHAR(191) NOT NULL,
+    `sessionId` VARCHAR(191) NOT NULL,
+    `accountId` VARCHAR(191) NOT NULL,
+    `data` JSON NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `expiresAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `Session_sessionId_key`(`sessionId`),
+    INDEX `Session_accountId_idx`(`accountId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `privacy` (
     `id` VARCHAR(191) NOT NULL,
-    `profileId` VARCHAR(191) NULL,
     `viewProfile` ENUM('all', 'friends', 'nobody') NOT NULL DEFAULT 'all',
-    `subscribe` ENUM('all', 'friends', 'nobody') NOT NULL DEFAULT 'all',
+    `subscriptions` ENUM('all', 'friends', 'nobody') NOT NULL DEFAULT 'all',
     `posts` ENUM('all', 'friends', 'nobody') NOT NULL DEFAULT 'all',
-    `like` ENUM('all', 'friends', 'nobody') NOT NULL DEFAULT 'all',
+    `likes` ENUM('all', 'friends', 'nobody') NOT NULL DEFAULT 'all',
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
     `updated_at` DATETIME(3) NOT NULL,
@@ -40,7 +54,24 @@ CREATE TABLE `privacy` (
     `deleted_by` VARCHAR(191) NULL,
     `deleted` BOOLEAN NULL DEFAULT false,
 
-    UNIQUE INDEX `privacy_profileId_key`(`profileId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `statsProfile` (
+    `id` VARCHAR(191) NOT NULL,
+    `subscribers` INTEGER NOT NULL DEFAULT 0,
+    `likes` INTEGER NOT NULL DEFAULT 0,
+    `dislikes` INTEGER NOT NULL DEFAULT 0,
+    `ratio` INTEGER NOT NULL DEFAULT 0,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
+    `updated_at` DATETIME(3) NOT NULL,
+    `updated_by` VARCHAR(191) NULL,
+    `deleted_at` DATETIME(3) NULL,
+    `deleted_by` VARCHAR(191) NULL,
+    `deleted` BOOLEAN NULL DEFAULT false,
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -53,14 +84,10 @@ CREATE TABLE `profiles` (
     `avatar_image_id` VARCHAR(191) NULL,
     `cover_image_id` VARCHAR(191) NULL,
     `name` VARCHAR(191) NULL,
-    `subscribers` INTEGER NOT NULL DEFAULT 0,
-    `likes` INTEGER NOT NULL DEFAULT 0,
-    `dislikes` INTEGER NOT NULL DEFAULT 0,
-    `ratio` INTEGER NOT NULL DEFAULT 0,
     `official` BOOLEAN NOT NULL DEFAULT false,
     `ownerId` VARCHAR(191) NULL,
     `privacyId` VARCHAR(191) NULL,
-    `verification_info` JSON NULL,
+    `statsId` VARCHAR(191) NOT NULL,
     `short_info` JSON NULL,
     `extra_info` JSON NULL,
     `other_links` JSON NULL,
@@ -73,6 +100,7 @@ CREATE TABLE `profiles` (
     `deleted` BOOLEAN NULL DEFAULT false,
 
     UNIQUE INDEX `profiles_privacyId_key`(`privacyId`),
+    UNIQUE INDEX `profiles_statsId_key`(`statsId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -100,8 +128,11 @@ CREATE TABLE `friends` (
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
     `updated_at` DATETIME(3) NOT NULL,
     `updated_by` VARCHAR(191) NULL,
-    `active` BOOLEAN NOT NULL DEFAULT false,
+    `type` ENUM('active', 'inactive', 'waiting') NOT NULL DEFAULT 'waiting',
 
+    INDEX `friends_user_id_vs_user_id_idx`(`user_id`, `vs_user_id`),
+    INDEX `friends_type_idx`(`type`),
+    UNIQUE INDEX `friends_user_id_vs_user_id_key`(`user_id`, `vs_user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -143,7 +174,7 @@ CREATE TABLE `tags` (
 -- CreateTable
 CREATE TABLE `likes` (
     `id` VARCHAR(191) NOT NULL,
-    `userId` VARCHAR(191) NOT NULL,
+    `initAid` VARCHAR(191) NOT NULL,
     `postId` VARCHAR(191) NOT NULL,
     `type` VARCHAR(191) NOT NULL DEFAULT 'like',
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -154,22 +185,23 @@ CREATE TABLE `likes` (
     `deleted_by` VARCHAR(191) NULL,
     `deleted` BOOLEAN NULL DEFAULT false,
 
-    UNIQUE INDEX `likes_userId_postId_type_key`(`userId`, `postId`, `type`),
+    UNIQUE INDEX `likes_initAid_postId_type_key`(`initAid`, `postId`, `type`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `black_lists` (
     `id` VARCHAR(191) NOT NULL,
-    `userId` VARCHAR(191) NOT NULL,
-    `vsProfileId` VARCHAR(191) NOT NULL,
+    `initAid` VARCHAR(191) NOT NULL,
+    `vsPid` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
     `updated_at` DATETIME(3) NOT NULL,
     `updated_by` VARCHAR(191) NULL,
     `active` BOOLEAN NOT NULL DEFAULT false,
 
-    UNIQUE INDEX `black_lists_userId_vsProfileId_key`(`userId`, `vsProfileId`),
+    INDEX `black_lists_initAid_active_idx`(`initAid`, `active`),
+    UNIQUE INDEX `black_lists_initAid_vsPid_key`(`initAid`, `vsPid`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -183,10 +215,16 @@ CREATE TABLE `_post-tags` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
+ALTER TABLE `Session` ADD CONSTRAINT `Session_accountId_fkey` FOREIGN KEY (`accountId`) REFERENCES `accounts`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `profiles` ADD CONSTRAINT `profiles_ownerId_fkey` FOREIGN KEY (`ownerId`) REFERENCES `accounts`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `profiles` ADD CONSTRAINT `profiles_privacyId_fkey` FOREIGN KEY (`privacyId`) REFERENCES `privacy`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `profiles` ADD CONSTRAINT `profiles_statsId_fkey` FOREIGN KEY (`statsId`) REFERENCES `statsProfile`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `subscribes` ADD CONSTRAINT `subscribes_subscriber_aid_fkey` FOREIGN KEY (`subscriber_aid`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -204,13 +242,13 @@ ALTER TABLE `posts` ADD CONSTRAINT `posts_profile_id_fkey` FOREIGN KEY (`profile
 ALTER TABLE `posts` ADD CONSTRAINT `posts_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `likes` ADD CONSTRAINT `likes_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `likes` ADD CONSTRAINT `likes_initAid_fkey` FOREIGN KEY (`initAid`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `likes` ADD CONSTRAINT `likes_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `posts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `black_lists` ADD CONSTRAINT `black_lists_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `black_lists` ADD CONSTRAINT `black_lists_initAid_fkey` FOREIGN KEY (`initAid`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_post-tags` ADD CONSTRAINT `_post-tags_A_fkey` FOREIGN KEY (`A`) REFERENCES `posts`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

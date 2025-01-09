@@ -7,7 +7,7 @@ export class CookieSettings {
             httpOnly: true,
             secure: true,
             maxAge: 60400,
-            sameSite: 'strict',
+            sameSite: 'strict' as 'strict',
             path: '/',
         }
     }
