@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
-import { PrismaService } from 'src/core/database/prisma.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
-import { cookieClear } from 'src/common/util/cookie.clear'
 import { SessionService } from 'src/modules/auth/session/session.service'
 
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly prisma: PrismaService,
         private readonly cookieSettings: CookieSettings,
         private readonly sessionService: SessionService
     ) {}
@@ -26,16 +23,7 @@ export class JwtGuard implements CanActivate {
         if (accessToken) {
             const decoded = this.jwtService.verifyAccessToken(accessToken)
             if (decoded) {
-                const session = await this.sessionService.getSession(
-                    decoded.data
-                )
-
-                if (!session || session.expiresAt < new Date()) {
-                    reply.clearCookie('aAuthSession')
-                    return false
-                }
-
-                request.user = { accountId: session.accountId }
+                request.user = { accountId: decoded.data }
                 return true
             } else {
                 reply.clearCookie(this.cookieSettings.accessTokenName)
@@ -51,14 +39,12 @@ export class JwtGuard implements CanActivate {
                 )
 
                 if (!session || session.expiresAt < new Date()) {
-                    reply.clearCookie('aAuthSession')
+                    reply.clearCookie(this.cookieSettings.refreshTokenName)
                     return false
                 }
 
-                request.user = { accountId: session.accountId }
-
                 const { newAccessToken } = this.jwtService.generateAccessToken(
-                    session.id
+                    session.accountId
                 )
 
                 reply.setCookie(

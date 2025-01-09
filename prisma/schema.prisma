@@ -68,8 +68,8 @@ model Account {
 
 model Session {
 	id        			String      	@id @default(uuid())
-  	accountId     		String
-  	data       			Json
+  	accountId     		String			
+  	superUser       	Boolean
   	expiresAt  			DateTime
   	account      		Account     	@relation(fields: [accountId], references: [id], onDelete: Cascade)
 	ipAdress			String			

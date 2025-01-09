@@ -34,6 +34,7 @@ export class EditorDto {
     @IsArray()
     @IsString({ each: true })
     @MinLength(1, { each: true })
+    @MaxLength(20, { each: true })
     @ArrayMinSize(0)
     @ArrayMaxSize(20)
     tags: Array<string> = []

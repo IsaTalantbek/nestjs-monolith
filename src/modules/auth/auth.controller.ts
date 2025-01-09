@@ -29,11 +29,10 @@ export class AuthController {
                     .status(401)
                     .send({ message: 'Неправильные данные' })
             }
-
+            const ipPrefix = req.ip.split('.').slice(0, 2).join('.') // Берем первые два октета
             const { newRefreshToken } = await this.authService.login(
                 user.id,
-                user.accountRole,
-                req.ip,
+                ipPrefix,
                 req.headers['user-agent']
             )
             reply.setCookie(

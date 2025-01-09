@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
-import { PrismaService } from 'src/core/database/prisma.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
-import { cookieClear } from 'src/common/util/cookie.clear'
+import { SessionService } from 'src/modules/auth/session/session.service'
 
 @Injectable()
 export class JwtAuthorized implements CanActivate {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly prisma: PrismaService,
-        private readonly cookieSettings: CookieSettings
+        private readonly cookieSettings: CookieSettings,
+        private readonly sessionService: SessionService
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -24,8 +23,7 @@ export class JwtAuthorized implements CanActivate {
         if (accessToken) {
             const decoded = this.jwtService.verifyAccessToken(accessToken)
             if (decoded) {
-                // Токен действителен
-                request.user = decoded
+                request.user = { accountId: decoded.data }
                 return false
             } else {
                 reply.clearCookie(this.cookieSettings.accessTokenName)
@@ -36,23 +34,25 @@ export class JwtAuthorized implements CanActivate {
         if (refreshToken) {
             const decoded = this.jwtService.verifyRefreshToken(refreshToken)
             if (decoded) {
-                const user = await this.prisma.account.findUnique({
-                    where: { id: decoded.accountId, deleted: false },
-                })
-                if (!user) {
-                    cookieClear(reply)
+                const session = await this.sessionService.getSession(
+                    decoded.data
+                )
+
+                if (!session || session.expiresAt < new Date()) {
+                    reply.clearCookie(this.cookieSettings.refreshTokenName)
                     return true
                 }
 
-                const { newAccessToken, data } =
-                    this.jwtService.generateAccessToken(user)
+                const { newAccessToken } = this.jwtService.generateAccessToken(
+                    session.accountId
+                )
 
                 reply.setCookie(
                     this.cookieSettings.accessTokenName,
                     newAccessToken,
                     this.cookieSettings.cookieSettings
                 )
-                request.user = data
+                request.user = { accountId: session.accountId }
                 return false
             }
         }

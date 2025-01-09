@@ -18,37 +18,6 @@ export class SessionController {
         private readonly prisma: PrismaService
     ) {}
 
-    @Post('login')
-    async login(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
-        const { login, password } = req.body as {
-            login: string
-            password: string
-        }
-        const user = await this.sessionService.validateUser(login, password)
-        if (!user) {
-            return reply.status(500).send('Вы гавноы')
-        }
-        // Создай сессию
-        const sessionJWT = await this.sessionService.createSession(
-            user.id,
-            {
-                role: user.accountRole,
-            },
-            req.ip,
-            req.headers['user-agent']
-        )
-        // Установи сессионную cookie
-        reply
-            .setCookie('aAuthSession', sessionJWT, {
-                httpOnly: true,
-                path: '/',
-                secure: false, // true для HTTPS
-                maxAge: 24 * 60 * 60 * 1000,
-                sameSite: 'strict',
-            })
-            .send({ message: 'Logged in' })
-    }
-
     @Post('logout')
     async logout(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
         const sessionId = req.cookies?.SESSION_ID
@@ -81,6 +50,6 @@ export class SessionController {
             throw new HttpException('Session expired', HttpStatus.UNAUTHORIZED)
         }
 
-        return session.data // Вернёт данные из сессии
+        return session // Вернёт данные из сессии
     }
 }

@@ -6,7 +6,7 @@ export class CookieSettings {
         return {
             httpOnly: true,
             secure: true,
-            maxAge: 60400,
+            maxAge: 604800,
             sameSite: 'strict' as 'strict',
             path: '/',
         }

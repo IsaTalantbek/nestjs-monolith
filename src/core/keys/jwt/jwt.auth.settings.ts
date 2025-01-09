@@ -14,7 +14,7 @@ export class JwtAuthSettings {
     }
 
     get accessExpire(): { expiresIn: string } {
-        return { expiresIn: '1h' }
+        return { expiresIn: '5m' }
     }
 
     get refreshExpire(): { expiresIn: string } {

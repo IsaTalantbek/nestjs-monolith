@@ -8,7 +8,7 @@ CREATE TABLE `accounts` (
     `tfa_code` VARCHAR(191) NULL,
     `email` VARCHAR(191) NULL,
     `phone` VARCHAR(191) NULL,
-    `accountUI` VARCHAR(191) NOT NULL,
+    `accountUI` VARCHAR(191) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
     `updated_at` DATETIME(3) NOT NULL,
@@ -28,13 +28,16 @@ CREATE TABLE `accounts` (
 -- CreateTable
 CREATE TABLE `Session` (
     `id` VARCHAR(191) NOT NULL,
-    `sessionId` VARCHAR(191) NOT NULL,
     `accountId` VARCHAR(191) NOT NULL,
-    `data` JSON NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `super` BOOLEAN NOT NULL,
     `expiresAt` DATETIME(3) NOT NULL,
+    `ipAdress` VARCHAR(191) NOT NULL,
+    `headers` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `deleted_at` DATETIME(3) NULL,
+    `deleted_by` VARCHAR(191) NULL,
+    `deleted` BOOLEAN NULL DEFAULT false,
 
-    UNIQUE INDEX `Session_sessionId_key`(`sessionId`),
     INDEX `Session_accountId_idx`(`accountId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

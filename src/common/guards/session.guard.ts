@@ -1,6 +1,4 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
-import { FastifyRequest } from 'fastify'
-import { PrismaService } from 'src/core/database/prisma.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
 import { SessionService } from 'src/modules/auth/session/session.service'

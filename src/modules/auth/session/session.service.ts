@@ -11,23 +11,9 @@ export class SessionService {
         private readonly jwtService: JwtService
     ) {}
 
-    async createSession(
-        accountId: string,
-        data: Record<string, any>,
-        ipAdress: string,
-        headers: string,
-        ttl: number = 24 * 60 * 60 * 1000 // Время жизни сессии (по умолчанию 24 часа)
-    ): Promise<string> {
-        const expiresAt = new Date(Date.now() + ttl)
-
+    async createSession({ data }): Promise<string> {
         const session = await this.prisma.session.create({
-            data: {
-                accountId,
-                data,
-                expiresAt,
-                ipAdress,
-                headers,
-            },
+            data: data,
         })
         const { newAccessToken } = this.jwtService.generateAccessToken(
             session.id

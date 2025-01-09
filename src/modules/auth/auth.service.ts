@@ -3,12 +3,14 @@ import { PrismaService } from '../../core/database/prisma.service'
 import * as bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
+import { SessionService } from './session/session.service'
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly sessionService: SessionService
     ) {}
 
     async validateUser({ login, password }: loginForm): Promise<any> {
@@ -22,22 +24,49 @@ export class AuthService {
 
     async login(
         accountId: string,
-        data: Record<string, any>,
         ipAdress: string,
         headers: string,
-        ttl: number = 24 * 60 * 60 * 1000
+        ttl: number = 24 * 60 * 60 * 1000 * 7
     ) {
         const expiresAt = new Date(Date.now() + ttl)
-
-        const session = await this.prisma.session.create({
-            data: {
-                accountId,
-                data,
-                expiresAt,
+        const existSession = await this.prisma.session.findFirst({
+            where: {
+                accountId: accountId,
+                deleted: false,
                 ipAdress,
                 headers,
             },
         })
+        if (existSession?.expiresAt < new Date()) {
+            await this.sessionService.cleanExpiredSession(existSession.id)
+        } else if (existSession) {
+            const { newRefreshToken } = this.jwtService.generateRefreshToken(
+                existSession.id
+            )
+
+            return {
+                newRefreshToken,
+            }
+        }
+        let superUser: boolean
+
+        const superUserCheck = await this.prisma.session.findFirst({
+            where: { deleted: false, superUser: true },
+        })
+
+        superUserCheck ? (superUser = true) : (superUser = false)
+
+        const data: {
+            accountId: string
+            expiresAt: any
+            ipAdress: string
+            headers: string
+            superUser: boolean
+        } = { accountId, expiresAt, ipAdress, headers, superUser }
+        const session = await this.prisma.session.create({
+            data: data,
+        })
+
         const { newRefreshToken } = this.jwtService.generateRefreshToken(
             session.id
         )
