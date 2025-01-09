@@ -1,5 +1,3 @@
-export const cookieClear = (reply: any) => {
-    reply.clearCookie('aAuthToken')
-    reply.clearCookie('rAuthToken')
-    return
+export const clearCookie = (reply, ...args) => {
+    args.forEach((cookie) => reply.clearCookie(cookie))
 }

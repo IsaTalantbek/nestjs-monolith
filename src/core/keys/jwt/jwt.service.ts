@@ -6,7 +6,7 @@ import { JwtAuthSettings } from './jwt.auth.settings'
 export class JwtService {
     constructor(private readonly jwtAuthSettings: JwtAuthSettings) {}
 
-    generateAccessToken(data): any {
+    generateAccessToken(...data): any {
         return {
             newAccessToken: jwt.sign(
                 { data },

@@ -32,37 +32,62 @@ export class SessionService {
     // Получение сессии по ID
     async getSession(id: string) {
         return this.prisma.session.findUnique({
-            where: { id },
+            where: { id, deleted: false },
         })
     }
-
+    async getSessions(accountId: string) {
+        return this.prisma.session.findMany({
+            where: { accountId, deleted: false },
+        })
+    }
     // Удаление сессии по ID
-    async deleteSession(id: string) {
-        await this.prisma.session.delete({
+    async deleteSession(id: string, headers: string) {
+        const date = new Date()
+
+        await this.prisma.session.update({
             where: { id },
+            data: { deleted: true, deletedAt: date, deletedBy: headers },
         })
     }
 
     // Удаление всех сессий пользователя
-    async deleteAllSessionsForUser(accountId: string) {
-        await this.prisma.session.deleteMany({
+    async deleteAllSessionsForUser(accountId: string, headers: string) {
+        const date = new Date()
+
+        await this.prisma.session.updateMany({
             where: { accountId },
+            data: { deleted: true, deletedAt: date, deletedBy: headers },
         })
     }
 
     // Очистка просроченных сессий
-    async cleanExpiredSessions() {
-        await this.prisma.session.deleteMany({
+    async cleanExpiredSessions(accountId) {
+        const date = new Date()
+
+        await this.prisma.session.updateMany({
             where: {
+                accountId,
                 expiresAt: { lt: new Date() },
+            },
+            data: {
+                deleted: true,
+                deletedAt: date,
+                deletedBy: 'ExpireSession',
             },
         })
     }
     async cleanExpiredSession(id) {
-        await this.prisma.session.delete({
+        const date = new Date()
+
+        await this.prisma.session.update({
             where: {
                 id,
                 expiresAt: { lt: new Date() },
+            },
+            data: {
+                deleted: true,
+                deletedAt: date,
+                deletedBy: 'ExpireSession',
             },
         })
     }

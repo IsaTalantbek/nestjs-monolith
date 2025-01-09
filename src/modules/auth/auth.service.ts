@@ -43,7 +43,6 @@ export class AuthService {
             const { newRefreshToken } = this.jwtService.generateRefreshToken(
                 existSession.id
             )
-
             return {
                 newRefreshToken,
             }
@@ -51,11 +50,10 @@ export class AuthService {
         let superUser: boolean
 
         const superUserCheck = await this.prisma.session.findFirst({
-            where: { deleted: false, superUser: true },
+            where: { deleted: false, superUser: true, accountId },
         })
 
-        superUserCheck ? (superUser = true) : (superUser = false)
-
+        superUserCheck ? (superUser = false) : (superUser = true)
         const data: {
             accountId: string
             expiresAt: any

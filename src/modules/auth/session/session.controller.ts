@@ -6,50 +6,73 @@ import {
     Res,
     HttpException,
     HttpStatus,
+    UseGuards,
+    Delete,
+    Param,
+    UsePipes,
 } from '@nestjs/common'
 import { SessionService } from './session.service'
-import { PrismaService } from '../../../core/database/prisma.service'
 import { FastifyRequest, FastifyReply } from 'fastify'
+import { CookieSettings } from 'src/core/keys/cookie.settings'
+import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { clearCookie } from 'src/common/util/cookie.clear'
+import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @Controller('session')
+@UseGuards(JwtGuard)
 export class SessionController {
     constructor(
         private readonly sessionService: SessionService,
-        private readonly prisma: PrismaService
+        private readonly cookie: CookieSettings
     ) {}
+    @Get()
+    async getSessions(@Req() req: any) {
+        const accountId = req.user.accountId
 
-    @Post('logout')
-    async logout(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
-        const sessionId = req.cookies?.SESSION_ID
-
-        if (!sessionId) {
-            throw new HttpException(
-                'No session ID found',
-                HttpStatus.BAD_REQUEST
-            )
-        }
-
-        // Удаление сессии
-        await this.sessionService.deleteSession(sessionId)
-
-        // Удаление cookie
-        res.clearCookie('SESSION_ID').send({ message: 'Logged out' })
-    }
-
-    @Get('me')
-    async getMe(@Req() req: FastifyRequest) {
-        const sessionId = req.cookies?.SESSION_ID
-
-        if (!sessionId) {
-            throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED)
-        }
-
-        const session = await this.sessionService.getSession(sessionId)
-
-        if (!session || session.expiresAt < new Date()) {
-            throw new HttpException('Session expired', HttpStatus.UNAUTHORIZED)
-        }
+        const session = await this.sessionService.getSessions(accountId)
 
         return session // Вернёт данные из сессии
+    }
+
+    @Delete('logout')
+    async logoutAll(@Req() req: any, @Res() reply: any) {
+        const accountId = req.user.accountId
+
+        await this.sessionService.deleteAllSessionsForUser(
+            accountId,
+            req.headers['user-agent']
+        )
+
+        this.cookie.clearCookie(
+            reply,
+            this.cookie.accessTokenName,
+            this.cookie.refreshTokenName
+        )
+        return reply.status(200).send({ message: 'Вы завершили все сессии' })
+    }
+
+    @Post('logout/:sessionId?')
+    async logout(
+        @Req() req: any,
+        @Res() reply: FastifyReply,
+        @Param('sessionId') sessionId?: string
+    ) {
+        if (!sessionId) {
+            sessionId = req.user.sessionId
+        }
+        await this.sessionService.deleteSession(
+            sessionId,
+            req.headers['user-agent']
+        )
+        if (sessionId === req.user.sessionId) {
+            this.cookie.clearCookie(
+                reply,
+                this.cookie.accessTokenName,
+                this.cookie.refreshTokenName
+            )
+        }
+        return reply
+            .status(200)
+            .send({ message: 'Вы успешно вышли из системы' })
     }
 }

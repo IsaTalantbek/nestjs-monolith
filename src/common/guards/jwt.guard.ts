@@ -23,7 +23,10 @@ export class JwtGuard implements CanActivate {
         if (accessToken) {
             const decoded = this.jwtService.verifyAccessToken(accessToken)
             if (decoded) {
-                request.user = { accountId: decoded.data }
+                request.user = {
+                    accountId: decoded.data[0],
+                    sessionId: decoded.data[1],
+                }
                 return true
             } else {
                 reply.clearCookie(this.cookieSettings.accessTokenName)
@@ -44,7 +47,8 @@ export class JwtGuard implements CanActivate {
                 }
 
                 const { newAccessToken } = this.jwtService.generateAccessToken(
-                    session.accountId
+                    session.accountId,
+                    session.id
                 )
 
                 reply.setCookie(
@@ -52,7 +56,10 @@ export class JwtGuard implements CanActivate {
                     newAccessToken,
                     this.cookieSettings.cookieSettings
                 )
-                request.user = { accountId: session.accountId }
+                request.user = {
+                    accountId: session.accountId,
+                    sessionId: session.id,
+                }
                 return true
             }
         }

@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common'
 import { ProfileService } from './profile.service'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
-import { cookieClear } from 'src/common/util/cookie.clear'
 import { JwtCheck } from 'src/common/guards/jwt.check'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
@@ -21,7 +20,6 @@ export class ProfileController {
     async profile(@Res() reply: any, @Req() req: any) {
         try {
             const accountId = req.user?.accountId
-
             const result = await this.profileService.profile(accountId)
             return reply.status(200).send(result)
         } catch (error: any) {
@@ -32,30 +30,7 @@ export class ProfileController {
             })
         }
     }
-    @UseGuards(JwtGuard)
-    @Get('logout')
-    async logout(@Res() reply: any, @Req() req: any) {
-        try {
-            const accountId = req.user?.accountId
-            if (accountId) {
-                cookieClear(reply)
-                reply
-                    .status(200)
-                    .send({ message: 'Успешный выход из аккаунта' })
-                return
-            }
-            console.error(`logout: ${req}`)
-            return reply
-                .status(500)
-                .send({ message: 'Странно, но похоже у вас нет аккаунта' })
-        } catch (error) {
-            console.error(`Profile-Logout: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке выйти из аккаунта. Пожалуйста, сообщите нам подробности ',
-            })
-        }
-    }
+
     @UseGuards(JwtCheck)
     @UsePipes(ParamUuidPipe)
     @Get(':profileId')

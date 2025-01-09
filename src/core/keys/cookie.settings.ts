@@ -17,4 +17,7 @@ export class CookieSettings {
     get refreshTokenName() {
         return 'rAuthToken'
     }
+    clearCookie = (reply, ...args) => {
+        args.forEach((cookie) => reply.clearCookie(cookie))
+    }
 }
