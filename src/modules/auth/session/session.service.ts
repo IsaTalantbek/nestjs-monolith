@@ -3,12 +3,14 @@ import { PrismaService } from '../../../core/database/prisma.service'
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
+import { CookieSettings } from 'src/core/keys/cookie.settings'
 
 @Injectable()
 export class SessionService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly cookieSettings: CookieSettings
     ) {}
 
     async createSession({ data }): Promise<string> {
@@ -21,14 +23,6 @@ export class SessionService {
         return newAccessToken
     }
 
-    async validateUser(login, password): Promise<any> {
-        const user = await this.prisma.account.findUnique({ where: { login } })
-        if (user && (await bcrypt.compare(password, user.password))) {
-            const { password, ...result } = user
-            return result
-        }
-        return null
-    }
     // Получение сессии по ID
     async getSession(id: string) {
         return this.prisma.session.findUnique({

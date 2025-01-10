@@ -4,19 +4,13 @@ import {
     Get,
     Req,
     Res,
-    HttpException,
-    HttpStatus,
     UseGuards,
     Delete,
     Param,
-    UsePipes,
 } from '@nestjs/common'
 import { SessionService } from './session.service'
-import { FastifyRequest, FastifyReply } from 'fastify'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
-import { clearCookie } from 'src/common/util/cookie.clear'
-import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @Controller('session')
 @UseGuards(JwtGuard)
@@ -54,7 +48,7 @@ export class SessionController {
     @Post('logout/:sessionId?')
     async logout(
         @Req() req: any,
-        @Res() reply: FastifyReply,
+        @Res() reply: any,
         @Param('sessionId') sessionId?: string
     ) {
         if (!sessionId) {
