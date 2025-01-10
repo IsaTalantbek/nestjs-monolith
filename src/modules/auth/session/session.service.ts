@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
-import * as bcrypt from 'bcryptjs'
-import * as jwt from 'jsonwebtoken'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
-import { CookieSettings } from 'src/core/keys/cookie.settings'
 
 @Injectable()
 export class SessionService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtService: JwtService,
-        private readonly cookieSettings: CookieSettings
+        private readonly jwtService: JwtService
     ) {}
 
     async createSession({ data }): Promise<string> {
@@ -35,11 +31,11 @@ export class SessionService {
         })
     }
     // Удаление сессии по ID
-    async deleteSession(id: string, headers: string) {
+    async deleteSession(accountId: string, id: string, headers: string) {
         const date = new Date()
 
         await this.prisma.session.update({
-            where: { id },
+            where: { id, superUser: false, accountId },
             data: { deleted: true, deletedAt: date, deletedBy: headers },
         })
     }
@@ -49,11 +45,41 @@ export class SessionService {
         const date = new Date()
 
         await this.prisma.session.updateMany({
-            where: { accountId },
+            where: { accountId, superUser: false },
             data: { deleted: true, deletedAt: date, deletedBy: headers },
         })
     }
 
+    async giveSuperUser(
+        accountId: string,
+        userSessionId: string,
+        sessionId: string,
+        headers: string
+    ) {
+        const check = await this.prisma.session.findUnique({
+            where: { id: sessionId, superUser: true, accountId },
+        })
+        if (!check) {
+            return 'У вас нету роли суперюзера'
+        }
+        const check2 = await this.prisma.session.findUnique({
+            where: { id: sessionId, superUser: false, accountId },
+        })
+        if (!check2) {
+            return 'Нету сессии, которой можно передать роль суперюзера'
+        }
+        await this.prisma.$transaction(async (prisma) => {
+            await prisma.session.update({
+                where: { id: userSessionId },
+                data: { superUser: false, updatedBy: headers },
+            })
+            await prisma.session.update({
+                where: { id: sessionId },
+                data: { superUser: true, updatedBy: headers },
+            })
+        })
+        return true
+    }
     // Очистка просроченных сессий
     async cleanExpiredSessions(accountId) {
         const date = new Date()

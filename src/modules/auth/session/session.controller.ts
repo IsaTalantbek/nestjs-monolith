@@ -7,6 +7,7 @@ import {
     UseGuards,
     Delete,
     Param,
+    Put,
 } from '@nestjs/common'
 import { SessionService } from './session.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
@@ -20,29 +21,47 @@ export class SessionController {
         private readonly cookie: CookieSettings
     ) {}
     @Get()
-    async getSessions(@Req() req: any) {
-        const accountId = req.user.accountId
+    async getSessions(@Req() req: any, @Res() reply: any) {
+        try {
+            const accountId = req.user.accountId
 
-        const session = await this.sessionService.getSessions(accountId)
+            const session = await this.sessionService.getSessions(accountId)
 
-        return session // Вернёт данные из сессии
+            return reply.status(200).send(session) // Вернёт данные из сессии
+        } catch (error) {
+            console.error(`Get-Session: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке получить существующие сессии. Пожалуйста, сообщите нам подробности',
+            })
+        }
     }
 
     @Delete('logout')
     async logoutAll(@Req() req: any, @Res() reply: any) {
-        const accountId = req.user.accountId
+        try {
+            const accountId = req.user.accountId
 
-        await this.sessionService.deleteAllSessionsForUser(
-            accountId,
-            req.headers['user-agent']
-        )
+            await this.sessionService.deleteAllSessionsForUser(
+                accountId,
+                req.headers['user-agent']
+            )
 
-        this.cookie.clearCookie(
-            reply,
-            this.cookie.accessTokenName,
-            this.cookie.refreshTokenName
-        )
-        return reply.status(200).send({ message: 'Вы завершили все сессии' })
+            this.cookie.clearCookie(
+                reply,
+                this.cookie.accessTokenName,
+                this.cookie.refreshTokenName
+            )
+            return reply
+                .status(200)
+                .send({ message: 'Вы завершили все сессии' })
+        } catch (error) {
+            console.error(`Logount-All-Session: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке удалить существующие сессии. Пожалуйста, сообщите нам подробности',
+            })
+        }
     }
 
     @Post('logout/:sessionId?')
@@ -51,22 +70,61 @@ export class SessionController {
         @Res() reply: any,
         @Param('sessionId') sessionId?: string
     ) {
-        if (!sessionId) {
-            sessionId = req.user.sessionId
-        }
-        await this.sessionService.deleteSession(
-            sessionId,
-            req.headers['user-agent']
-        )
-        if (sessionId === req.user.sessionId) {
-            this.cookie.clearCookie(
-                reply,
-                this.cookie.accessTokenName,
-                this.cookie.refreshTokenName
+        try {
+            const accountId = req.user.accountId
+            if (!sessionId) {
+                sessionId = req.user.sessionId
+            }
+            await this.sessionService.deleteSession(
+                accountId,
+                sessionId,
+                req.headers['user-agent']
             )
+            if (sessionId === req.user.sessionId) {
+                this.cookie.clearCookie(
+                    reply,
+                    this.cookie.accessTokenName,
+                    this.cookie.refreshTokenName
+                )
+            }
+            return reply
+                .status(200)
+                .send({ message: 'Вы успешно вышли из системы' })
+        } catch (error) {
+            console.error(`Logout-Session: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при удалить существующую сессию. Пожалуйста, сообщите нам подробности',
+            })
         }
-        return reply
-            .status(200)
-            .send({ message: 'Вы успешно вышли из системы' })
+    }
+    @Put(':userSessionId')
+    async giveSuperUser(
+        @Req() req: any,
+        @Res() reply: any,
+        @Param('userSessionId') userSessionId?: string
+    ) {
+        try {
+            const sessionId = req.user.sessionId
+            const accountId = req.user.accountId
+            const result = await this.sessionService.giveSuperUser(
+                accountId,
+                userSessionId,
+                sessionId,
+                req.headers['user-agent']
+            )
+            if (result !== true) {
+                return reply.status(400).send({ message: result })
+            }
+            return reply
+                .status(200)
+                .send({ message: 'Вы успешно передали роль суперюзера' })
+        } catch (error) {
+            console.error(`Update-SuperUser-Session: ${error}`)
+            return reply.status(500).send({
+                message:
+                    'Возникла ошибка при попытке передать роль суперюзера. Пожалуйста, сообщите нам подробности',
+            })
+        }
     }
 }

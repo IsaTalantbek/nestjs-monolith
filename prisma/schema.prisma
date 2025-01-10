@@ -76,6 +76,8 @@ model Session {
 	headers				String
 
 	createdAt			DateTime		@map("created_at") @default(now())	
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String?			@map("updated_by") 
 	deletedAt			DateTime?		@map("deleted_at")
 	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
