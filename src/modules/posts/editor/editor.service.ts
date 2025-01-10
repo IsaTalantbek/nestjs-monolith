@@ -6,59 +6,76 @@ import { Mutex } from 'async-mutex'
 
 @Injectable()
 export class EditorService {
+    private readonly userLocks = new Map<string, Mutex>()
+
     constructor(private readonly prisma: PrismaService) {}
 
+    private getMutex(accountId: string): Mutex {
+        if (!this.userLocks.has(accountId)) {
+            this.userLocks.set(accountId, new Mutex())
+        }
+        return this.userLocks.get(accountId)!
+    }
+
     async createPost(type, tags, accountId, profileId, text, title) {
-        const data: Prisma.PostCreateInput = {
-            title,
-            type,
-            text,
-            createdBy: accountId,
-            user: { connect: { id: accountId } }, // Связь с пользователем
-            profile: { connect: { id: profileId } }, // Связь с профилем
-        }
+        const userMutex = this.getMutex(accountId)
 
-        const check = this.prisma.profile.findFirst({
-            where: { id: profileId },
-        })
-        if (!check) {
-            return false
-        }
-        if (tags && tags.length > 0) {
-            await this.prisma.$transaction(async (prisma) => {
-                const existingTags = await prisma.tags.findMany({
-                    where: { name: { in: tags } },
-                })
+        // Блокируем операцию до её завершения
+        const release = await userMutex.acquire()
+        try {
+            const data: Prisma.PostCreateInput = {
+                title,
+                type,
+                text,
+                createdBy: accountId,
+                user: { connect: { id: accountId } }, // Связь с пользователем
+                profile: { connect: { id: profileId } }, // Связь с профилем
+            }
 
-                const existingTagNames = existingTags.map((tag) => tag.name)
-                const newTags = tags.filter(
-                    (tag) => !existingTagNames.includes(tag)
-                )
-
-                await prisma.tags.createMany({
-                    data: newTags.map((tag) => ({
-                        name: tag,
-                        createdBy: accountId,
-                    })),
-                })
-
-                const tagObjects = [
-                    ...existingTags,
-                    ...(await prisma.tags.findMany({
-                        where: { name: { in: newTags } },
-                    })),
-                ]
-
-                data.tags = {
-                    connect: tagObjects.map((tag) => ({ id: tag.id })),
-                }
+            const check = this.prisma.profile.findFirst({
+                where: { id: profileId },
             })
-        }
+            if (!check) {
+                return false
+            }
+            if (tags && tags.length > 0) {
+                await this.prisma.$transaction(async (prisma) => {
+                    const existingTags = await prisma.tags.findMany({
+                        where: { name: { in: tags } },
+                    })
 
-        const post = await this.prisma.post.create({ data })
-        const postData = {
-            id: post.id,
+                    const existingTagNames = existingTags.map((tag) => tag.name)
+                    const newTags = tags.filter(
+                        (tag) => !existingTagNames.includes(tag)
+                    )
+
+                    await prisma.tags.createMany({
+                        data: newTags.map((tag) => ({
+                            name: tag,
+                            createdBy: accountId,
+                        })),
+                    })
+
+                    const tagObjects = [
+                        ...existingTags,
+                        ...(await prisma.tags.findMany({
+                            where: { name: { in: newTags } },
+                        })),
+                    ]
+
+                    data.tags = {
+                        connect: tagObjects.map((tag) => ({ id: tag.id })),
+                    }
+                })
+            }
+
+            const post = await this.prisma.post.create({ data })
+            const postData = {
+                id: post.id,
+            }
+            return postData
+        } finally {
+            release()
         }
-        return postData
     }
 }

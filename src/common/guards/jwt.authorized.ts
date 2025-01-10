@@ -83,7 +83,6 @@ export class JwtAuthorized implements CanActivate {
                 }
             }
             reply.clearCookie(this.cookieSettings.refreshTokenName)
-            reply.status(401).send({ message: 'Вы не авторизованы' })
             return true
         } catch (error) {
             console.error(`JWT-GUARD: ${error}`)

@@ -53,6 +53,7 @@ export class JwtGuard implements CanActivate {
                     )
 
                     if (!session || session.expiresAt < new Date()) {
+                        this.sessionService.cleanExpiredSession(session.id)
                         return this.handleSessionExpired(reply)
                     }
                     const ipPrefix = request.ip.split('.').slice(0, 2).join('.')

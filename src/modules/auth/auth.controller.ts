@@ -33,6 +33,7 @@ export class AuthController {
             const { newRefreshToken } = await this.authService.login(
                 user.id,
                 ipPrefix,
+                req.ip,
                 req.headers['user-agent']
             )
             reply.setCookie(

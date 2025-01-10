@@ -72,7 +72,8 @@ model Session {
   	superUser       	Boolean
   	expiresAt  			DateTime
   	account      		Account     	@relation(fields: [accountId], references: [id], onDelete: Cascade)
-	ipAdress			String			
+	ipAdress			String
+	ipAdressFull		String			
 	headers				String
 
 	createdAt			DateTime		@map("created_at") @default(now())	

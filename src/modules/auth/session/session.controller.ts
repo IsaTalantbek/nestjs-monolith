@@ -41,10 +41,11 @@ export class SessionController {
     async logoutAll(@Req() req: any, @Res() reply: any) {
         try {
             const accountId = req.user.accountId
-
+            const sessionId = req.user.sessionId
             await this.sessionService.deleteAllSessionsForUser(
                 accountId,
-                req.headers['user-agent']
+                req.headers['user-agent'],
+                sessionId
             )
 
             this.cookie.clearCookie(
@@ -72,15 +73,17 @@ export class SessionController {
     ) {
         try {
             const accountId = req.user.accountId
+            const thisSession = req.user.sessionId
             if (!sessionId) {
-                sessionId = req.user.sessionId
+                sessionId = thisSession
             }
             await this.sessionService.deleteSession(
                 accountId,
                 sessionId,
-                req.headers['user-agent']
+                req.headers['user-agent'],
+                thisSession
             )
-            if (sessionId === req.user.sessionId) {
+            if (sessionId === thisSession) {
                 this.cookie.clearCookie(
                     reply,
                     this.cookie.accessTokenName,
