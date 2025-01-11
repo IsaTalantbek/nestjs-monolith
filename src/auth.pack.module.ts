@@ -4,6 +4,7 @@ import { JwtAuthSettings } from './core/keys/jwt/jwt.auth.settings'
 import { JwtService } from './core/keys/jwt/jwt.service'
 import { PrismaService } from './core/database/prisma.service'
 import { SessionService } from './modules/auth/session/session.service'
+import { MutexManager } from './common/util/mutex.manager'
 
 @Module({
     providers: [
@@ -12,6 +13,7 @@ import { SessionService } from './modules/auth/session/session.service'
         JwtService,
         PrismaService,
         SessionService,
+        MutexManager,
     ],
     exports: [
         CookieSettings,
@@ -19,6 +21,7 @@ import { SessionService } from './modules/auth/session/session.service'
         JwtService,
         PrismaService,
         SessionService,
+        MutexManager,
     ],
 })
 export class AuthPackModule {}

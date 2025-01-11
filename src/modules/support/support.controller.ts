@@ -9,7 +9,7 @@ import {
     Res,
     UseGuards,
 } from '@nestjs/common'
-import { JwtCheck } from 'src/common/guards/jwt.check'
+import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { SupportService } from './support.service'
 import { SupportBodyDto } from './support.dto'
 
@@ -75,7 +75,7 @@ export class SupportController {
             )
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Read-Support: ${error}`)
+            console.error(`Clear-Support: ${error}`)
             return reply.status(500).send({
                 message: 'Возникла ошибка при попытке удалить файлы',
                 error,

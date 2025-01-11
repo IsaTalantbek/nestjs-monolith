@@ -1,22 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
-import { Mutex } from 'async-mutex'
+import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class SessionService {
-    private readonly userLocks = new Map<string, Mutex>()
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly mutex: MutexManager
     ) {}
-
-    private getMutex(id: string): Mutex {
-        if (!this.userLocks.has(id)) {
-            this.userLocks.set(id, new Mutex())
-        }
-        return this.userLocks.get(id)!
-    }
 
     async createSession({ data }): Promise<string> {
         const session = await this.prisma.session.create({
@@ -45,17 +38,13 @@ export class SessionService {
         id: string,
         headers: string,
         sessionId: string
-    ) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    ): Promise<boolean> {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const date = new Date()
             const user = await this.prisma.session.findUnique({
                 where: { id: sessionId },
             })
-            if (user.superUser === true) {
+            if (user && user.superUser === true) {
                 await this.prisma.session.update({
                     where: { id, accountId },
                     data: {
@@ -68,13 +57,11 @@ export class SessionService {
             }
 
             await this.prisma.session.update({
-                where: { id, superUser: false, accountId },
+                where: { id: id, superUser: false, accountId: accountId },
                 data: { deleted: true, deletedAt: date, deletedBy: headers },
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
 
     // Удаление всех сессий пользователя
@@ -82,12 +69,8 @@ export class SessionService {
         accountId: string,
         headers: string,
         sessionId: string
-    ) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    ): Promise<boolean> {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const user = await this.prisma.session.findUnique({
                 where: { id: sessionId },
             })
@@ -109,9 +92,7 @@ export class SessionService {
                 data: { deleted: true, deletedAt: date, deletedBy: headers },
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
 
     async giveSuperUser(
@@ -119,11 +100,8 @@ export class SessionService {
         id: string,
         sessionId: string,
         headers: string
-    ) {
-        const userMutex = this.getMutex(accountId)
-
-        const release = await userMutex.acquire()
-        try {
+    ): Promise<boolean | string> {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const check = await this.prisma.session.findUnique({
                 where: { id: sessionId, superUser: true, accountId },
             })
@@ -147,16 +125,11 @@ export class SessionService {
                 })
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
     // Очистка просроченных сессий
     async cleanExpiredSessions(accountId) {
-        const userMutex = this.getMutex(accountId)
-
-        const release = await userMutex.acquire()
-        try {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const date = new Date()
             await this.prisma.$transaction(async (prisma) => {
                 const find = await prisma.session.findMany({
@@ -204,16 +177,10 @@ export class SessionService {
                 })
                 return true
             })
-        } finally {
-            release()
-        }
+        })
     }
     async cleanExpiredSession(id) {
-        const userMutex = this.getMutex(id)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+        return this.mutex.blockWithMutex(id, async () => {
             const date = new Date()
             await this.prisma.$transaction(async (prisma) => {
                 const res = await prisma.session.update({
@@ -246,8 +213,6 @@ export class SessionService {
                 }
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
 }

@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
 import * as _ from 'lodash'
-import { Mutex } from 'async-mutex'
+import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class SubscribeService {
-    private readonly userLocks = new Map<string, Mutex>()
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly mutex: MutexManager
+    ) {}
 
-    private getMutex(accountId: string): Mutex {
-        if (!this.userLocks.has(accountId)) {
-            this.userLocks.set(accountId, new Mutex())
-        }
-        return this.userLocks.get(accountId)!
-    }
     //Если передан userPid, возвращает все подписки которые оформлены на этот профиль
     //Если передан accountId, возвращает все подписки этого аккаунта
     async getSubscribe(accountId?: string, userPid?: string) {
@@ -32,11 +28,11 @@ export class SubscribeService {
     }
     //Ставит подписку или наоборот убирает ее. Большего знать не нужно
     //Передается аккаунт подписчика и профиль подписки
-    async subscribe(accountId: string, userPid: string) {
-        const userMutex = this.getMutex(accountId)
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async subscribe(
+        accountId: string,
+        userPid: string
+    ): Promise<boolean | string> {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const checkProfile = await this.prisma.profile.findUnique({
                 where: { id: userPid, deleted: false },
             })
@@ -88,8 +84,6 @@ export class SubscribeService {
                 return true
             }
             return false
-        } finally {
-            release()
-        }
+        })
     }
 }

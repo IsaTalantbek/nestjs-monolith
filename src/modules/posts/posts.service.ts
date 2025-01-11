@@ -1,18 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/core/database/prisma.service'
-import { Mutex } from 'async-mutex'
+import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class PostsService {
-    private readonly userLocks = new Map<string, Mutex>()
-
-    constructor(private readonly prisma: PrismaService) {}
-    private getMutex(accountId: string): Mutex {
-        if (!this.userLocks.has(accountId)) {
-            this.userLocks.set(accountId, new Mutex())
-        }
-        return this.userLocks.get(accountId)!
-    }
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly mutex: MutexManager
+    ) {}
 
     async givePosts(type: string, accountId?: string, tags?: Array<string>) {
         const deleted = false
@@ -81,11 +76,7 @@ export class PostsService {
         )
     }
     async likePost(postId: string, accountId: string) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const result = await this.prisma.$transaction(async (prisma) => {
                 const postWithInfo = await prisma.post.findFirst({
                     where: { id: postId, deleted: false },
@@ -93,10 +84,7 @@ export class PostsService {
                 })
 
                 if (!postWithInfo || !postWithInfo.profile) {
-                    console.error(
-                        `maybe bug in likeService: ${postWithInfo.id}`
-                    )
-                    return { message: 'Не найден пост или ее владелец' }
+                    return 'Не найден пост или ее владелец'
                 }
 
                 const existingLike = await prisma.like.findUnique({
@@ -110,7 +98,7 @@ export class PostsService {
                 })
 
                 if (existingLike) {
-                    return { message: 'Человек уже лайкнул пост' }
+                    return 'Человек уже лайкнул пост'
                 }
 
                 const existingDislike = await prisma.like.findUnique({
@@ -181,29 +169,18 @@ export class PostsService {
             })
 
             return result
-        } finally {
-            release()
-        }
+        })
     }
     async dislikePost(postId: string, accountId: string) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const result = await this.prisma.$transaction(async (prisma) => {
-                const postWithInfo = await prisma.post.findFirst({
+                const postWithInfo = await prisma.post.findUnique({
                     where: { id: postId },
                     include: { profile: true },
                 })
-
                 if (!postWithInfo || !postWithInfo.profile) {
-                    console.error(
-                        `maybe bug in dislikeService: ${postWithInfo.id}`
-                    )
-                    return { message: 'Не найден пост или ее владелец' }
+                    return 'Не найден пост или ее владелец'
                 }
-
                 const existingDislike = await prisma.like.findUnique({
                     where: {
                         initAid_postId_type: {
@@ -213,9 +190,8 @@ export class PostsService {
                         },
                     },
                 })
-
                 if (existingDislike) {
-                    return { message: 'Человек уже дизлайкнул пост' }
+                    return 'Человек уже дизлайкнул пост'
                 }
 
                 const existingLike = await prisma.like.findUnique({
@@ -227,13 +203,11 @@ export class PostsService {
                         },
                     },
                 })
-
                 if (existingLike) {
                     await prisma.like.update({
-                        where: { id: existingDislike.id },
+                        where: { id: existingLike.id },
                         data: { type: 'dislike', updatedBy: accountId },
                     })
-
                     await prisma.post.update({
                         where: { id: postId },
                         data: {
@@ -241,7 +215,6 @@ export class PostsService {
                             dislikes: { increment: 1 },
                         },
                     })
-
                     await prisma.statsProfile.update({
                         where: { id: postWithInfo.profile.statsId },
                         data: {
@@ -283,8 +256,6 @@ export class PostsService {
             })
 
             return result
-        } finally {
-            release()
-        }
+        })
     }
 }

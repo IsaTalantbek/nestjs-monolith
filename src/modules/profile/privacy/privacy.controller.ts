@@ -11,7 +11,7 @@ import {
     UsePipes,
 } from '@nestjs/common'
 
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { PrivacyService } from './privacy.service'
 import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto'
 import { errorStatic } from 'src/common/util/error.static'

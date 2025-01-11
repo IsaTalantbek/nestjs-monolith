@@ -11,7 +11,7 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
@@ -19,6 +19,7 @@ import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 @UseGuards(JwtGuard)
 export class BlackListController {
     constructor(private readonly blackListService: BlackLIstService) {}
+
     @Get()
     async getBlackList(@Res() reply: any, @Req() req: any) {
         try {
@@ -33,6 +34,7 @@ export class BlackListController {
             })
         }
     }
+
     @UsePipes(ParamUuidPipe)
     @Post(':vsPid')
     async addToBlackList(
@@ -42,10 +44,10 @@ export class BlackListController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.blackListService.addToBlackList(
+            const result = await this.blackListService.addToBlackList({
                 accountId,
-                vsPid
-            )
+                vsPid,
+            })
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -60,6 +62,7 @@ export class BlackListController {
             })
         }
     }
+
     @UsePipes(ParamUuidPipe)
     @Put(':vsPid')
     async deleteFromBlackList(
@@ -69,10 +72,10 @@ export class BlackListController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.blackListService.deleteFromBlackList(
+            const result = await this.blackListService.deleteFromBlackList({
                 accountId,
-                vsPid
-            )
+                vsPid,
+            })
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -87,6 +90,7 @@ export class BlackListController {
             })
         }
     }
+
     @Delete()
     async deleteAllFromBlackList(@Res() reply: any, @Req() req: any) {
         try {

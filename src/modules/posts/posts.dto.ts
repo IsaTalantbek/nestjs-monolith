@@ -1,20 +1,16 @@
+import { PostType } from '@prisma/client'
 import { IsString, IsOptional, IsEnum, IsUUID } from 'class-validator'
-
-enum PostsDtoTypes {
-    article = 'article',
-    poetry = 'poetry',
-}
 
 export class GivePostQueryDto {
     @IsString()
-    @IsEnum(PostsDtoTypes)
-    type: string
+    @IsEnum(PostType)
+    type: PostType
 
     @IsOptional()
     tags?: Array<string>
 }
 
 export class PostIdDto {
-    @IsString()
+    @IsUUID()
     postId: string
 }

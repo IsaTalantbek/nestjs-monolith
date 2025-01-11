@@ -63,6 +63,7 @@ export type registerForm = {
     login: string
     password: string
     email: string
+    headers: string
 }
 
 export type loginForm = {

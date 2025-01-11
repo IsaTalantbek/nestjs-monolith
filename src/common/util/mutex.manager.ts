@@ -1,0 +1,32 @@
+import { Injectable } from '@nestjs/common'
+import { Mutex } from 'async-mutex'
+
+@Injectable()
+export class MutexManager {
+    private locks: Map<string, Mutex> = new Map()
+
+    // Метод для получения или создания мьютекса
+    private getMutex(key: string): Mutex {
+        if (!this.locks.has(key)) {
+            this.locks.set(key, new Mutex())
+        }
+        return this.locks.get(key)!
+    }
+
+    // Универсальный метод для выполнения функции с блокировкой
+    public async blockWithMutex<T>(
+        key: string,
+        fn: () => Promise<T>
+    ): Promise<T> {
+        const mutex = this.getMutex(key)
+        const release = await mutex.acquire()
+        try {
+            return await fn() // Выполняем переданную функцию
+        } finally {
+            release() // Освобождаем блокировку
+            if (!mutex.isLocked()) {
+                this.locks.delete(key)
+            }
+        }
+    }
+}

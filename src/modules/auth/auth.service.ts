@@ -5,23 +5,16 @@ import { loginForm, registerForm } from './auth.dto'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
 import { SessionService } from './session/session.service'
 import { Mutex } from 'async-mutex'
+import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class AuthService {
-    private readonly userLocks = new Map<string, Mutex>()
-
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwtService: JwtService,
-        private readonly sessionService: SessionService
+        private readonly sessionService: SessionService,
+        private readonly mutex: MutexManager
     ) {}
-
-    private getMutex(id: string): Mutex {
-        if (!this.userLocks.has(id)) {
-            this.userLocks.set(id, new Mutex())
-        }
-        return this.userLocks.get(id)!
-    }
 
     async validateUser({ login, password }: loginForm): Promise<any> {
         const user = await this.prisma.account.findUnique({ where: { login } })
@@ -39,11 +32,7 @@ export class AuthService {
         headers: string,
         ttl: number = 24 * 60 * 60 * 1000 * 7
     ) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const expiresAt = new Date(Date.now() + ttl)
             const existSession = await this.prisma.session.findFirst({
                 where: {
@@ -95,9 +84,7 @@ export class AuthService {
             return {
                 newRefreshToken,
             }
-        } finally {
-            release()
-        }
+        })
     }
 
     async ifUserExist(login: string, email?: string) {
@@ -110,12 +97,8 @@ export class AuthService {
         return false
     }
 
-    async register({ login, password, email }: registerForm) {
-        const userMutex = this.getMutex(login)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async register({ login, password, email, headers }: registerForm) {
+        return this.mutex.blockWithMutex(login, async () => {
             const check = await this.ifUserExist(login, email)
             if (check) {
                 return 'Пользователь уже существует'
@@ -130,19 +113,19 @@ export class AuthService {
                         login,
                         password: hashedPassword,
                         email,
-                        createdBy: login,
+                        createdBy: headers,
                         profile: {
                             create: {
                                 profileType: 'personal',
-                                createdBy: login,
+                                createdBy: headers,
                                 privacy: {
                                     create: {
-                                        createdBy: login,
+                                        createdBy: headers,
                                     },
                                 },
                                 stats: {
                                     create: {
-                                        createdBy: login,
+                                        createdBy: headers,
                                     },
                                 },
                             },
@@ -153,9 +136,7 @@ export class AuthService {
                 return user // Возвращаем результаты
             })
 
-            return result // Если все прошло успешно, возвращаем данные
-        } finally {
-            release()
-        }
+            return result // Если все прошло успешно, возвращаем данные})
+        })
     }
 }

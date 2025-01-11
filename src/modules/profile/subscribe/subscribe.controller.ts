@@ -9,8 +9,8 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { JwtCheck } from 'src/common/guards/jwt.check'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { SubscribeService } from './subscribe.service'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { GiveSubscribesQueryDto } from './subscribe.dto'
@@ -19,15 +19,14 @@ import { GiveSubscribesQueryDto } from './subscribe.dto'
 export class SubscribeController {
     constructor(private readonly subscribeService: SubscribeService) {}
     @UseGuards(JwtCheck)
-    @Get()
-    async getSubscribes(
-        @Query() profileIdDto: GiveSubscribesQueryDto,
+    @Get(':profileId')
+    async getSubscribe(
+        @Param('profileId') profileId: string,
         @Req() req: any,
         @Res() reply: any
     ) {
         try {
             const accountId = req.user?.accountId
-            const { profileId } = profileIdDto
             const result = await this.subscribeService.getSubscribe(
                 accountId,
                 profileId

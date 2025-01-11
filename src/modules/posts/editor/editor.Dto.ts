@@ -1,3 +1,4 @@
+import { PostType } from '@prisma/client'
 import {
     IsString,
     IsOptional,
@@ -10,14 +11,9 @@ import {
     IsEnum,
 } from 'class-validator'
 
-enum EditorDtoTypes {
-    article = 'article',
-    poetry = 'poetry',
-}
-
 export class EditorDto {
-    @IsEnum(EditorDtoTypes)
-    type: string
+    @IsEnum(PostType)
+    type: PostType
 
     @IsUUID()
     profileId: string
@@ -38,4 +34,13 @@ export class EditorDto {
     @ArrayMinSize(0)
     @ArrayMaxSize(20)
     tags: Array<string> = []
+}
+
+export type CreatePostForm = {
+    type: PostType
+    tags: Array<string>
+    accountId: string
+    profileId: string
+    text: string
+    title: string
 }

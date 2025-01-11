@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
-import { Mutex } from 'async-mutex'
+import { MutexManager } from 'src/common/util/mutex.manager'
+import { vsAidFriendDto } from './friend.dto'
 
 @Injectable()
 export class FriendService {
-    private readonly userLocks = new Map<string, Mutex>()
-    constructor(private readonly prisma: PrismaService) {}
-
-    private getMutex(accountId: string): Mutex {
-        if (!this.userLocks.has(accountId)) {
-            this.userLocks.set(accountId, new Mutex())
-        }
-        return this.userLocks.get(accountId)!
-    }
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly mutex: MutexManager
+    ) {}
 
     async giveActiveFriends(accountId: string) {
         const data = await this.prisma.friend.findMany({
@@ -37,12 +33,8 @@ export class FriendService {
         return data.map(({ initAid, vsAid }) => ({ initAid, vsAid }))
     }
 
-    async addFriend(accountId: string, vsAid: string) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async addFriend({ accountId, vsAid }: vsAidFriendDto) {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const check = await this.prisma.account.findUnique({
                 where: { id: vsAid },
             })
@@ -76,9 +68,7 @@ export class FriendService {
                 },
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
     async acceptFriend(accountId: string, friendId: string) {
         const check = await this.prisma.friend.findFirst({
@@ -97,7 +87,7 @@ export class FriendService {
         })
         return true
     }
-    async deleteFriend(accountId, vsAid) {
+    async deleteFriend({ accountId, vsAid }: vsAidFriendDto) {
         const check = await this.prisma.friend.findFirst({
             where: {
                 OR: [

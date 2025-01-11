@@ -8,8 +8,8 @@ import {
     UsePipes,
 } from '@nestjs/common'
 import { ProfileService } from './profile.service'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
-import { JwtCheck } from 'src/common/guards/jwt.check'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
+import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @Controller('profile')

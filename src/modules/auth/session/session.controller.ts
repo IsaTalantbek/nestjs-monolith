@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { SessionService } from './session.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 
 @Controller('session')
 @UseGuards(JwtGuard)

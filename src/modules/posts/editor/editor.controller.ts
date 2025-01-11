@@ -1,5 +1,5 @@
 import { Controller, UseGuards, Post, Body, Req, Res } from '@nestjs/common'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { EditorService } from './editor.service'
 import { EditorDto } from './editor.dto'
 
@@ -17,14 +17,14 @@ export class EditorController {
         try {
             const accountId = req.user.accountId
             let { type, tags, text, profileId, title } = editorDto
-            const result = await this.editorService.createPost(
+            const result = await this.editorService.createPost({
                 type,
                 tags,
                 accountId,
                 profileId,
                 text,
-                title
-            )
+                title,
+            })
             if (!result) {
                 reply.status(400).send({
                     message: 'Профиля, который создает пост не существует',

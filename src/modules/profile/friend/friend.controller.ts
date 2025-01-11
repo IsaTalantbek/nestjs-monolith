@@ -5,14 +5,13 @@ import {
     Param,
     Post,
     Put,
-    Query,
     Req,
     Res,
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
 import { FriendService } from './friend.service'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @UseGuards(JwtGuard)
@@ -58,7 +57,10 @@ export class FriendController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.friendService.addFriend(accountId, vsAid)
+            const result = await this.friendService.addFriend({
+                accountId,
+                vsAid,
+            })
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -101,18 +103,18 @@ export class FriendController {
         }
     }
     @UsePipes(ParamUuidPipe)
-    @Delete('friendId')
+    @Delete('vsAid')
     async deleteFriend(
-        @Param('friendId') friendId: string,
+        @Param('friendId') vsAid: string,
         @Req() req: any,
         @Res() reply: any
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.friendService.deleteFriend(
+            const result = await this.friendService.deleteFriend({
                 accountId,
-                friendId
-            )
+                vsAid,
+            })
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }

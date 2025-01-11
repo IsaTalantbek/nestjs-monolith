@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
-import { Mutex } from 'async-mutex'
+import { MutexManager } from 'src/common/util/mutex.manager'
+import { vsPidBlacklistDto } from './blacklist.dto'
 
 @Injectable()
 export class BlackLIstService {
-    private readonly userLocks = new Map<string, Mutex>()
-    constructor(private readonly prisma: PrismaService) {}
-
-    private getMutex(accountId: string): Mutex {
-        if (!this.userLocks.has(accountId)) {
-            this.userLocks.set(accountId, new Mutex())
-        }
-        return this.userLocks.get(accountId)!
-    }
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly mutex: MutexManager
+    ) {}
 
     async getBlackList(accountId) {
         const result = await this.prisma.blackList.findMany({
@@ -21,12 +17,8 @@ export class BlackLIstService {
         return result.map(({ vsPid }) => ({ vsPid }))
     }
 
-    async addToBlackList(accountId: string, vsPid: string) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async addToBlackList({ accountId, vsPid }: vsPidBlacklistDto) {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const ownerCheck = await this.prisma.profile.findFirst({
                 where: { ownerId: accountId, id: vsPid, deleted: false },
             })
@@ -70,16 +62,11 @@ export class BlackLIstService {
                 },
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
-    async deleteFromBlackList(accountId: string, vsPid: string) {
-        const userMutex = this.getMutex(accountId)
 
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async deleteFromBlackList({ accountId, vsPid }: vsPidBlacklistDto) {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const checkList = await this.prisma.blackList.findUnique({
                 where: {
                     initAid_vsPid: {
@@ -106,16 +93,11 @@ export class BlackLIstService {
                 },
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
-    async deleteAllFromBlackList(accountId: string) {
-        const userMutex = this.getMutex(accountId)
 
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async deleteAllFromBlackList(accountId: string) {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const check = await this.prisma.blackList.findFirst({
                 where: { initAid: accountId, active: true },
             })
@@ -127,8 +109,6 @@ export class BlackLIstService {
                 data: { active: false, updatedBy: accountId },
             })
             return true
-        } finally {
-            release()
-        }
+        })
     }
 }

@@ -9,10 +9,10 @@ import {
     Put,
     UsePipes,
 } from '@nestjs/common'
-import { JwtCheck } from 'src/common/guards/jwt.check'
+import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { PostsService } from './posts.service'
 import { GivePostQueryDto, PostIdDto } from './posts.dto'
-import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 
 @Controller('feed')
@@ -93,11 +93,11 @@ export class PostsController {
         try {
             const accountId = req.user.accountId
             const result = await this.postsService.dislikePost(
-                accountId,
-                postId
+                postId,
+                accountId
             )
             if (result !== true) {
-                return reply.status(500).send({ message: result })
+                return reply.status(400).send({ message: result })
             }
             return reply
                 .status(200)

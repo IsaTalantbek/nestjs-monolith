@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { SessionService } from './session.service'
 import { SessionController } from './session.controller'
 import { AuthPackModule } from 'src/auth.pack.module'
+import { MutexManager } from 'src/common/util/mutex.manager'
+import { SessionService } from './session.service'
 
 @Module({
-    exports: [SessionService],
     imports: [AuthPackModule],
     controllers: [SessionController],
     providers: [SessionService],

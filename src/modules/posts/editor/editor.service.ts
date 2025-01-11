@@ -3,26 +3,25 @@ import { PrismaService } from 'src/core/database/prisma.service'
 import { Prisma } from '@prisma/client'
 import * as _ from 'lodash'
 import { Mutex } from 'async-mutex'
+import { CreatePostForm } from './editor.dto'
+import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class EditorService {
-    private readonly userLocks = new Map<string, Mutex>()
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly mutex: MutexManager
+    ) {}
 
-    constructor(private readonly prisma: PrismaService) {}
-
-    private getMutex(accountId: string): Mutex {
-        if (!this.userLocks.has(accountId)) {
-            this.userLocks.set(accountId, new Mutex())
-        }
-        return this.userLocks.get(accountId)!
-    }
-
-    async createPost(type, tags, accountId, profileId, text, title) {
-        const userMutex = this.getMutex(accountId)
-
-        // Блокируем операцию до её завершения
-        const release = await userMutex.acquire()
-        try {
+    async createPost({
+        type,
+        tags,
+        accountId,
+        profileId,
+        text,
+        title,
+    }: CreatePostForm) {
+        return this.mutex.blockWithMutex(accountId, async () => {
             const data: Prisma.PostCreateInput = {
                 title,
                 type,
@@ -32,7 +31,7 @@ export class EditorService {
                 profile: { connect: { id: profileId } }, // Связь с профилем
             }
 
-            const check = this.prisma.profile.findFirst({
+            const check = await this.prisma.profile.findFirst({
                 where: { id: profileId },
             })
             if (!check) {
@@ -74,8 +73,6 @@ export class EditorService {
                 id: post.id,
             }
             return postData
-        } finally {
-            release()
-        }
+        })
     }
 }
