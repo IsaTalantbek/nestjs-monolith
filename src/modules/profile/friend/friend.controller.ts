@@ -14,11 +14,12 @@ import { FriendService } from './friend.service'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @UseGuards(JwtGuard)
 @Controller('profile/friends')
 export class FriendController {
-    constructor(private readonly friendService: FriendService) {}
+    constructor(private readonly friend: FriendService) {}
 
     @Get()
     async giveActiveFriends(
@@ -27,14 +28,16 @@ export class FriendController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.friendService.giveActiveFriends(accountId)
+            const result = await this.friend.giveActiveFriends(accountId)
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Give-Active-Friends: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получить активных друзей. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'GIVE-ACTIVE-FRIENDS',
+                'получить список друзей'
+            )
+            return
         }
     }
     @Get('waiting')
@@ -44,15 +47,16 @@ export class FriendController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result =
-                await this.friendService.giveWaitingFriends(accountId)
+            const result = await this.friend.giveWaitingFriends(accountId)
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Give-Active-Friends: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получить ожидающих друзей. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'GIVE-WAITING-FRIENDS',
+                'получить список ожидающих друзей'
+            )
+            return
         }
     }
     @UsePipes(ParamUuidPipe)
@@ -64,7 +68,7 @@ export class FriendController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.friendService.addFriend({
+            const result = await this.friend.addFriend({
                 accountId,
                 vsAid,
             })
@@ -75,11 +79,13 @@ export class FriendController {
                 .status(200)
                 .send({ message: 'Успешно отправлен запрос на дружбу' })
         } catch (error) {
-            console.error(`Add-Friend: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке отправить запрос на дружбу. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'ADD-FRIEND',
+                'отправить запрос на дружбу'
+            )
+            return
         }
     }
     @UsePipes(ParamUuidPipe)
@@ -91,10 +97,7 @@ export class FriendController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.friendService.acceptFriend(
-                accountId,
-                friendId
-            )
+            const result = await this.friend.acceptFriend(accountId, friendId)
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -102,11 +105,13 @@ export class FriendController {
                 .status(200)
                 .send({ message: 'Успешно принят запрос на дружбу' })
         } catch (error) {
-            console.error(`Accept-Friend: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке принять запрос на дружбу. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'ACCEPT-FRIEND',
+                'принять запрос на дружбу'
+            )
+            return
         }
     }
     @UsePipes(ParamUuidPipe)
@@ -118,7 +123,7 @@ export class FriendController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.friendService.deleteFriend({
+            const result = await this.friend.deleteFriend({
                 accountId,
                 vsAid,
             })
@@ -129,11 +134,13 @@ export class FriendController {
                 .status(200)
                 .send({ message: 'Пользователь успешно удален из друзей' })
         } catch (error) {
-            console.error(`Delete-Friend: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке удалить пользователя из друзей, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'DELETE-FRIEND',
+                'удалить друга из списка'
+            )
+            return
         }
     }
 }

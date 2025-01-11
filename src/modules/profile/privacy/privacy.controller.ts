@@ -13,11 +13,12 @@ import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { PrivacyService } from './privacy.service'
 import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('profile/privacy')
 @UseGuards(JwtGuard)
 export class PrivacyController {
-    constructor(private readonly privacyService: PrivacyService) {}
+    constructor(private readonly privacy: PrivacyService) {}
     @Get()
     async getPrivacy(
         @Query() profileIdDto: GivePrivacyQueryDto,
@@ -27,10 +28,7 @@ export class PrivacyController {
         try {
             const accountId = req.user.accountId
             const { profileId } = profileIdDto
-            const result = await this.privacyService.getPrivacy(
-                accountId,
-                profileId
-            )
+            const result = await this.privacy.getPrivacy(accountId, profileId)
             if (!result) {
                 return reply.status(400).send({
                     message: 'Неправильные данные, или недостаточно данных',
@@ -38,11 +36,13 @@ export class PrivacyController {
             }
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Get-Privacy: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получить данные о приватности. Пожалуйста, сообщите нам что случилось',
-            })
+            errorStatic(
+                error,
+                reply,
+                'GET-PRIVACY',
+                'загрузки настроек приватности'
+            )
+            return
         }
     }
     @Put()
@@ -54,7 +54,7 @@ export class PrivacyController {
         try {
             const accountId = req.user.accountId
             const { profileId, value, update } = updatePrivacyDto
-            const result = await this.privacyService.updatePrivacy(
+            const result = await this.privacy.updatePrivacy(
                 profileId,
                 update,
                 value,
@@ -67,11 +67,13 @@ export class PrivacyController {
                 .status(200)
                 .send({ message: 'Изменения успешно сохранены' })
         } catch (error) {
-            console.error(`Update-Privacy: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке обновить настройки приватности. Пожалуйста, сообщите нам что случилось',
-            })
+            errorStatic(
+                error,
+                reply,
+                'UPDATE-PRIVACY',
+                'обновить настройки приватности'
+            )
+            return
         }
     }
 }

@@ -34,23 +34,17 @@ export class IpAdressBlockManager {
 
     // Метод для очистки мусора из карты
     private cleanup(): void {
-        console.log('Очистка данных...')
-
         const currentTime = Date.now()
         const FIVE_MINUTES = 300000 // 5 минут в миллисекундах
 
         for (let [ip, block] of this.userLocks) {
             if (block.locked && currentTime - block.lockTime > FIVE_MINUTES) {
                 // Удаляем блокировки, которые действуют больше 5 минут
-                console.log(
-                    `Удалена блокировка для ${ip} из-за истечения времени`
-                )
                 this.userLocks.delete(ip)
             }
         }
     }
 
-    // Не забываем очистить интервал при уничтожении объекта
     onModuleDestroy() {
         clearInterval(this.cleanupInterval)
     }

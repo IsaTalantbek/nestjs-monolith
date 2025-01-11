@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
 import { FastifyReply } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
-import { JwtService } from 'src/core/keys/jwt/jwt.service'
+import { JwtAuthService } from 'src/core/keys/jwt/jwt.auth.service'
 import { SessionService } from 'src/modules/auth/session/session.service'
 
 @Injectable()
 export class JwtAuthorized implements CanActivate {
     constructor(
-        private readonly jwtService: JwtService,
-        private readonly cookieSettings: CookieSettings,
-        private readonly sessionService: SessionService
+        private readonly jwtAuth: JwtAuthService,
+        private readonly cookie: CookieSettings,
+        private readonly session: SessionService
     ) {}
 
     private handleSessionExpired(reply: FastifyReply): boolean {
-        this.cookieSettings.clearCookie(
-            reply,
-            this.cookieSettings.refreshTokenName
-        )
-        reply.status(401).send({
-            message: 'Ваш сеанс истек. Пожалуйста, войдите снова',
-        })
+        this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
+        return true
+    }
+
+    private ifAuthorizedSend(reply: FastifyReply): boolean {
+        reply.status(403).send({ message: 'Кажется вы уже авторизованы' })
         return false
     }
 
@@ -28,33 +28,27 @@ export class JwtAuthorized implements CanActivate {
         const request = context.switchToHttp().getRequest()
         const reply = context.switchToHttp().getResponse()
         try {
-            const accessToken =
-                request.cookies?.[this.cookieSettings.accessTokenName]
-            const refreshToken =
-                request.cookies?.[this.cookieSettings.refreshTokenName]
+            const accessToken = request.cookies?.[this.cookie.accessTokenName]
+            const refreshToken = request.cookies?.[this.cookie.refreshTokenName]
+
             if (accessToken) {
-                const decoded = this.jwtService.verifyAccessToken(accessToken)
+                const decoded = this.jwtAuth.verifyAccessToken(accessToken)
                 if (decoded) {
                     request.user = {
                         accountId: decoded.data[0],
                         sessionId: decoded.data[1],
                     }
-                    return false
+                    return this.ifAuthorizedSend(reply)
                 } else {
-                    this.cookieSettings.clearCookie(
-                        reply,
-                        this.cookieSettings.accessTokenName
-                    )
+                    this.cookie.clearCookie(reply, this.cookie.accessTokenName)
                 }
             }
 
             // Если нет действительного access токена, пробуем refresh
             if (refreshToken) {
-                const decoded = this.jwtService.verifyRefreshToken(refreshToken)
+                const decoded = this.jwtAuth.verifyRefreshToken(refreshToken)
                 if (decoded) {
-                    const session = await this.sessionService.getSession(
-                        decoded.data
-                    )
+                    const session = await this.session.getSession(decoded.data)
 
                     if (!session || session.expiresAt < new Date()) {
                         return this.handleSessionExpired(reply)
@@ -68,32 +62,27 @@ export class JwtAuthorized implements CanActivate {
                         return this.handleSessionExpired(reply)
                     }
 
-                    const { newAccessToken } =
-                        this.jwtService.generateAccessToken(
-                            session.accountId,
-                            session.id
-                        )
+                    const { newAccessToken } = this.jwtAuth.generateAccessToken(
+                        session.accountId,
+                        session.id
+                    )
 
                     reply.setCookie(
-                        this.cookieSettings.accessTokenName,
+                        this.cookie.accessTokenName,
                         newAccessToken,
-                        this.cookieSettings.cookieSettings
+                        this.cookie.cookieSettings
                     )
                     request.user = {
                         accountId: session.accountId,
                         sessionId: session.id,
                     }
-                    return false
+                    return this.ifAuthorizedSend(reply)
                 }
             }
-            reply.clearCookie(this.cookieSettings.refreshTokenName)
+            reply.clearCookie(this.cookie.refreshTokenName)
             return true
         } catch (error) {
-            console.error(`JWT-AUTHORIZED: ${error}`)
-            reply.status(500).send({
-                message:
-                    'Произошла ошибка при попытке аутентификации. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(error, reply, 'JWT-AUTHORIZED', 'проверки авторизации')
             return false
         }
     }

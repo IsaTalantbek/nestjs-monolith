@@ -12,23 +12,21 @@ import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('profile')
 export class ProfileController {
-    constructor(private readonly profileService: ProfileService) {}
+    constructor(private readonly profile: ProfileService) {}
     @Get()
     @UseGuards(JwtGuard)
-    async profile(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
+    async myProfile(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
             const accountId = req.user?.accountId
-            const result = await this.profileService.profile(accountId)
+            const result = await this.profile.profile(accountId)
             return reply.status(200).send(result)
         } catch (error: any) {
-            console.error(`Profile-Give: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при получении данных профиля. Пожалуйста, сообщите нам подробности ',
-            })
+            errorStatic(error, reply, 'MY-PROFILE', 'загрузки своего профиля')
+            return
         }
     }
 
@@ -41,18 +39,12 @@ export class ProfileController {
         @Req() req: FastifyRequest
     ) {
         try {
-            const accountId = req.user?.accountId
-            const result = await this.profileService.userProfile(
-                profileId,
-                accountId
-            )
+            const accountId = req.user.accountId
+            const result = await this.profile.userProfile(profileId, accountId)
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Profile-UserProfile: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получения данных профиля. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(error, reply, 'USER-PROFILE', 'загрузки профиля')
+            return
         }
     }
 }

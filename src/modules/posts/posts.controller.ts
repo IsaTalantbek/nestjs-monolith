@@ -15,10 +15,11 @@ import { GivePostQueryDto } from './posts.dto'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('feed')
 export class PostsController {
-    constructor(private readonly postsService: PostsService) {}
+    constructor(private readonly posts: PostsService) {}
 
     @UseGuards(JwtCheck)
     @Get()
@@ -39,25 +40,18 @@ export class PostsController {
             let result
 
             if (tags) {
-                result = await this.postsService.givePosts(
-                    type,
-                    accountId,
-                    checktags
-                )
+                result = await this.posts.givePosts(type, accountId, checktags)
             }
 
             if (!result || result.length === 0) {
-                result = await this.postsService.givePosts(type, accountId)
+                result = await this.posts.givePosts(type, accountId)
                 return reply.status(200).send(result)
             }
 
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Give-Posts: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникли ошибки при попытке получения контента. Пожалуйста, сообщите нам подробности случившегося',
-            })
+            errorStatic(error, reply, 'GIVE-POSTS', 'загрузки постов')
+            return
         }
     }
     @UseGuards(JwtGuard)
@@ -70,17 +64,14 @@ export class PostsController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.postsService.likePost(postId, accountId)
+            const result = await this.posts.likePost(postId, accountId)
             if (result !== true) {
                 return reply.status(500).send({ message: result })
             }
             return reply.status(200).send({ message: 'Лайк успешно поставлен' })
         } catch (error) {
-            console.error(`Like-Post: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке поставить лайк. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(error, reply, 'LIKE-POSTS', 'лайкнуть пост')
+            return
         }
     }
     @UseGuards(JwtGuard)
@@ -93,10 +84,7 @@ export class PostsController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.postsService.dislikePost(
-                postId,
-                accountId
-            )
+            const result = await this.posts.dislikePost(postId, accountId)
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -104,11 +92,7 @@ export class PostsController {
                 .status(200)
                 .send({ message: 'Дизлайк успешно поставлен' })
         } catch (error) {
-            console.error(`Dislike-Post: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке поставить дизлайк. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(error, reply, 'DISLIKE-POSTS', 'дизлайкнуть пост')
         }
     }
 }

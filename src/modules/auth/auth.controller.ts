@@ -6,14 +6,15 @@ import { JwtAuthorized } from 'src/common/guards/jwt/jwt.authorized'
 import { IpAdressGuard } from 'src/common/guards/block/block.guard'
 import { IpAdressBlockManager } from 'src/common/util/block.manager'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('auth')
 @UseGuards(IpAdressGuard)
 @UseGuards(JwtAuthorized)
 export class AuthController {
     constructor(
-        private readonly authService: AuthService,
-        private readonly cookieSettings: CookieSettings,
+        private readonly auth: AuthService,
+        private readonly cookie: CookieSettings,
         private readonly block: IpAdressBlockManager
     ) {}
 
@@ -25,7 +26,7 @@ export class AuthController {
     ) {
         try {
             const { login, password } = loginUserDto
-            const user = await this.authService.validateUser({
+            const user = await this.auth.validateUser({
                 login,
                 password,
             })
@@ -35,27 +36,20 @@ export class AuthController {
                     .send({ message: 'Неправильные данные' })
             }
             const ipPrefix = req.ip.split('.').slice(0, 2).join('.') // Берем первые два октета
-            const { newRefreshToken } = await this.authService.login(
+            const { newRefreshToken } = await this.auth.login(
                 user.id,
                 ipPrefix,
                 req.ip,
                 req.headers['user-agent']
             )
-            reply.setCookie(
-                this.cookieSettings.refreshTokenName,
-                newRefreshToken,
-                this.cookieSettings.cookieSettings
-            )
+            this.cookie.setCookie(reply, newRefreshToken, 'r')
             return reply
                 .status(200)
                 .send({ message: 'Успешный логин', token: newRefreshToken })
         } catch (error) {
             this.block.unlock(req.ip)
-            console.error(`Auth-Login: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке войти в аккаунт. Пожалуйста, сообщите нам подробности ',
-            })
+            errorStatic(error, reply, 'LOGIN-AUTH', 'входа в аккаунт')
+            return
         } finally {
             this.block.unlock(req.ip)
         }
@@ -70,7 +64,7 @@ export class AuthController {
         try {
             const { login, email, password } = createUserDto // извлекаем данные
             const headers = req.headers['user-agent']
-            const result = await this.authService.register({
+            const result = await this.auth.register({
                 login,
                 email,
                 password,
@@ -80,13 +74,10 @@ export class AuthController {
                 return reply.status(409).send({ message: result })
             }
             return reply.status(200).send(result)
-        } catch (error: any) {
+        } catch (error) {
             this.block.unlock(req.ip)
-            console.error(`Auth-Register: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке создать аккаунт. Пожалуйста, сообщите нам подробности ',
-            })
+            errorStatic(error, reply, 'REGISTER-AUTH', 'регистрации')
+            return
         } finally {
             this.block.unlock(req.ip)
         }
@@ -99,20 +90,22 @@ export class AuthController {
     ) {
         try {
             const { login } = preRegisterUserDto
-            const check = this.authService.ifUserExist(login)
+            const check = this.auth.ifUserExist(login)
             if (check) {
                 return reply
                     .status(409)
                     .send({ message: 'Пользователь уже существует' })
             }
             return reply.status(200).send({ message: 'Логин не занят' })
-        } catch (error: any) {
+        } catch (error) {
             this.block.unlock(req.ip)
-            console.error(`Auth-PreRegister: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке проверить данные. Пожалуйста, сообщите нам подробности ',
-            })
+            errorStatic(
+                error,
+                reply,
+                'PREREGISTER-AUTH',
+                'проверки перед регистрацией'
+            )
+            return
         } finally {
             this.block.unlock(req.ip)
         }

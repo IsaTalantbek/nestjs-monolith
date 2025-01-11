@@ -3,11 +3,12 @@ import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { EditorService } from './editor.service'
 import { EditorDto } from './editor.dto'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('editor')
 @UseGuards(JwtGuard)
 export class EditorController {
-    constructor(private readonly editorService: EditorService) {}
+    constructor(private readonly editor: EditorService) {}
 
     @Post()
     async createPost(
@@ -18,7 +19,7 @@ export class EditorController {
         try {
             const accountId = req.user.accountId
             let { type, tags, text, profileId, title } = editorDto
-            const result = await this.editorService.createPost({
+            const result = await this.editor.createPost({
                 type,
                 tags,
                 accountId,
@@ -33,11 +34,8 @@ export class EditorController {
             }
             reply.status(200).send(result)
         } catch (error) {
-            console.error(`Editor-CreatePost: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка, при попытке публикации поста. Пожалуйста, сообщите нам подробности случившегося',
-            })
+            errorStatic(error, reply, 'CREATE-POST-EDITOR', 'создания поста')
+            return
         }
     }
 }

@@ -3,10 +3,10 @@ import * as jwt from 'jsonwebtoken'
 import { JwtAuthSettings } from './jwt.auth.settings'
 
 @Injectable()
-export class JwtService {
+export class JwtAuthService {
     constructor(private readonly jwtAuthSettings: JwtAuthSettings) {}
 
-    generateAccessToken(...data): any {
+    public generateAccessToken(...data): any {
         return {
             newAccessToken: jwt.sign(
                 { data },
@@ -16,7 +16,7 @@ export class JwtService {
         }
     }
 
-    generateRefreshToken(...data): any {
+    public generateRefreshToken(data): any {
         return {
             newRefreshToken: jwt.sign(
                 { data },
@@ -26,7 +26,7 @@ export class JwtService {
         }
     }
 
-    verifyAccessToken(token: string): any {
+    public verifyAccessToken(token: string): any {
         try {
             return jwt.verify(token, this.jwtAuthSettings.accessSecret)
         } catch (error) {
@@ -34,7 +34,7 @@ export class JwtService {
         }
     }
 
-    verifyRefreshToken(token: string): any {
+    public verifyRefreshToken(token: string): any {
         try {
             return jwt.verify(token, this.jwtAuthSettings.refreshSecret)
         } catch (error) {

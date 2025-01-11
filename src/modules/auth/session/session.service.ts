@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service'
-import { JwtService } from 'src/core/keys/jwt/jwt.service'
+import { JwtAuthService } from 'src/core/keys/jwt/jwt.auth.service'
 import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class SessionService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtService: JwtService,
+        private readonly jwtAuth: JwtAuthService,
         private readonly mutex: MutexManager
     ) {}
 
@@ -15,9 +15,7 @@ export class SessionService {
         const session = await this.prisma.session.create({
             data: data,
         })
-        const { newAccessToken } = this.jwtService.generateAccessToken(
-            session.id
-        )
+        const { newAccessToken } = this.jwtAuth.generateAccessToken(session.id)
         return newAccessToken
     }
 

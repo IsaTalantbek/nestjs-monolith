@@ -13,11 +13,12 @@ import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { SupportService } from './support.service'
 import { SupportBodyDto } from './support.dto'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('support')
 @UseGuards(JwtCheck)
 export class SupportController {
-    constructor(private readonly supportService: SupportService) {}
+    constructor(private readonly support: SupportService) {}
 
     @Post()
     async writeSupport(
@@ -28,15 +29,18 @@ export class SupportController {
         try {
             const accountId = req.user?.accountId
             const { text } = bodyDto
-            await this.supportService.writeSupport(text, accountId)
+            await this.support.writeSupport(text, accountId)
             return reply
                 .status(200)
                 .send({ message: 'Ваше сообщение успешно отправлено' })
         } catch (error) {
-            console.error(`Write-Support: ${error}`)
-            return reply.status(500).send({
-                message: 'Возникла ошибка при попытке написать в поддержку',
-            })
+            errorStatic(
+                error,
+                reply,
+                'WRITE-SUPPORT',
+                'отправки сообщение поддержке'
+            )
+            return
         }
     }
     @Get(':fileOption')
@@ -48,17 +52,16 @@ export class SupportController {
         try {
             const accountId = req.user.accountId
             const fileOption = parseInt(option, 10)
-            const result = await this.supportService.readSupport(
-                accountId,
-                fileOption
-            )
+            const result = await this.support.readSupport(accountId, fileOption)
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Read-Support: ${error}`)
-            return reply.status(500).send({
-                message: 'Возникла ошибка при попытке прочитать файлы',
+            errorStatic(
                 error,
-            })
+                reply,
+                'READ-SUPPORT',
+                'Охереть, а че теперь? Сообщите нам как нибудь пожалуйста, я бедный бэкэндер'
+            )
+            return
         }
     }
     @Delete(':fileOption')
@@ -70,17 +73,19 @@ export class SupportController {
         try {
             const accountId = req.user.accountId
             const fileOption = parseInt(option, 10)
-            const result = await this.supportService.clearSupport(
+            const result = await this.support.clearSupport(
                 accountId,
                 fileOption
             )
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`Clear-Support: ${error}`)
-            return reply.status(500).send({
-                message: 'Возникла ошибка при попытке удалить файлы',
+            errorStatic(
                 error,
-            })
+                reply,
+                'CLEAR-SUPPORT',
+                'удалить файлы с сообщениями'
+            )
+            return
         }
     }
 }

@@ -14,24 +14,27 @@ import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)
 export class BlackListController {
-    constructor(private readonly blackListService: BlackLIstService) {}
+    constructor(private readonly blacklist: BlackLIstService) {}
 
     @Get()
     async getBlackList(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
             const accountId = req.user.accountId
-            const result = await this.blackListService.getBlackList(accountId)
+            const result = await this.blacklist.getBlackList(accountId)
             return reply.status(200).send(result)
         } catch (error) {
-            console.error(`BlackList-Give: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получить пользователей из ЧС. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'GET-BLACKLIST',
+                'загрузки черного списка'
+            )
+            return
         }
     }
 
@@ -44,7 +47,7 @@ export class BlackListController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.blackListService.addToBlackList({
+            const result = await this.blacklist.addToBlackList({
                 accountId,
                 vsPid,
             })
@@ -54,12 +57,14 @@ export class BlackListController {
             return reply.status(200).send({
                 message: 'Пользователь успешно добавлен в черный список',
             })
-        } catch (error: any) {
-            console.error(`BlackList-Add: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке добавить пользователя в ЧС. Пожалуйста, сообщите нам подробности',
-            })
+        } catch (error) {
+            errorStatic(
+                error,
+                reply,
+                'ADD-BLACKLIST',
+                'добавить пользователя в черный список'
+            )
+            return
         }
     }
 
@@ -72,7 +77,7 @@ export class BlackListController {
     ) {
         try {
             const accountId = req.user.accountId
-            const result = await this.blackListService.deleteFromBlackList({
+            const result = await this.blacklist.deleteFromBlackList({
                 accountId,
                 vsPid,
             })
@@ -83,11 +88,13 @@ export class BlackListController {
                 message: 'Пользователь успешно удален из черного списка',
             })
         } catch (error: any) {
-            console.error(`BlackList-Remove: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке удалить пользоваля из ЧС. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'DELETE-BLACKLIST',
+                'удалить пользователя из черного списка'
+            )
+            return
         }
     }
 
@@ -99,7 +106,7 @@ export class BlackListController {
         try {
             const accountId = req.user.accountId
             const result =
-                await this.blackListService.deleteAllFromBlackList(accountId)
+                await this.blacklist.deleteAllFromBlackList(accountId)
             if (result !== true) {
                 return reply.status(400).send({ message: result })
             }
@@ -107,11 +114,13 @@ export class BlackListController {
                 message: 'Пользователи успешно удалены из черного списка',
             })
         } catch (error) {
-            console.error(`BlackList-RemoveAll: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке удалить всех пользователей из ЧС. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'DELETE-ALL-BLACKLIST',
+                'удалить всех из черного списка'
+            )
+            return
         }
     }
 }

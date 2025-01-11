@@ -22,14 +22,14 @@ export class JwtAuthSettings {
     }
 
     // Методы для возврата всех настроек сразу
-    accessOptions() {
+    public accessOptions() {
         return {
             secret: this.accessSecret,
             ...this.accessExpire,
         }
     }
 
-    refreshOptions() {
+    public refreshOptions() {
         return {
             secret: this.refreshSecret,
             ...this.refreshExpire,

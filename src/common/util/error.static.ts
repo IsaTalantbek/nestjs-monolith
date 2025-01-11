@@ -1,7 +1,6 @@
-export const errorStatic = (error, reply) => {
-    console.error(error)
-    reply.status(500).send({
-        message:
-            'Ошибка при попытке получения данных. Пожалуйста, сообщите нам подробности случившегося',
+export const errorStatic = (error, reply, whereError, message) => {
+    console.error(`${whereError}: ${error}`)
+    return reply.status(500).send({
+        message: `Произошла непредвиденная ошибка при попытке ${message}. Пожалуйста, сообщите нам подробности, если вам это мешает`,
     })
 }

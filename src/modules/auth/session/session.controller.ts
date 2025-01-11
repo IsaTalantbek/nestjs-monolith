@@ -13,12 +13,13 @@ import { SessionService } from './session.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { errorStatic } from 'src/common/util/error.static'
 
 @Controller('session')
 @UseGuards(JwtGuard)
 export class SessionController {
     constructor(
-        private readonly sessionService: SessionService,
+        private readonly session: SessionService,
         private readonly cookie: CookieSettings
     ) {}
     @Get()
@@ -26,15 +27,12 @@ export class SessionController {
         try {
             const accountId = req.user.accountId
 
-            const session = await this.sessionService.getSessions(accountId)
+            const session = await this.session.getSessions(accountId)
 
             return reply.status(200).send(session) // Вернёт данные из сессии
         } catch (error) {
-            console.error(`Get-Session: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получить существующие сессии. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(error, reply, 'GET-SESSION', 'получить все сессии')
+            return
         }
     }
 
@@ -43,7 +41,7 @@ export class SessionController {
         try {
             const accountId = req.user.accountId
             const sessionId = req.user.sessionId
-            await this.sessionService.deleteAllSessionsForUser(
+            await this.session.deleteAllSessionsForUser(
                 accountId,
                 req.headers['user-agent'],
                 sessionId
@@ -58,11 +56,13 @@ export class SessionController {
                 .status(200)
                 .send({ message: 'Вы завершили все сессии' })
         } catch (error) {
-            console.error(`Logount-All-Session: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке удалить существующие сессии. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'LOGOUT-ALL-SESSION',
+                'завершить все сессии'
+            )
+            return
         }
     }
 
@@ -78,7 +78,7 @@ export class SessionController {
             if (!sessionId) {
                 sessionId = thisSession
             }
-            await this.sessionService.deleteSession(
+            await this.session.deleteSession(
                 accountId,
                 sessionId,
                 req.headers['user-agent'],
@@ -95,11 +95,8 @@ export class SessionController {
                 .status(200)
                 .send({ message: 'Вы успешно вышли из системы' })
         } catch (error) {
-            console.error(`Logout-Session: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при удалить существующую сессию. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(error, reply, 'LOGOUT-SESSION', 'удаление сессии')
+            return
         }
     }
     @Put(':userSessionId')
@@ -111,7 +108,7 @@ export class SessionController {
         try {
             const sessionId = req.user.sessionId
             const accountId = req.user.accountId
-            const result = await this.sessionService.giveSuperUser(
+            const result = await this.session.giveSuperUser(
                 accountId,
                 userSessionId,
                 sessionId,
@@ -124,11 +121,12 @@ export class SessionController {
                 .status(200)
                 .send({ message: 'Вы успешно передали роль суперюзера' })
         } catch (error) {
-            console.error(`Update-SuperUser-Session: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке передать роль суперюзера. Пожалуйста, сообщите нам подробности',
-            })
+            errorStatic(
+                error,
+                reply,
+                'GIVE-SUPERUSER-SESSION',
+                'передачи роли суперюзера'
+            )
         }
     }
 }

@@ -15,7 +15,7 @@ export class IpAdressGuard implements CanActivate {
 
         // Если запрос блокирован, отклоняем новый
         if (this.blockManager.isLocked(ipAdress)) {
-            reply.stats(400).send({ message: 'Ваш запрос обрабатывается' })
+            reply.status(400).send({ message: 'Ваш запрос обрабатывается' })
             return false // отклонить запрос
         }
 

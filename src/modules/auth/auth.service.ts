@@ -2,17 +2,16 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../core/database/prisma.service'
 import * as bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto'
-import { JwtService } from 'src/core/keys/jwt/jwt.service'
+import { JwtAuthService } from 'src/core/keys/jwt/jwt.auth.service'
 import { SessionService } from './session/session.service'
-import { Mutex } from 'async-mutex'
 import { MutexManager } from 'src/common/util/mutex.manager'
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtService: JwtService,
-        private readonly sessionService: SessionService,
+        private readonly jwtAuth: JwtAuthService,
+        private readonly session: SessionService,
         private readonly mutex: MutexManager
     ) {}
 
@@ -43,10 +42,11 @@ export class AuthService {
                 },
             })
             if (existSession?.expiresAt < new Date()) {
-                await this.sessionService.cleanExpiredSession(existSession.id)
+                await this.session.cleanExpiredSession(existSession.id)
             } else if (existSession) {
-                const { newRefreshToken } =
-                    this.jwtService.generateRefreshToken(existSession.id)
+                const { newRefreshToken } = this.jwtAuth.generateRefreshToken(
+                    existSession.id
+                )
                 return {
                     newRefreshToken,
                 }
@@ -77,7 +77,7 @@ export class AuthService {
                 data: data,
             })
 
-            const { newRefreshToken } = this.jwtService.generateRefreshToken(
+            const { newRefreshToken } = this.jwtAuth.generateRefreshToken(
                 session.id
             )
 
