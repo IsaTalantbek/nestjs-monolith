@@ -3,7 +3,6 @@ import {
     Get,
     Param,
     Put,
-    Query,
     Req,
     Res,
     UseGuards,
@@ -13,7 +12,7 @@ import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { SubscribeService } from './subscribe.service'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
-import { GiveSubscribesQueryDto } from './subscribe.dto'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('profile/subscribe')
 export class SubscribeController {
@@ -22,8 +21,8 @@ export class SubscribeController {
     @Get(':profileId')
     async getSubscribe(
         @Param('profileId') profileId: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user?.accountId
@@ -48,8 +47,8 @@ export class SubscribeController {
     @Put(':profileId')
     async subscribe(
         @Param('profileId') profileId: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId
@@ -58,7 +57,7 @@ export class SubscribeController {
                 profileId
             )
             if (result !== true) {
-                return reply.status(400).sebd({ message: result })
+                return reply.status(400).send({ message: result })
             }
             return reply
                 .status(200)

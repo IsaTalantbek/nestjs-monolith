@@ -12,6 +12,7 @@ import {
 import { SessionService } from './session.service'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('session')
 @UseGuards(JwtGuard)
@@ -21,7 +22,7 @@ export class SessionController {
         private readonly cookie: CookieSettings
     ) {}
     @Get()
-    async getSessions(@Req() req: any, @Res() reply: any) {
+    async getSessions(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
         try {
             const accountId = req.user.accountId
 
@@ -38,7 +39,7 @@ export class SessionController {
     }
 
     @Delete('logout')
-    async logoutAll(@Req() req: any, @Res() reply: any) {
+    async logoutAll(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
         try {
             const accountId = req.user.accountId
             const sessionId = req.user.sessionId
@@ -67,8 +68,8 @@ export class SessionController {
 
     @Post('logout/:sessionId?')
     async logout(
-        @Req() req: any,
-        @Res() reply: any,
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply,
         @Param('sessionId') sessionId?: string
     ) {
         try {
@@ -103,8 +104,8 @@ export class SessionController {
     }
     @Put(':userSessionId')
     async giveSuperUser(
-        @Req() req: any,
-        @Res() reply: any,
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply,
         @Param('userSessionId') userSessionId?: string
     ) {
         try {

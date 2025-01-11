@@ -5,6 +5,7 @@ import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto'
 import { JwtAuthorized } from 'src/common/guards/jwt/jwt.authorized'
 import { IpAdressGuard } from 'src/common/guards/block/block.guard'
 import { IpAdressBlockManager } from 'src/common/util/block.manager'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('auth')
 @UseGuards(IpAdressGuard)
@@ -19,8 +20,8 @@ export class AuthController {
     @Post('login')
     async login(
         @Body() loginUserDto: LoginUserDto,
-        @Res({ passthrough: true }) reply: any,
-        @Req() req: any
+        @Res({ passthrough: true }) reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const { login, password } = loginUserDto
@@ -63,8 +64,8 @@ export class AuthController {
     @Post('register')
     async register(
         @Body() createUserDto: CreateUserDto,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const { login, email, password } = createUserDto // извлекаем данные
@@ -93,8 +94,8 @@ export class AuthController {
     @Post('preregister')
     async preregister(
         @Body() preRegisterUserDto: PreRegisterUserDto,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const { login } = preRegisterUserDto

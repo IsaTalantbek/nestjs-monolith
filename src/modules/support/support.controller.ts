@@ -12,6 +12,7 @@ import {
 import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { SupportService } from './support.service'
 import { SupportBodyDto } from './support.dto'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('support')
 @UseGuards(JwtCheck)
@@ -20,9 +21,9 @@ export class SupportController {
 
     @Post()
     async writeSupport(
-        @Req() req: any,
+        @Req() req: FastifyRequest,
         @Body() bodyDto: SupportBodyDto,
-        @Res() reply: any
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user?.accountId
@@ -41,8 +42,8 @@ export class SupportController {
     @Get(':fileOption')
     async readSupport(
         @Param('fileOption') option: string,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user.accountId
@@ -63,8 +64,8 @@ export class SupportController {
     @Delete(':fileOption')
     async clearSupport(
         @Param('fileOption') option: string,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user.accountId

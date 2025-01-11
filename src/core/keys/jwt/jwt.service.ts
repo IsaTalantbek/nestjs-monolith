@@ -16,7 +16,7 @@ export class JwtService {
         }
     }
 
-    generateRefreshToken(data): any {
+    generateRefreshToken(...data): any {
         return {
             newRefreshToken: jwt.sign(
                 { data },

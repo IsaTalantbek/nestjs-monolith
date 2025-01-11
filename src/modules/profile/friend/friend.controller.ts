@@ -13,6 +13,7 @@ import {
 import { FriendService } from './friend.service'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @UseGuards(JwtGuard)
 @Controller('profile/friends')
@@ -20,7 +21,10 @@ export class FriendController {
     constructor(private readonly friendService: FriendService) {}
 
     @Get()
-    async giveActiveFriends(@Req() req: any, @Res() reply: any) {
+    async giveActiveFriends(
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
+    ) {
         try {
             const accountId = req.user.accountId
             const result = await this.friendService.giveActiveFriends(accountId)
@@ -34,7 +38,10 @@ export class FriendController {
         }
     }
     @Get('waiting')
-    async giveWaitingFriends(@Req() req: any, @Res() reply: any) {
+    async giveWaitingFriends(
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
+    ) {
         try {
             const accountId = req.user.accountId
             const result =
@@ -52,8 +59,8 @@ export class FriendController {
     @Post(':vsAid')
     async addFriend(
         @Param('vsAid') vsAid: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId
@@ -79,8 +86,8 @@ export class FriendController {
     @Put(':friendId')
     async acceptFriend(
         @Param('friendId') friendId: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId
@@ -106,8 +113,8 @@ export class FriendController {
     @Delete('vsAid')
     async deleteFriend(
         @Param('friendId') vsAid: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId

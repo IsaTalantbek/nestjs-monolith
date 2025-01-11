@@ -11,13 +11,14 @@ import { ProfileService } from './profile.service'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
     @Get()
     @UseGuards(JwtGuard)
-    async profile(@Res() reply: any, @Req() req: any) {
+    async profile(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
             const accountId = req.user?.accountId
             const result = await this.profileService.profile(accountId)
@@ -36,8 +37,8 @@ export class ProfileController {
     @Get(':profileId')
     async userProfile(
         @Param('profileId') profileId: string,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user?.accountId

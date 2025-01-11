@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
+import { FastifyReply } from 'fastify'
 import { CookieSettings } from 'src/core/keys/cookie.settings'
 import { JwtService } from 'src/core/keys/jwt/jwt.service'
 import { SessionService } from 'src/modules/auth/session/session.service'
@@ -12,12 +13,15 @@ export class JwtCheck implements CanActivate {
         private readonly sessionService: SessionService
     ) {}
 
-    private handleSessionExpired(reply): boolean {
-        reply.clearCookie(this.cookieSettings.refreshTokenName)
+    private handleSessionExpired(reply: FastifyReply): boolean {
+        this.cookieSettings.clearCookie(
+            reply,
+            this.cookieSettings.refreshTokenName
+        )
         reply.status(401).send({
             message: 'Ваш сеанс истек. Пожалуйста, войдите снова',
         })
-        return true
+        return false
     }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -86,7 +90,7 @@ export class JwtCheck implements CanActivate {
             reply.status(401).send({ message: 'Вы не авторизованы' })
             return true
         } catch (error) {
-            console.error(`JWT-GUARD: ${error}`)
+            console.error(`JWT-CHECK: ${error}`)
             reply.status(500).send({
                 message:
                     'Произошла ошибка при попытке аутентификации. Пожалуйста, сообщите нам подробности',

@@ -1,5 +1,4 @@
 import {
-    Body,
     Controller,
     Delete,
     Get,
@@ -14,6 +13,7 @@ import {
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { BlackLIstService } from './blacklist.service'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)
@@ -21,7 +21,7 @@ export class BlackListController {
     constructor(private readonly blackListService: BlackLIstService) {}
 
     @Get()
-    async getBlackList(@Res() reply: any, @Req() req: any) {
+    async getBlackList(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
             const accountId = req.user.accountId
             const result = await this.blackListService.getBlackList(accountId)
@@ -39,8 +39,8 @@ export class BlackListController {
     @Post(':vsPid')
     async addToBlackList(
         @Param('vsPid') vsPid: string,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user.accountId
@@ -67,8 +67,8 @@ export class BlackListController {
     @Put(':vsPid')
     async deleteFromBlackList(
         @Param('vsPid') vsPid: string,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user.accountId
@@ -92,7 +92,10 @@ export class BlackListController {
     }
 
     @Delete()
-    async deleteAllFromBlackList(@Res() reply: any, @Req() req: any) {
+    async deleteAllFromBlackList(
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
+    ) {
         try {
             const accountId = req.user.accountId
             const result =

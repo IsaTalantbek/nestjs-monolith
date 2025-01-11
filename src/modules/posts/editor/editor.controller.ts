@@ -2,6 +2,7 @@ import { Controller, UseGuards, Post, Body, Req, Res } from '@nestjs/common'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { EditorService } from './editor.service'
 import { EditorDto } from './editor.dto'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('editor')
 @UseGuards(JwtGuard)
@@ -11,8 +12,8 @@ export class EditorController {
     @Post()
     async createPost(
         @Body() editorDto: EditorDto,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId

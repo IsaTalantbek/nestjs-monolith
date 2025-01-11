@@ -11,9 +11,10 @@ import {
 } from '@nestjs/common'
 import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
 import { PostsService } from './posts.service'
-import { GivePostQueryDto, PostIdDto } from './posts.dto'
+import { GivePostQueryDto } from './posts.dto'
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('feed')
 export class PostsController {
@@ -23,8 +24,8 @@ export class PostsController {
     @Get()
     async givePosts(
         @Query() queryDto: GivePostQueryDto,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user?.accountId
@@ -64,8 +65,8 @@ export class PostsController {
     @Put(':postId/like')
     async likePost(
         @Param('postId') postId: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId
@@ -87,8 +88,8 @@ export class PostsController {
     @Put(':postId/dislike')
     async dislikePost(
         @Param('postId') postId: string,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId

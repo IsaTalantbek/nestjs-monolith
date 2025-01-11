@@ -11,7 +11,7 @@ export class IpAdressGuard implements CanActivate {
     ): boolean | Promise<boolean> | Observable<boolean> {
         const reply = context.switchToHttp().getResponse()
         const request = context.switchToHttp().getRequest()
-        const ipAdress = request.ip // Предполагаем, что пользователь уже аутентифицирован
+        const ipAdress = request.ip
 
         // Если запрос блокирован, отклоняем новый
         if (this.blockManager.isLocked(ipAdress)) {

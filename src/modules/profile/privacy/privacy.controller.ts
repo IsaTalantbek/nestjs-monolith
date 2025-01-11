@@ -2,19 +2,17 @@ import {
     Body,
     Controller,
     Get,
-    Param,
     Put,
     Query,
     Req,
     Res,
     UseGuards,
-    UsePipes,
 } from '@nestjs/common'
 
 import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
 import { PrivacyService } from './privacy.service'
 import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto'
-import { errorStatic } from 'src/common/util/error.static'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('profile/privacy')
 @UseGuards(JwtGuard)
@@ -23,8 +21,8 @@ export class PrivacyController {
     @Get()
     async getPrivacy(
         @Query() profileIdDto: GivePrivacyQueryDto,
-        @Req() req: any,
-        @Res() reply: any
+        @Req() req: FastifyRequest,
+        @Res() reply: FastifyReply
     ) {
         try {
             const accountId = req.user.accountId
@@ -50,8 +48,8 @@ export class PrivacyController {
     @Put()
     async updatePrivacy(
         @Body() updatePrivacyDto: UpdatePrivacyBodyDto,
-        @Res() reply: any,
-        @Req() req: any
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest
     ) {
         try {
             const accountId = req.user.accountId
