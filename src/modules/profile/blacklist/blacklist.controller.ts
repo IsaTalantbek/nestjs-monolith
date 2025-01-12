@@ -87,7 +87,7 @@ export class BlackListController {
             return reply.status(200).send({
                 message: 'Пользователь успешно удален из черного списка',
             })
-        } catch (error: any) {
+        } catch (error) {
             errorStatic(
                 error,
                 reply,

@@ -28,9 +28,11 @@ export class PostsService {
         }
         // Если теги переданы, добавляем условие для поиска по тегам
         if (tags && tags.length > 0) {
+            const checkTags = tags.flat()
+
             where.tags = {
                 some: {
-                    name: { in: tags }, // Пытаемся найти посты с любым из переданных тегов
+                    name: { in: checkTags }, // Пытаемся найти посты с любым из переданных тегов
                 },
             }
         }

@@ -21,10 +21,10 @@ export class ProfileController {
     @UseGuards(JwtGuard)
     async myProfile(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
-            const accountId = req.user?.accountId
+            const accountId = req.user.accountId
             const result = await this.profile.myProfile(accountId)
             return reply.status(200).send(result)
-        } catch (error: any) {
+        } catch (error) {
             errorStatic(error, reply, 'MY-PROFILE', 'загрузки своего профиля')
             return
         }

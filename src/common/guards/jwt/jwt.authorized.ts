@@ -34,10 +34,7 @@ export class JwtAuthorized implements CanActivate {
             if (accessToken) {
                 const decoded = this.jwtAuth.verifyAccessToken(accessToken)
                 if (decoded) {
-                    request.user = {
-                        accountId: decoded.data[0],
-                        sessionId: decoded.data[1],
-                    }
+                    request.user = request.user = this.cookie.userData(decoded)
                     return this.ifAuthorizedSend(reply)
                 } else {
                     this.cookie.clearCookie(reply, this.cookie.accessTokenName)
@@ -67,19 +64,12 @@ export class JwtAuthorized implements CanActivate {
                         session.id
                     )
 
-                    reply.setCookie(
-                        this.cookie.accessTokenName,
-                        newAccessToken,
-                        this.cookie.cookieSettings
-                    )
-                    request.user = {
-                        accountId: session.accountId,
-                        sessionId: session.id,
-                    }
+                    this.cookie.setCookie(reply, newAccessToken, 'a')
+                    request.user = this.cookie.userData(session)
                     return this.ifAuthorizedSend(reply)
                 }
             }
-            reply.clearCookie(this.cookie.refreshTokenName)
+            this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
             return true
         } catch (error) {
             errorStatic(error, reply, 'JWT-AUTHORIZED', 'проверки авторизации')
