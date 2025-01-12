@@ -8,10 +8,10 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
-import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
-import { SubscribeService } from './subscribe.service'
-import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { JwtCheck } from '../../../common/guards/jwt/jwt.check.js'
+import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SubscribeService } from './subscribe.service.js'
+import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller('profile/subscribe')

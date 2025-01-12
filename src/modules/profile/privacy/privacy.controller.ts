@@ -8,12 +8,11 @@ import {
     Res,
     UseGuards,
 } from '@nestjs/common'
-
-import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
-import { PrivacyService } from './privacy.service'
-import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { PrivacyService } from './privacy.service.js'
+import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto.js'
+import { errorStatic } from '../../../common/util/error.static.js'
 
 @Controller('profile/privacy')
 @UseGuards(JwtGuard)

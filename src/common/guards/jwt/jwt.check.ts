@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
 import { FastifyReply } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
-import { CookieSettings } from 'src/core/keys/cookie.settings'
-import { JwtAuthService } from 'src/core/keys/jwt/jwt.auth.service'
-import { SessionService } from 'src/modules/auth/session/session.service'
+import { errorStatic } from '../../../common/util/error.static.js'
+import { CookieSettings } from '../../../core/keys/cookie.settings.js'
+import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
+import { SessionService } from '../../../modules/auth/session/session.service.js'
 
 @Injectable()
 export class JwtCheck implements CanActivate {

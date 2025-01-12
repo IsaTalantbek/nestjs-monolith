@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ProfileController } from './profile.controller'
-import { ProfileService } from './profile.service'
-import { AuthPackModule } from 'src/auth.pack.module'
+import { ProfileController } from './profile.controller.js'
+import { ProfileService } from './profile.service.js'
+import { AuthPackModule } from '../../auth.pack.module.js'
 
 @Module({
     imports: [AuthPackModule],

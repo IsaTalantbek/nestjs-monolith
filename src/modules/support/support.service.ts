@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import * as fs from 'fs'
-import { PrismaService } from 'src/core/database/prisma.service'
+import { PrismaService } from '../../core/database/prisma.service.js'
 
 const am = './messages/am.txt'
 const rm = './messages/rm.txt'

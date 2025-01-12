@@ -1,11 +1,13 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "ES2020",
         "declaration": true,
+        "moduleResolution": "node",
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
         "target": "ES2021",
         "sourceMap": true,
         "outDir": "./dist",

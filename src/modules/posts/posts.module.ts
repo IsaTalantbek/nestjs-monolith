@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { PostsService } from './posts.service'
-import { PostsController } from './posts.controller'
-import { AuthPackModule } from 'src/auth.pack.module'
+import { PostsService } from './posts.service.js'
+import { PostsController } from './posts.controller.js'
+import { AuthPackModule } from '../../auth.pack.module.js'
 
 @Module({
     imports: [AuthPackModule],

@@ -1,12 +1,12 @@
 import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common'
-import { AuthService } from './auth.service'
-import { CookieSettings } from '../../core/keys/cookie.settings'
-import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto'
-import { JwtAuthorized } from 'src/common/guards/jwt/jwt.authorized'
-import { IpAdressGuard } from 'src/common/guards/block/block.guard'
-import { IpAdressBlockManager } from 'src/common/util/block.manager'
+import { AuthService } from './auth.service.js'
+import { CookieSettings } from '../../core/keys/cookie.settings.js'
+import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto.js'
+import { JwtAuthorized } from '../../common/guards/jwt/jwt.authorized.js'
+import { IpAdressGuard } from '../../common/guards/block/block.guard.js'
+import { IpAdressBlockManager } from '../../common/util/block.manager.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { errorStatic } from '../../common/util/error.static.js'
 
 @Controller('auth')
 @UseGuards(IpAdressGuard)

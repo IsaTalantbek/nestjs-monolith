@@ -9,13 +9,13 @@ import {
     Put,
     UsePipes,
 } from '@nestjs/common'
-import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
-import { PostsService } from './posts.service'
-import { GivePostQueryDto } from './posts.dto'
-import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
-import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { GivePostQueryDto } from './posts.dto.js'
+import { PostsService } from './posts.service.js'
+import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
+import { JwtGuard } from '../../common/guards/jwt/jwt.guard.js'
+import { ParamUuidPipe } from '../../common/pipes/paramUUID.pipe.js'
+import { errorStatic } from '../../common/util/error.static.js'
 
 @Controller('feed')
 export class PostsController {

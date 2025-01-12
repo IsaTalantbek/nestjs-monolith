@@ -1,9 +1,9 @@
 import { Controller, UseGuards, Post, Body, Req, Res } from '@nestjs/common'
-import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
-import { EditorService } from './editor.service'
-import { EditorDto } from './editor.dto'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { EditorDto } from './editor.dto.js'
+import { EditorService } from './editor.service.js'
+import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { errorStatic } from '../../../common/util/error.static.js'
 
 @Controller('editor')
 @UseGuards(JwtGuard)

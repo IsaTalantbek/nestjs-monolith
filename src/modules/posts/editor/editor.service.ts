@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from 'src/core/database/prisma.service'
 import { Prisma } from '@prisma/client'
 import * as _ from 'lodash'
-import { Mutex } from 'async-mutex'
-import { CreatePostForm } from './editor.dto'
-import { MutexManager } from 'src/common/util/mutex.manager'
+import { CreatePostForm } from './editor.dto.js'
+import { PrismaService } from '../../../core/database/prisma.service.js'
+import { MutexManager } from '../../../common/util/mutex.manager.js'
 
 @Injectable()
 export class EditorService {

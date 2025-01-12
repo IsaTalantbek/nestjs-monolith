@@ -9,11 +9,11 @@ import {
     Res,
     UseGuards,
 } from '@nestjs/common'
-import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
-import { SupportService } from './support.service'
-import { SupportBodyDto } from './support.dto'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { SupportBodyDto } from './support.dto.js'
+import { SupportService } from './support.service.js'
+import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
+import { errorStatic } from '../../common/util/error.static.js'
 
 @Controller('support')
 @UseGuards(JwtCheck)

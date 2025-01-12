@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../../core/database/prisma.service'
-import { MutexManager } from 'src/common/util/mutex.manager'
-import { vsPidBlacklistDto } from './blacklist.dto'
+import { PrismaService } from '../../../core/database/prisma.service.js'
+import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { vsPidBlacklistDto } from './blacklist.dto.js'
 
 @Injectable()
 export class BlackLIstService {

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { PrivacyService } from './privacy.service'
-import { PrivacyController } from './privacy.controller'
-import { AuthPackModule } from 'src/auth.pack.module'
+import { PrivacyService } from './privacy.service.js'
+import { PrivacyController } from './privacy.controller.js'
+import { AuthPackModule } from '../../../auth.pack.module.js'
 
 @Module({
     imports: [AuthPackModule],

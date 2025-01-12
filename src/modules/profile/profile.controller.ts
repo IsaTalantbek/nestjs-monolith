@@ -7,12 +7,12 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { ProfileService } from './profile.service'
-import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
-import { JwtCheck } from 'src/common/guards/jwt/jwt.check'
-import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
+import { ProfileService } from './profile.service.js'
+import { JwtGuard } from '../../common/guards/jwt/jwt.guard.js'
+import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
+import { ParamUuidPipe } from '../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { errorStatic } from '../../common/util/error.static.js'
 
 @Controller('profile')
 export class ProfileController {
@@ -22,7 +22,7 @@ export class ProfileController {
     async myProfile(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
             const accountId = req.user?.accountId
-            const result = await this.profile.profile(accountId)
+            const result = await this.profile.myProfile(accountId)
             return reply.status(200).send(result)
         } catch (error: any) {
             errorStatic(error, reply, 'MY-PROFILE', 'загрузки своего профиля')
@@ -39,7 +39,7 @@ export class ProfileController {
         @Req() req: FastifyRequest
     ) {
         try {
-            const accountId = req.user.accountId
+            const accountId = req.user?.accountId
             const result = await this.profile.userProfile(profileId, accountId)
             return reply.status(200).send(result)
         } catch (error) {

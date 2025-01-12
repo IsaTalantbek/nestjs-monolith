@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../../core/database/prisma.service'
-import { JwtAuthService } from 'src/core/keys/jwt/jwt.auth.service'
-import { MutexManager } from 'src/common/util/mutex.manager'
+import { PrismaService } from '../../../core/database/prisma.service.js'
+import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
+import { MutexManager } from '../../../common/util/mutex.manager.js'
 
+// ВХОД ЗАПРЕЩЕН! НЕ ТРОГАТЬ
 @Injectable()
 export class SessionService {
     constructor(

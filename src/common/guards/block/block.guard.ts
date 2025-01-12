@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Observable } from 'rxjs'
-import { IpAdressBlockManager } from '../../util/block.manager'
+import { IpAdressBlockManager } from '../../util/block.manager.js'
 
 @Injectable()
 export class IpAdressGuard implements CanActivate {

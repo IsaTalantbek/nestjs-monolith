@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from 'src/core/database/prisma.service'
-import { MutexManager } from 'src/common/util/mutex.manager'
+import { PrismaService } from '../../core/database/prisma.service.js'
+import { MutexManager } from '../../common/util/mutex.manager.js'
 
 @Injectable()
 export class PostsService {

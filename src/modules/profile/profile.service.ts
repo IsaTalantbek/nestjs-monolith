@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../core/database/prisma.service'
+import { PrismaService } from '../../core/database/prisma.service.js'
 import * as _ from 'lodash'
 
 @Injectable()
@@ -8,7 +8,7 @@ export class ProfileService {
 
     //Возвращает всю информацию о своем аккаунте. Изменить потом,
     //Сделать меньше информации
-    async profile(accountId: string) {
+    async myProfile(accountId: string) {
         return await this.prisma.account.findUnique({
             where: { id: accountId },
             include: { profile: true },

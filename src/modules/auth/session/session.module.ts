@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { SessionController } from './session.controller'
-import { AuthPackModule } from 'src/auth.pack.module'
-import { SessionService } from './session.service'
+import { SessionController } from './session.controller.js'
+import { AuthPackModule } from '../../../auth.pack.module.js'
+import { SessionService } from './session.service.js'
 
 @Module({
     imports: [AuthPackModule],

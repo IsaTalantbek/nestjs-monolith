@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
-import { AuthService } from './auth.service'
-import { AuthController } from './auth.controller'
-import { AuthPackModule } from 'src/auth.pack.module'
-import { IpAdressBlockManager } from 'src/common/util/block.manager'
+import { AuthService } from './auth.service.js'
+import { AuthController } from './auth.controller.js'
+import { AuthPackModule } from '../../auth.pack.module.js'
+import { IpAdressBlockManager } from '../../common/util/block.manager.js'
 
 @Module({
     imports: [AuthPackModule],

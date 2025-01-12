@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../../core/database/prisma.service'
+import { PrismaService } from '../../../core/database/prisma.service.js'
 import * as _ from 'lodash'
-import { MutexManager } from 'src/common/util/mutex.manager'
+import { MutexManager } from '../../../common/util/mutex.manager.js'
 
 @Injectable()
 export class SubscribeService {

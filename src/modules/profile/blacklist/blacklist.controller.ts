@@ -10,11 +10,11 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { JwtGuard } from 'src/common/guards/jwt/jwt.guard'
-import { BlackLIstService } from './blacklist.service'
-import { ParamUuidPipe } from 'src/common/pipes/paramUUID.pipe'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from 'src/common/util/error.static'
+import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { BlackLIstService } from './blacklist.service.js'
+import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
+import { errorStatic } from '../../../common/util/error.static.js'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)

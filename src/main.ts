@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
+import { AppModule } from './app.module.js'
 import {
     FastifyAdapter,
     NestFastifyApplication,
@@ -10,7 +10,7 @@ import { ValidationPipe } from '@nestjs/common'
 import RateLimit from '@fastify/rate-limit'
 import session from '@fastify/session'
 import * as passport from 'passport'
-import { CookieSettings } from './core/keys/cookie.settings'
+import { CookieSettings } from './core/keys/cookie.settings.js'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
