@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
 import { MutexManager } from '../../../common/util/mutex.manager.js'
 
 // ВХОД ЗАПРЕЩЕН! НЕ ТРОГАТЬ
@@ -8,17 +7,8 @@ import { MutexManager } from '../../../common/util/mutex.manager.js'
 export class SessionService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwtAuth: JwtAuthService,
         private readonly mutex: MutexManager
     ) {}
-
-    async createSession({ data }): Promise<string> {
-        const session = await this.prisma.session.create({
-            data: data,
-        })
-        const { newAccessToken } = this.jwtAuth.generateAccessToken(session.id)
-        return newAccessToken
-    }
 
     // Получение сессии по ID
     async getSession(id: string) {

@@ -43,14 +43,6 @@ export class CookieSettings {
     }
 
     public userData = (data: object) => {
-        // Если session — массив объектов
-        if (Array.isArray(data)) {
-            if (data.length > 0 && typeof data[0] === 'object') {
-                return { accountId: data[0]['accountId'] || null }
-            }
-            throw new Error('Invalid session array structure')
-        }
-
         // Если session — объект
         if (data && typeof data === 'object') {
             const newData = (data as any).data
