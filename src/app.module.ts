@@ -10,6 +10,7 @@ import { SubscribeModule } from './modules/profile/subscribe/subscribe.module.js
 import { PrivacyModule } from './modules/profile/privacy/privacy.module.js'
 import { FriendModule } from './modules/profile/friend/friend.module.js'
 import { SesionModule } from './modules/auth/session/session.module.js'
+import { StatsModule } from './modules/posts/stats/stats.module.js'
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { SesionModule } from './modules/auth/session/session.module.js'
         PrivacyModule,
         FriendModule,
         SesionModule,
+        StatsModule,
     ],
 })
 export class AppModule {}

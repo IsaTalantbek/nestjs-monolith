@@ -16,10 +16,14 @@ import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
 import { JwtGuard } from '../../common/guards/jwt/jwt.guard.js'
 import { ParamUuidPipe } from '../../common/pipes/paramUUID.pipe.js'
 import { errorStatic } from '../../common/util/error.static.js'
+import { PrismaService } from '../../core/database/prisma.service.js'
 
 @Controller('feed')
 export class PostsController {
-    constructor(private readonly posts: PostsService) {}
+    constructor(
+        private readonly posts: PostsService,
+        private readonly prisma: PrismaService
+    ) {}
 
     @UseGuards(JwtCheck)
     @Get()
@@ -54,45 +58,10 @@ export class PostsController {
             return
         }
     }
-    @UseGuards(JwtGuard)
-    @UsePipes(ParamUuidPipe)
-    @Put(':postId/like')
-    async likePost(
-        @Param('postId') postId: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
-        try {
-            const accountId = req.user.accountId
-            const result = await this.posts.likePost(postId, accountId)
-            if (result !== true) {
-                return reply.status(500).send({ message: result })
-            }
-            return reply.status(200).send({ message: 'Лайк успешно поставлен' })
-        } catch (error) {
-            errorStatic(error, reply, 'LIKE-POSTS', 'лайкнуть пост')
-            return
-        }
-    }
-    @UseGuards(JwtGuard)
-    @UsePipes(ParamUuidPipe)
-    @Put(':postId/dislike')
-    async dislikePost(
-        @Param('postId') postId: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
-        try {
-            const accountId = req.user.accountId
-            const result = await this.posts.dislikePost(postId, accountId)
-            if (result !== true) {
-                return reply.status(400).send({ message: result })
-            }
-            return reply
-                .status(200)
-                .send({ message: 'Дизлайк успешно поставлен' })
-        } catch (error) {
-            errorStatic(error, reply, 'DISLIKE-POSTS', 'дизлайкнуть пост')
-        }
+    @Get(':postId')
+    async givePost(@Param('postId') postId: string) {
+        return this.prisma.post.findUnique({
+            where: { id: postId },
+        })
     }
 }
