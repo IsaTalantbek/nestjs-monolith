@@ -136,7 +136,7 @@ export class AuthService {
                 return user // Возвращаем результаты
             })
 
-            return result // Если все прошло успешно, возвращаем данные})
+            return result // Если все прошло успешно, возвращаем данные
         })
     }
 }
