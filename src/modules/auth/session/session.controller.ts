@@ -10,10 +10,10 @@ import {
     Put,
 } from '@nestjs/common'
 import { SessionService } from '../../../core/session/session.service.js'
-import { CookieSettings } from '../../../core/keys/cookie.settings.js'
+import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
 import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from '../../../common/util/error.static.js'
+import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('session')
 @UseGuards(JwtGuard)

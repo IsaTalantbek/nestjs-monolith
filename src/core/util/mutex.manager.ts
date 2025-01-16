@@ -14,16 +14,13 @@ export class MutexManager {
     }
 
     // Универсальный метод для выполнения функции с блокировкой
-    public async blockWithMutex<T>(
-        key: string,
-        fn: () => Promise<T>
-    ): Promise<T> {
+    public async lock<T>(key: string, fn: () => Promise<T>): Promise<T> {
         const mutex = this.getMutex(key)
-        const release = await mutex.acquire()
+        const unlock = await mutex.acquire()
         try {
             return await fn() // Выполняем переданную функцию
         } finally {
-            release() // Освобождаем блокировку
+            unlock() // Освобождаем блокировку
             if (!mutex.isLocked()) {
                 this.locks.delete(key)
             }

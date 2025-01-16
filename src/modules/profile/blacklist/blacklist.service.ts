@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 import { vsPidBlacklistDto } from './blacklist.dto.js'
 
 @Injectable()
@@ -18,7 +18,7 @@ export class BlackLIstService {
     }
 
     async addToBlackList({ accountId, vsPid }: vsPidBlacklistDto) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const ownerCheck = await this.prisma.profile.findFirst({
                 where: { ownerId: accountId, id: vsPid, deleted: false },
             })
@@ -66,7 +66,7 @@ export class BlackLIstService {
     }
 
     async deleteFromBlackList({ accountId, vsPid }: vsPidBlacklistDto) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const checkList = await this.prisma.blackList.findUnique({
                 where: {
                     initAid_vsPid: {
@@ -97,7 +97,7 @@ export class BlackLIstService {
     }
 
     async deleteAllFromBlackList(accountId: string) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const check = await this.prisma.blackList.findFirst({
                 where: { initAid: accountId, active: true },
             })

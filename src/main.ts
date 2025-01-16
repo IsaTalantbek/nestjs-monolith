@@ -4,13 +4,13 @@ import {
     FastifyAdapter,
     NestFastifyApplication,
 } from '@nestjs/platform-fastify'
-import cookie from '@fastify/cookie'
 import { ConfigService } from '@nestjs/config'
 import { ValidationPipe } from '@nestjs/common'
+import { CookieSettings } from './core/keys/cookie/cookie.settings.js'
+import cookie from '@fastify/cookie'
 import RateLimit from '@fastify/rate-limit'
 import session from '@fastify/session'
-import * as passport from 'passport'
-import { CookieSettings } from './core/keys/cookie.settings.js'
+import passport from 'passport'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify

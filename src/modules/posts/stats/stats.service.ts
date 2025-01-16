@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 
 @Injectable()
 export class StatsService {
@@ -69,7 +69,7 @@ export class StatsService {
     }
 
     async likePost(postId: string, accountId: string) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const postWithInfo = await this.prisma.post.findFirst({
                 where: { id: postId, deleted: false },
                 include: { profile: true },
@@ -176,7 +176,7 @@ export class StatsService {
     }
 
     async dislikePost(postId: string, accountId: string) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const postWithInfo = await this.prisma.post.findUnique({
                 where: { id: postId },
                 include: { profile: true },
@@ -283,7 +283,7 @@ export class StatsService {
     async deleteStats(postId: string, accountId: string) {
         const date = new Date()
 
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const postWithInfo = await this.prisma.post.findUnique({
                 where: { id: postId },
                 include: { profile: true },

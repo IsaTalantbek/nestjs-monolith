@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 import { vsAidFriendDto } from './friend.dto.js'
 
 @Injectable()
@@ -34,7 +34,7 @@ export class FriendService {
     }
 
     async addFriend({ accountId, vsAid }: vsAidFriendDto) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const check = await this.prisma.account.findUnique({
                 where: { id: vsAid },
             })

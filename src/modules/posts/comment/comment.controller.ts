@@ -14,7 +14,7 @@ import {
 import { CommentService } from './comment.service.js'
 import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from '../../../common/util/error.static.js'
+import { errorStatic } from '../../../core/util/error.static.js'
 import { UpdateCommentDto, WriteCommentDto } from './comment.dto.js'
 
 @Controller('feed/comment')

@@ -13,7 +13,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDto } from './support.dto.js'
 import { SupportService } from './support.service.js'
 import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
-import { errorStatic } from '../../common/util/error.static.js'
+import { errorStatic } from '../../core/util/error.static.js'
 
 @Controller('support')
 @UseGuards(JwtCheck)

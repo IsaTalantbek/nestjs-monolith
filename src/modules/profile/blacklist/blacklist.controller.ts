@@ -14,7 +14,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
 import { BlackLIstService } from './blacklist.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { errorStatic } from '../../../common/util/error.static.js'
+import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('profile/blacklist')
 @UseGuards(JwtGuard)

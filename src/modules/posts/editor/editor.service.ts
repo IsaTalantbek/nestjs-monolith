@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client'
 import * as _ from 'lodash'
 import { CreatePostForm } from './editor.dto.js'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 
 @Injectable()
 export class EditorService {
@@ -20,7 +20,7 @@ export class EditorService {
         text,
         title,
     }: CreatePostForm) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const data: Prisma.PostCreateInput = {
                 title,
                 type,

@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../core/database/prisma.service.js'
-import { MutexManager } from '../../common/util/mutex.manager.js'
 
 @Injectable()
 export class PostsService {
-    constructor(
-        private readonly prisma: PrismaService,
-        private readonly mutex: MutexManager
-    ) {}
+    constructor(private readonly prisma: PrismaService) {}
 
     async givePosts(type: string, accountId?: string, tags?: Array<string>) {
         const deleted = false

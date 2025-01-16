@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto.js'
 import { JwtAuthService } from '../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../core/session/session.service.js'
-import { MutexManager } from '../../common/util/mutex.manager.js'
+import { MutexManager } from '../../core/util/mutex.manager.js'
 
 @Injectable()
 export class AuthService {
@@ -31,7 +31,7 @@ export class AuthService {
         headers: string,
         ttl: number = 24 * 60 * 60 * 1000 * 7
     ) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const expiresAt = new Date(Date.now() + ttl)
             const existSession = await this.prisma.session.findFirst({
                 where: {
@@ -98,7 +98,7 @@ export class AuthService {
     }
 
     async register({ login, password, email, headers }: registerForm) {
-        return this.mutex.blockWithMutex(login, async () => {
+        return this.mutex.lock(login, async () => {
             const check = await this.ifUserExist(login, email)
             if (check) {
                 return 'Пользователь уже существует'

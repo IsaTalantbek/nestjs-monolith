@@ -12,7 +12,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
 import { PrivacyService } from './privacy.service.js'
 import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto.js'
-import { errorStatic } from '../../../common/util/error.static.js'
+import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('profile/privacy')
 @UseGuards(JwtGuard)

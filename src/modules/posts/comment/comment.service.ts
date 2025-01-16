@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 
 @Injectable()

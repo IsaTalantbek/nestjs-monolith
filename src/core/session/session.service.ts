@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../database/prisma.service.js'
-import { MutexManager } from '../../common/util/mutex.manager.js'
+import { MutexManager } from '../util/mutex.manager.js'
 
 @Injectable()
 export class SessionService {
@@ -27,7 +27,7 @@ export class SessionService {
         headers: string,
         sessionId: string
     ): Promise<boolean> {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const date = new Date()
             const user = await this.prisma.session.findUnique({
                 where: { id: sessionId },
@@ -58,7 +58,7 @@ export class SessionService {
         headers: string,
         sessionId: string
     ): Promise<boolean> {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const user = await this.prisma.session.findUnique({
                 where: { id: sessionId },
             })
@@ -89,7 +89,7 @@ export class SessionService {
         sessionId: string,
         headers: string
     ): Promise<boolean | string> {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const check = await this.prisma.session.findUnique({
                 where: { id: sessionId, superUser: true, accountId },
             })
@@ -117,7 +117,7 @@ export class SessionService {
     }
     // Очистка просроченных сессий
     async cleanExpiredSessions(accountId) {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const date = new Date()
             await this.prisma.$transaction(async (prisma) => {
                 const find = await prisma.session.findMany({
@@ -168,7 +168,7 @@ export class SessionService {
         })
     }
     async cleanExpiredSession(id) {
-        return this.mutex.blockWithMutex(id, async () => {
+        return this.mutex.lock(id, async () => {
             const date = new Date()
             await this.prisma.$transaction(async (prisma) => {
                 const res = await prisma.session.update({

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import * as _ from 'lodash'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 
 @Injectable()
 export class SubscribeService {
@@ -32,7 +32,7 @@ export class SubscribeService {
         accountId: string,
         userPid: string
     ): Promise<boolean | string> {
-        return this.mutex.blockWithMutex(accountId, async () => {
+        return this.mutex.lock(accountId, async () => {
             const checkProfile = await this.prisma.profile.findUnique({
                 where: { id: userPid, deleted: false },
             })

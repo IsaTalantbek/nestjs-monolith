@@ -14,7 +14,7 @@ import { FriendService } from './friend.service.js'
 import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from '../../../common/util/error.static.js'
+import { errorStatic } from '../../../core/util/error.static.js'
 
 @UseGuards(JwtGuard)
 @Controller('profile/friends')

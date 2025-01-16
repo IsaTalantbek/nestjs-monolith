@@ -11,7 +11,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { GivePostQueryDto } from './posts.dto.js'
 import { PostsService } from './posts.service.js'
 import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
-import { errorStatic } from '../../common/util/error.static.js'
+import { errorStatic } from '../../core/util/error.static.js'
 import { PrismaService } from '../../core/database/prisma.service.js'
 
 @Controller('feed')

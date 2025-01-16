@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { ExecutionContext, CanActivate } from '@nestjs/common'
 import { FastifyReply } from 'fastify'
-import { errorStatic } from '../../../common/util/error.static.js'
-import { CookieSettings } from '../../../core/keys/cookie.settings.js'
+import { errorStatic } from '../../../core/util/error.static.js'
+import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
 import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../core/session/session.service.js'
 
