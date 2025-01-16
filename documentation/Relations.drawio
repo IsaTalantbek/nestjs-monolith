@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="2">
     <diagram id="R2lEEEUBdFMjLlhIrx00" name="AuthPackModule">
-        <mxGraphModel dx="560" dy="1575" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
+        <mxGraphModel dx="560" dy="1564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -156,18 +156,18 @@
         </mxGraphModel>
     </diagram>
     <diagram id="p3oJ3imwA-eH_vvO8SaG" name="AppModule">
-        <mxGraphModel dx="560" dy="475" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="560" dy="464" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="oYupY9DQjBXJfy0KJbgJ-9" value="" style="whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#cce5ff;strokeColor=#36393d;" parent="1" vertex="1">
                     <mxGeometry x="50" y="70" width="750" height="900" as="geometry"/>
                 </mxCell>
-                <mxCell id="7_ib-58lk79bvDDPkH4Y-19" style="edgeStyle=orthogonalEdgeStyle;shape=link;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#e51400;strokeColor=#B20000;" parent="1" source="y75sgq2E1XgLSyIJJuav-425" target="7_ib-58lk79bvDDPkH4Y-18" edge="1">
+                <mxCell id="7_ib-58lk79bvDDPkH4Y-19" style="edgeStyle=orthogonalEdgeStyle;shape=link;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#e51400;strokeColor=#B20000;" parent="1" source="y75sgq2E1XgLSyIJJuav-425" target="7_ib-58lk79bvDDPkH4Y-18" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="y75sgq2E1XgLSyIJJuav-425" value="" style="whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;" parent="1" vertex="1">
-                    <mxGeometry x="250" y="350" width="400" height="300" as="geometry"/>
+                    <mxGeometry x="250" y="350" width="500" height="300" as="geometry"/>
                 </mxCell>
                 <mxCell id="7_ib-58lk79bvDDPkH4Y-5" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fillColor=#e51400;strokeColor=#B20000;" parent="1" source="UIEMtNQGm5GCRjqhV5un-1" target="oYupY9DQjBXJfy0KJbgJ-1" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -273,7 +273,7 @@
                     <mxGeometry x="360.13" y="460" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="niMMALt4wQzLZeukiwdf-1" value="&lt;div&gt;&lt;div&gt;Stats&lt;/div&gt;&lt;div&gt;Module&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=#56517e;align=center;fillColor=#d0cee2;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;" parent="1" vertex="1">
-                    <mxGeometry x="560" y="360" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="660" y="460" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="7_ib-58lk79bvDDPkH4Y-4" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fillColor=#e51400;strokeColor=#B20000;" parent="1" source="y75sgq2E1XgLSyIJJuav-425" target="oYupY9DQjBXJfy0KJbgJ-5" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -285,7 +285,10 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="7_ib-58lk79bvDDPkH4Y-18" value="Это Modules если что" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;" parent="1" vertex="1">
-                    <mxGeometry x="725" y="485" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="740" y="260" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="FO1B-eqcBrQy8w4oS7hi-2" value="Comment&lt;div&gt;Module&lt;/div&gt;" style="text;strokeColor=#56517e;align=center;fillColor=#d0cee2;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="560" width="80" height="80" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
