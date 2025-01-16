@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../common/util/mutex.manager.js'
+import { PrismaService } from '../database/prisma.service.js'
+import { MutexManager } from '../../common/util/mutex.manager.js'
 
-// ВХОД ЗАПРЕЩЕН! НЕ ТРОГАТЬ
 @Injectable()
 export class SessionService {
     constructor(

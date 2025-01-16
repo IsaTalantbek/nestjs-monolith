@@ -4,7 +4,7 @@ import { FastifyReply } from 'fastify'
 import { errorStatic } from '../../../common/util/error.static.js'
 import { CookieSettings } from '../../../core/keys/cookie.settings.js'
 import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
-import { SessionService } from '../../../modules/auth/session/session.service.js'
+import { SessionService } from '../../../core/session/session.service.js'
 
 @Injectable()
 export class JwtGuard implements CanActivate {

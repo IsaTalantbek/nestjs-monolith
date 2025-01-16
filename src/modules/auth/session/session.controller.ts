@@ -9,7 +9,7 @@ import {
     Param,
     Put,
 } from '@nestjs/common'
-import { SessionService } from './session.service.js'
+import { SessionService } from '../../../core/session/session.service.js'
 import { CookieSettings } from '../../../core/keys/cookie.settings.js'
 import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
