@@ -163,9 +163,10 @@ model Profile {
 	cityId				String?			@map("city_id") 
 	avatarImageId		String?			@map("avatar_image_id") 
 	coverImageId		String?			@map("cover_image_id") 
-	post				Post[]
-	subscribe			Subscribe[]			
 	name        		String?			@map("name")	
+	post				Post[]
+	subscribe			Subscribe[]
+	comments			Comment[]					
 
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
 
@@ -257,9 +258,10 @@ model Post {
 	profile				Profile			@relation(fields: [initPid], references: [id])
 	user				Account			@relation(fields: [initAid], references: [id])
 	initAid				String			@map("user_id")
-	initPid			String			@map("profile_id")
+	initPid				String			@map("profile_id")
 	actual				Boolean			@default(true)
-	like				Like[]			
+	like				Like[]
+	comments			Comment[]			
 
 	title				String			@map("title")
 	type				PostType		@map("type")
@@ -280,14 +282,34 @@ model Post {
 	@@map("posts")				
 }
 
+model Comment {
+	id					String			@id	@default(uuid())
+	text				String
+	initPid				String
+	postId				String
+	commentId			String?
+	post				Post			@relation(fields: [postId], references: [id])
+	profile				Profile			@relation(fields: [initPid], references: [id])
+	active				Boolean			@default(false)
+
+	createdAt			DateTime		@map("created_at") @default(now())
+	createdBy			String			@map("created_by") @default("System")
+	updatedAt			DateTime		@map("updated_at") @updatedAt
+	updatedBy			String			@map("updated_by") @default("System")
+	deletedAt			DateTime?		@map("deleted_at")
+	deletedBy			String?			@map("deleted_by") 
+	deleted				Boolean?		@default(false)
+}
+
 model Tags {
-	id      			Int      		@id @default(autoincrement())
+	id      			String      	@id @default(uuid())
   	name    			String   		@unique
   	posts   			Post[]   		@relation("post-tags")
   	createdAt			DateTime		@map("created_at") @default(now())
 	createdBy			String			@map("created_by") @default("System")
 
 	@@map("tags")
+	@@index(name)
 }
 
 

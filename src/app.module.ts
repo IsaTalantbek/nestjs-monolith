@@ -11,6 +11,7 @@ import { PrivacyModule } from './modules/profile/privacy/privacy.module.js'
 import { FriendModule } from './modules/profile/friend/friend.module.js'
 import { SesionModule } from './modules/auth/session/session.module.js'
 import { StatsModule } from './modules/posts/stats/stats.module.js'
+import { CommentModule } from './modules/posts/comment/comment.module.js'
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { StatsModule } from './modules/posts/stats/stats.module.js'
         FriendModule,
         SesionModule,
         StatsModule,
+        CommentModule,
     ],
 })
 export class AppModule {}
