@@ -9,13 +9,13 @@ import {
     UseGuards,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { PrivacyService } from './privacy.service.js'
 import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto.js'
 import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('profile/privacy')
-@UseGuards(JwtGuard)
+@UseGuards(SessionGuard)
 export class PrivacyController {
     constructor(private readonly privacy: PrivacyService) {}
     @Get()

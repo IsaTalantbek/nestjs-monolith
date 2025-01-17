@@ -1,5 +1,4 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
-import { Observable } from 'rxjs'
 import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
 import { BaseGuard } from '../base.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'

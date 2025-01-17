@@ -2,7 +2,7 @@ import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common'
 import { AuthService } from './auth.service.js'
 import { CookieSettings } from '../../core/keys/cookie/cookie.settings.js'
 import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto.js'
-import { JwtAuthorized } from '../../common/guards/jwt/jwt.authorized.js'
+import { SessionAuthorized } from '../../common/guards/session/session.authorized.js'
 import { IpAdressGuard } from '../../common/guards/block/block.guard.js'
 import { IpAdressBlockManager } from '../../core/util/block.manager.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -10,7 +10,7 @@ import { errorStatic } from '../../core/util/error.static.js'
 
 @Controller('auth')
 @UseGuards(IpAdressGuard)
-@UseGuards(JwtAuthorized)
+@UseGuards(SessionAuthorized)
 export class AuthController {
     constructor(
         private readonly auth: AuthService,

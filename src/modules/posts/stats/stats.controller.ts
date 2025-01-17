@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { StatsService } from './stats.service.js'
-import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('feed/stats')
-@UseGuards(JwtGuard)
+@UseGuards(SessionGuard)
 export class StatsController {
     constructor(private readonly stats: StatsService) {}
 

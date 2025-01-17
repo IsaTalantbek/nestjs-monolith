@@ -8,7 +8,7 @@ import { SessionService } from '../../../core/session/session.service.js'
 import { BaseGuard } from '../base.guard.js'
 
 @Injectable()
-export class JwtGuard extends BaseGuard {
+export class SessionGuard extends BaseGuard {
     constructor(
         private readonly jwtAuth: JwtAuthService,
         private readonly cookie: CookieSettings,

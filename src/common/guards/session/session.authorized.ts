@@ -6,7 +6,7 @@ import { SessionService } from '../../../core/session/session.service.js'
 import { BaseGuard } from '../base.guard.js'
 
 @Injectable()
-export class JwtCheck extends BaseGuard {
+export class SessionAuthorized extends BaseGuard {
     constructor(
         private readonly jwtAuth: JwtAuthService,
         private readonly cookie: CookieSettings,
@@ -20,10 +20,12 @@ export class JwtCheck extends BaseGuard {
         return true
     }
 
-    async handleRequest(
-        request: FastifyRequest,
-        reply: FastifyReply
-    ): Promise<boolean> {
+    private ifAuthorizedSend(reply: FastifyReply): boolean {
+        reply.status(403).send({ message: 'Кажется вы уже авторизованы' })
+        return false
+    }
+
+    async handleRequest(request: FastifyRequest, reply: FastifyReply) {
         const accessToken = request.cookies?.[this.cookie.accessTokenName]
         const refreshToken = request.cookies?.[this.cookie.refreshTokenName]
 
@@ -31,7 +33,7 @@ export class JwtCheck extends BaseGuard {
             const decoded = this.jwtAuth.verifyAccessToken(accessToken)
             if (decoded) {
                 request.user = this.cookie.userData(decoded)
-                return true
+                return this.ifAuthorizedSend(reply)
             } else {
                 this.cookie.clearCookie(reply, this.cookie.accessTokenName)
             }
@@ -62,7 +64,7 @@ export class JwtCheck extends BaseGuard {
 
                 this.cookie.setCookie(reply, newAccessToken, 'a')
                 request.user = this.cookie.userData(session)
-                return true
+                return this.ifAuthorizedSend(reply)
             }
         }
         this.cookie.clearCookie(reply, this.cookie.refreshTokenName)

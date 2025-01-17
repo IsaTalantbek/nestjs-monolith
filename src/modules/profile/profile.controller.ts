@@ -8,8 +8,8 @@ import {
     UsePipes,
 } from '@nestjs/common'
 import { ProfileService } from './profile.service.js'
-import { JwtGuard } from '../../common/guards/jwt/jwt.guard.js'
-import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
+import { SessionGuard } from '../../common/guards/session/session.guard.js'
+import { SessionCheck } from '../../common/guards/session/session.check.js'
 import { ParamUuidPipe } from '../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { errorStatic } from '../../core/util/error.static.js'
@@ -18,7 +18,7 @@ import { errorStatic } from '../../core/util/error.static.js'
 export class ProfileController {
     constructor(private readonly profile: ProfileService) {}
     @Get()
-    @UseGuards(JwtGuard)
+    @UseGuards(SessionGuard)
     async myProfile(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {
             const accountId = req.user.accountId
@@ -30,7 +30,7 @@ export class ProfileController {
         }
     }
 
-    @UseGuards(JwtCheck)
+    @UseGuards(SessionCheck)
     @UsePipes(ParamUuidPipe)
     @Get(':profileId')
     async userProfile(

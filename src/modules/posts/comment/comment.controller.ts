@@ -12,13 +12,13 @@ import {
     UseGuards,
 } from '@nestjs/common'
 import { CommentService } from './comment.service.js'
-import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { errorStatic } from '../../../core/util/error.static.js'
 import { UpdateCommentDto, WriteCommentDto } from './comment.dto.js'
 
 @Controller('feed/comment')
-@UseGuards(JwtGuard)
+@UseGuards(SessionGuard)
 export class CommentController {
     constructor(private readonly comment: CommentService) {}
 

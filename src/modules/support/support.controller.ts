@@ -12,11 +12,11 @@ import {
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDto } from './support.dto.js'
 import { SupportService } from './support.service.js'
-import { JwtCheck } from '../../common/guards/jwt/jwt.check.js'
+import { SessionCheck } from '../../common/guards/session/session.check.js'
 import { errorStatic } from '../../core/util/error.static.js'
 
 @Controller('support')
-@UseGuards(JwtCheck)
+@UseGuards(SessionCheck)
 export class SupportController {
     constructor(private readonly support: SupportService) {}
 

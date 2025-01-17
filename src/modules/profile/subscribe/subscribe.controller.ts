@@ -8,8 +8,8 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { JwtCheck } from '../../../common/guards/jwt/jwt.check.js'
-import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SessionCheck } from '../../../common/guards/session/session.check.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { SubscribeService } from './subscribe.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -17,7 +17,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 @Controller('profile/subscribe')
 export class SubscribeController {
     constructor(private readonly subscribeService: SubscribeService) {}
-    @UseGuards(JwtCheck)
+    @UseGuards(SessionCheck)
     @Get(':profileId')
     async getSubscribe(
         @Param('profileId') profileId: string,
@@ -42,7 +42,7 @@ export class SubscribeController {
             })
         }
     }
-    @UseGuards(JwtGuard)
+    @UseGuards(SessionGuard)
     @UsePipes(ParamUuidPipe)
     @Put(':profileId')
     async subscribe(

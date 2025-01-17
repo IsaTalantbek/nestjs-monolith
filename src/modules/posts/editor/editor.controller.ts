@@ -2,11 +2,11 @@ import { Controller, UseGuards, Post, Body, Req, Res } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { EditorDto } from './editor.dto.js'
 import { EditorService } from './editor.service.js'
-import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('editor')
-@UseGuards(JwtGuard)
+@UseGuards(SessionGuard)
 export class EditorController {
     constructor(private readonly editor: EditorService) {}
 

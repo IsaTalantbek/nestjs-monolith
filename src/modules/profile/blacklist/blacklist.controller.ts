@@ -11,13 +11,13 @@ import {
     UsePipes,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { JwtGuard } from '../../../common/guards/jwt/jwt.guard.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { BlackLIstService } from './blacklist.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('profile/blacklist')
-@UseGuards(JwtGuard)
+@UseGuards(SessionGuard)
 export class BlackListController {
     constructor(private readonly blacklist: BlackLIstService) {}
 
