@@ -1,16 +1,19 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
+import { BaseGuard } from '../base.guard.js'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Injectable()
-export class IpAdressGuard implements CanActivate {
-    constructor(private readonly blockManager: IpAdressBlockManager) {}
+export class IpAdressGuard extends BaseGuard {
+    constructor(private readonly blockManager: IpAdressBlockManager) {
+        super()
+    }
 
-    canActivate(
-        context: ExecutionContext
-    ): boolean | Promise<boolean> | Observable<boolean> {
-        const reply = context.switchToHttp().getResponse()
-        const request = context.switchToHttp().getRequest()
+    async handleRequest(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ): Promise<boolean> {
         const ipAdress = request.ip
 
         // Если запрос блокирован, отклоняем новый
