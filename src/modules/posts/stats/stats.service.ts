@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { Like } from '@prisma/client'
 
 @Injectable()
 export class StatsService {
@@ -70,7 +71,7 @@ export class StatsService {
 
     async likePost(postId: string, accountId: string) {
         return this.mutex.lock(accountId, async () => {
-            const postWithInfo = await this.prisma.post.findFirst({
+            const postWithInfo = await this.prisma.post.findUnique({
                 where: { id: postId, deleted: false },
                 include: { profile: true },
             })
@@ -80,41 +81,33 @@ export class StatsService {
             }
 
             return this.prisma.$transaction(async (prisma) => {
-                const existingLike = await prisma.like.findUnique({
+                const existing: Like = await prisma.like.findUnique({
                     where: {
-                        initAid_postId_type: {
+                        initAid_postId: {
                             initAid: accountId,
                             postId,
-                            type: 'like',
                         },
                     },
                 })
 
-                if (existingLike) {
-                    if (existingLike.deleted === false) {
+                if (existing?.type === 'like') {
+                    if (existing.deleted === false) {
                         return 'Вы уже лайкнули пост'
                     }
                     return await this.addLikeIfDeleted(
                         prisma,
                         postId,
-                        existingLike.id,
+                        existing.id,
                         postWithInfo.profile.statsId
                     )
                 }
 
-                const existingDislike = await prisma.like.findUnique({
-                    where: {
-                        initAid_postId_type: {
-                            initAid: accountId,
-                            postId,
-                            type: 'dislike',
-                        },
-                    },
-                })
-
-                if (existingDislike?.deleted === false) {
+                if (
+                    existing?.deleted === false &&
+                    existing.type === 'dislike'
+                ) {
                     await prisma.like.update({
-                        where: { id: existingDislike.id },
+                        where: { id: existing.id },
                         data: { type: 'like', updatedBy: accountId },
                     })
 
@@ -136,11 +129,11 @@ export class StatsService {
                     })
 
                     return true
-                } else if (existingDislike?.deleted === true) {
+                } else if (existing?.deleted === true) {
                     return await this.addLikeIfDeleted(
                         prisma,
                         postId,
-                        existingDislike.id,
+                        existing.id,
                         postWithInfo.profile.statsId
                     )
                 }
@@ -186,39 +179,29 @@ export class StatsService {
             }
 
             return this.prisma.$transaction(async (prisma) => {
-                const existingDislike = await prisma.like.findUnique({
+                const existing = await prisma.like.findUnique({
                     where: {
-                        initAid_postId_type: {
+                        initAid_postId: {
                             initAid: accountId,
                             postId,
-                            type: 'dislike',
                         },
                     },
                 })
-                if (existingDislike) {
-                    if (existingDislike.deleted === false) {
+                if (existing?.type === 'dislike') {
+                    if (existing.deleted === false) {
                         return 'вы уже дизлайкнули пост'
                     }
                     return await this.addDislikeIfDeleted(
                         prisma,
                         postId,
-                        existingDislike.id,
+                        existing.id,
                         postWithInfo.profile.statsId
                     )
                 }
 
-                const existingLike = await prisma.like.findUnique({
-                    where: {
-                        initAid_postId_type: {
-                            initAid: accountId,
-                            postId,
-                            type: 'like',
-                        },
-                    },
-                })
-                if (existingLike?.deleted === false) {
+                if (existing?.deleted === false) {
                     await prisma.like.update({
-                        where: { id: existingLike.id },
+                        where: { id: existing.id },
                         data: {
                             type: 'dislike',
                             updatedBy: accountId,
@@ -241,11 +224,11 @@ export class StatsService {
                     })
 
                     return true
-                } else if (existingLike?.deleted === true) {
+                } else if (existing?.deleted === true) {
                     return await this.addDislikeIfDeleted(
                         prisma,
                         postId,
-                        existingLike.id,
+                        existing.id,
                         postWithInfo.profile.statsId
                     )
                 }

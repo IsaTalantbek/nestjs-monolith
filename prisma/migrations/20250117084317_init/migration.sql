@@ -32,6 +32,7 @@ CREATE TABLE `Session` (
     `superUser` BOOLEAN NOT NULL,
     `expiresAt` DATETIME(3) NOT NULL,
     `ipAdress` VARCHAR(191) NOT NULL,
+    `ipAdressFull` VARCHAR(191) NOT NULL,
     `headers` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
@@ -166,13 +167,33 @@ CREATE TABLE `posts` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Comment` (
+    `id` VARCHAR(191) NOT NULL,
+    `text` VARCHAR(191) NOT NULL,
+    `initPid` VARCHAR(191) NOT NULL,
+    `postId` VARCHAR(191) NOT NULL,
+    `commentId` VARCHAR(191) NULL,
+    `active` BOOLEAN NOT NULL DEFAULT false,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
+    `updated_at` DATETIME(3) NOT NULL,
+    `updated_by` VARCHAR(191) NOT NULL DEFAULT 'System',
+    `deleted_at` DATETIME(3) NULL,
+    `deleted_by` VARCHAR(191) NULL,
+    `deleted` BOOLEAN NULL DEFAULT false,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `tags` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
 
     UNIQUE INDEX `tags_name_key`(`name`),
+    INDEX `tags_name_idx`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -190,7 +211,7 @@ CREATE TABLE `likes` (
     `deleted_by` VARCHAR(191) NULL,
     `deleted` BOOLEAN NULL DEFAULT false,
 
-    UNIQUE INDEX `likes_initAid_postId_type_key`(`initAid`, `postId`, `type`),
+    UNIQUE INDEX `likes_initAid_postId_key`(`initAid`, `postId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -213,7 +234,7 @@ CREATE TABLE `black_lists` (
 -- CreateTable
 CREATE TABLE `_post-tags` (
     `A` VARCHAR(191) NOT NULL,
-    `B` INTEGER NOT NULL,
+    `B` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `_post-tags_AB_unique`(`A`, `B`),
     INDEX `_post-tags_B_index`(`B`)
@@ -245,6 +266,12 @@ ALTER TABLE `posts` ADD CONSTRAINT `posts_profile_id_fkey` FOREIGN KEY (`profile
 
 -- AddForeignKey
 ALTER TABLE `posts` ADD CONSTRAINT `posts_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Comment` ADD CONSTRAINT `Comment_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `posts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Comment` ADD CONSTRAINT `Comment_initPid_fkey` FOREIGN KEY (`initPid`) REFERENCES `profiles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `likes` ADD CONSTRAINT `likes_initAid_fkey` FOREIGN KEY (`initAid`) REFERENCES `accounts`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

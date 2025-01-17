@@ -121,7 +121,7 @@ enum profilePrivacy {
 
 model Privacy {
 	id					String			@id	@default(uuid())
-	profile      		Profile?        @relation("profile-privacy") 
+	profile      		Profile?        
 	viewProfile			profilePrivacy	@default(all)
 	subscriptions		profilePrivacy	@default(all)
 	posts				profilePrivacy	@default(all)
@@ -172,7 +172,7 @@ model Profile {
 
 	owner				Account?		@relation(fields: [ownerId], references: [id])
 	ownerId				String?			
-	privacy      		Privacy?     	@relation("profile-privacy", fields: [privacyId], references: [id])
+	privacy      		Privacy?     	@relation(fields: [privacyId], references: [id])
     privacyId    		String?      	@unique
 	stats				statsProfile	@relation("stats-profile",fields: [statsId], references: [id] )
 	statsId				String			@unique				
@@ -218,7 +218,7 @@ model Friend {
 	id 					String			@id @default(uuid())
 	user				Account			@relation(fields: [initAid], references: [id])
 	initAid				String			@map("user_id")
-	vsAid			String			@map("vs_user_id")
+	vsAid				String			@map("vs_user_id")
 
 	createdAt			DateTime		@map("created_at") @default(now())
 	createdBy			String			@map("created_by") @default("System")
@@ -312,12 +312,16 @@ model Tags {
 	@@index(name)
 }
 
+enum LikeDislikeType {
+	like
+	dislike
+}
 
 model Like {
 	id 					String			@id @default(uuid())
 	initAid				String
 	postId				String
-	type				String			@default("like")
+	type				LikeDislikeType
 	user				Account			@relation(fields: [initAid], references: [id])
   	post    			Post     		@relation(fields: [postId], references: [id]) 
 	
@@ -328,7 +332,7 @@ model Like {
 	deletedAt			DateTime?		@map("deleted_at")
 	deletedBy			String?			@map("deleted_by") 
 	deleted				Boolean?		@default(false)
-  	@@unique([initAid, postId, type]) // Гарантирует уникальность комбинации
+  	@@unique([initAid, postId]) // Гарантирует уникальность комбинации
 	@@map("likes")
 }
 
@@ -337,7 +341,7 @@ model BlackList {
 	id					String			@id @default(uuid()) 
 	user                Account			@relation(fields: [initAid], references: [id])
 	initAid			    String
-	vsPid         String
+	vsPid         		String
 
 	createdAt			DateTime		@map("created_at") @default(now())    
 	createdBy			String			@map("created_by") @default("System")	
