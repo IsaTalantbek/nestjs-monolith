@@ -212,6 +212,8 @@ enum friendType {
 	active
 	inactive
 	waiting
+
+	@@map("friends_type_enum")
 }
 
 model Friend {
@@ -315,6 +317,8 @@ model Tags {
 enum LikeDislikeType {
 	like
 	dislike
+
+	@@map("like_dislike_type_enum")
 }
 
 model Like {

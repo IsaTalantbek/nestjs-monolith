@@ -90,7 +90,7 @@ export class AuthController {
     ) {
         try {
             const { login } = preRegisterUserDto
-            const check = this.auth.ifUserExist(login)
+            const check = await this.auth.ifUserExist(login)
             if (check) {
                 return reply
                     .status(409)

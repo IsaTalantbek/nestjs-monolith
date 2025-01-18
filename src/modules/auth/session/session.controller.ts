@@ -36,7 +36,7 @@ export class SessionController {
         }
     }
 
-    @Delete('logout')
+    @Delete('logout/all')
     async logoutAll(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
         try {
             const accountId = req.user.accountId
@@ -66,7 +66,7 @@ export class SessionController {
         }
     }
 
-    @Post('logout/:sessionId?')
+    @Delete('logout/:sessionId?')
     async logout(
         @Req() req: FastifyRequest,
         @Res() reply: FastifyReply,

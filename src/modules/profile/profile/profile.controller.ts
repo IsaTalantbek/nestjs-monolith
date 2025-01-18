@@ -27,7 +27,7 @@ export class ProfileController {
         @Req() req: FastifyRequest
     ) {
         try {
-            const { profileId } = profileIdDTO
+            const { profileId } = profileIdDTO || undefined
             const accountId = req.user.accountId
             const result = await this.profile.myProfile(accountId, profileId)
             if (typeof result === 'string') {
@@ -41,7 +41,7 @@ export class ProfileController {
             return
         }
     }
-    @Get()
+    @Get('account')
     @UseGuards(SessionGuard)
     async myAccount(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
         try {

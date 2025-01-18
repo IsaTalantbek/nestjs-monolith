@@ -48,7 +48,14 @@ export class SessionGuard extends BaseGuard {
             if (decoded) {
                 const session = await this.session.getSession(decoded.data)
 
-                if (!session || session.expiresAt < new Date()) {
+                if (session.deleted === true) {
+                    this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
+                    reply.status(401).send({
+                        message:
+                            'Вашу сессию кто-то завершил досрочно. Напишите в поддержку, если это сделали не вы',
+                    })
+                    return false
+                } else if (session.expiresAt < new Date()) {
                     this.session.cleanExpiredSession(session.id)
                     return this.handleSessionExpired(reply)
                 }

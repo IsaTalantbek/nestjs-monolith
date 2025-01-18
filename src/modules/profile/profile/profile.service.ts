@@ -18,13 +18,13 @@ export class ProfileService implements ProfileServiceInterface {
         profileId?: string
     ): Promise<MyProfileDTO | string> {
         let result
-        if (!profileId) {
-            result = await this.prisma.profile.findFirst({
-                where: { ownerId: accountId, profileType: 'personal' },
-            })
-        } else {
+        if (profileId) {
             result = await this.prisma.profile.findUnique({
                 where: { id: profileId, ownerId: accountId },
+            })
+        } else {
+            result = await this.prisma.profile.findFirst({
+                where: { ownerId: accountId, profileType: 'personal' },
             })
         }
         if (!result) {
