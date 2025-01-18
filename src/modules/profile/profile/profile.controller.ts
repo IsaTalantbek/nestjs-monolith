@@ -7,12 +7,12 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common'
-import { ProfileService } from './profile.service.js'
-import { SessionGuard } from '../../common/guards/session/session.guard.js'
-import { SessionCheck } from '../../common/guards/session/session.check.js'
-import { ParamUuidPipe } from '../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from '../../core/util/error.static.js'
+import { ProfileService } from './profile.service.js'
+import { SessionGuard } from '../../../common/guards/session/session.guard.js'
+import { SessionCheck } from '../../../common/guards/session/session.check.js'
+import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
+import { errorStatic } from '../../../core/util/error.static.js'
 
 @Controller('profile')
 export class ProfileController {

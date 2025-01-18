@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../core/database/prisma.service.js'
-import * as _ from 'lodash'
+import { PrismaService } from '../../../core/database/prisma.service.js'
 
 @Injectable()
 export class ProfileService {
@@ -11,7 +10,7 @@ export class ProfileService {
     async myProfile(accountId: string) {
         return await this.prisma.account.findUnique({
             where: { id: accountId },
-            include: { profile: true },
+            include: { profiles: true },
         })
     }
     //Тут можно получить информацию о профиле. Айди пользователя
@@ -30,7 +29,7 @@ export class ProfileService {
             avatarImage: result.avatarImageId,
             coverImage: result.coverImageId,
         }
-        const subscription = await this.prisma.subscribe.findMany({
+        const subscription = await this.prisma.subscribtion.findMany({
             where: { subscriberAid: result.ownerId, active: true },
         })
         const posts = await this.prisma.post.findMany({

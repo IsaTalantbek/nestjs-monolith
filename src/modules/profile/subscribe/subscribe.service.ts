@@ -14,12 +14,12 @@ export class SubscribeService {
     //Если передан accountId, возвращает все подписки этого аккаунта
     async getSubscribe(accountId?: string, userPid?: string) {
         if (userPid) {
-            const result = await this.prisma.subscribe.findMany({
+            const result = await this.prisma.subscribtion.findMany({
                 where: { authorPid: userPid, active: true },
             })
             return result.map(({ subscriberAid }) => ({ subscriberAid }))
         } else if (accountId) {
-            const result = await this.prisma.subscribe.findMany({
+            const result = await this.prisma.subscribtion.findMany({
                 where: { subscriberAid: accountId, active: true },
             })
             return result.map(({ authorPid }) => ({ authorPid }))
@@ -39,12 +39,12 @@ export class SubscribeService {
             if (!checkProfile) {
                 return 'Такого профиля не существует'
             }
-            const subscribe = await this.prisma.subscribe.findFirst({
+            const subscribe = await this.prisma.subscribtion.findFirst({
                 where: { authorPid: userPid, subscriberAid: accountId },
             })
             if (!subscribe) {
                 await this.prisma.$transaction(async (prisma) => {
-                    await prisma.subscribe.create({
+                    await prisma.subscribtion.create({
                         data: {
                             subscriberAid: accountId,
                             authorPid: userPid,
@@ -60,7 +60,7 @@ export class SubscribeService {
                 return true
             } else if (subscribe.active === true) {
                 await this.prisma.$transaction(async (prisma) => {
-                    await prisma.subscribe.update({
+                    await prisma.subscribtion.update({
                         where: { id: subscribe.id },
                         data: { active: false, updatedBy: accountId },
                     })
@@ -72,7 +72,7 @@ export class SubscribeService {
                 return true
             } else if (subscribe.active === false) {
                 await this.prisma.$transaction(async (prisma) => {
-                    await prisma.subscribe.update({
+                    await prisma.subscribtion.update({
                         where: { id: subscribe.id },
                         data: { active: true, updatedBy: accountId },
                     })

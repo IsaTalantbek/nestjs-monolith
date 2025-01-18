@@ -1,23 +1,29 @@
 import { Injectable } from '@nestjs/common'
 import * as fs from 'fs'
 import { PrismaService } from '../../core/database/prisma.service.js'
+import { RandomUUIDOptions, UUID } from 'crypto'
+import { SupportServiceInterface } from './support.dto.js'
 
-const am = './messages/am.txt'
-const rm = './messages/rm.txt'
+const am = './messages/am.txt' // Authorized Messages
+const rm = './messages/rm.txt' // Randrom Messages
 
 @Injectable()
-export class SupportService {
+export class SupportService implements SupportServiceInterface {
     constructor(private readonly prisma: PrismaService) {}
 
-    async writeSupport(text: string, accountId?: string) {
+    async writeSupport(text: string, accountId?: string): Promise<boolean> {
         const filename = accountId ? am : rm
         const content = accountId ? `${accountId}: ${text}` : text
 
         await fs.promises.appendFile(filename, content + '\n')
+        return true
     }
 
     // Функция 2: очистить файл rm или am
-    async clearSupport(accountId: string, fileOption: number) {
+    async clearSupport(
+        fileOption: number,
+        accountId: string
+    ): Promise<boolean | string> {
         const check = await this.prisma.account.findUnique({
             where: { id: accountId },
         })
@@ -31,7 +37,7 @@ export class SupportService {
     }
 
     // Функция 3: вернуть содержимое файла rm или am
-    async readSupport(accountId: string, fileOption: number) {
+    async readSupport(fileOption: number, accountId: string) {
         const check = await this.prisma.account.findUnique({
             where: { id: accountId },
         })

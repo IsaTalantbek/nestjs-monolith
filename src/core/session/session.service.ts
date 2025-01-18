@@ -34,7 +34,7 @@ export class SessionService {
             })
             if (user && user.superUser === true) {
                 await this.prisma.session.update({
-                    where: { id, accountId },
+                    where: { id: id },
                     data: {
                         deleted: true,
                         deletedAt: date,
@@ -65,7 +65,7 @@ export class SessionService {
             const date = new Date()
             if (user.superUser === true) {
                 await this.prisma.session.updateMany({
-                    where: { accountId },
+                    where: { accountId: accountId },
                     data: {
                         deleted: true,
                         deletedAt: date,
@@ -91,13 +91,13 @@ export class SessionService {
     ): Promise<boolean | string> {
         return this.mutex.lock(accountId, async () => {
             const check = await this.prisma.session.findUnique({
-                where: { id: sessionId, superUser: true, accountId },
+                where: { id: sessionId, superUser: true },
             })
             if (!check) {
                 return 'У вас нету роли суперюзера'
             }
             const check2 = await this.prisma.session.findUnique({
-                where: { id: sessionId, superUser: false, accountId },
+                where: { id: id, superUser: false },
             })
             if (!check2) {
                 return 'Нету сессии, которой можно передать роль суперюзера'
@@ -122,7 +122,7 @@ export class SessionService {
             await this.prisma.$transaction(async (prisma) => {
                 const find = await prisma.session.findMany({
                     where: {
-                        accountId,
+                        accountId: accountId,
                         deleted: false,
                         expiresAt: { lt: new Date() },
                     },
@@ -135,7 +135,7 @@ export class SessionService {
                     // Если суперпользователь среди удаляемых, назначим нового суперпользователя
                     const newSuperUser = await prisma.session.findFirst({
                         where: {
-                            accountId,
+                            accountId: accountId,
                             superUser: false,
                             deleted: false,
                         },
@@ -153,14 +153,14 @@ export class SessionService {
                 }
                 await prisma.session.updateMany({
                     where: {
-                        accountId,
+                        accountId: accountId,
                         expiresAt: { lt: new Date() },
                         deleted: false,
                     },
                     data: {
                         deleted: true,
                         deletedAt: date,
-                        deletedBy: 'ExpireSession',
+                        deletedBy: 'SessionService',
                     },
                 })
                 return true
@@ -173,7 +173,7 @@ export class SessionService {
             await this.prisma.$transaction(async (prisma) => {
                 const res = await prisma.session.update({
                     where: {
-                        id,
+                        id: id,
                         expiresAt: { lt: new Date() },
                         deleted: false,
                     },

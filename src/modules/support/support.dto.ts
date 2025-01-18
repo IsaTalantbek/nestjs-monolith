@@ -5,3 +5,15 @@ export class SupportBodyDto {
     @MaxLength(250)
     text: string
 }
+
+export interface SupportServiceInterface {
+    writeSupport(text: string, accountId?: string): Promise<boolean>
+    clearSupport(
+        fileOption: number,
+        accountId?: string
+    ): Promise<boolean | string>
+    readSupport(
+        fileOption: number,
+        accountId?: string
+    ): Promise<boolean | string>
+}

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { AuthModule } from './auth/auth.module.js'
-import { ProfileModule } from './profile/profile.module.js'
+import { AuthModule } from './auth/auth/auth.module.js'
+import { ProfileModule } from './profile/profile/profile.module.js'
 import { BlackListModule } from './profile/blacklist/blacklist.module.js'
 import { PostsModule } from './posts/posts.module.js'
 import { EditorModule } from './posts/editor/editor.module.js'

@@ -39,12 +39,12 @@ model Account {
 	id				String			@id @default(uuid()) 
 	accountRole 	AccountRole		@map("account_role") @default(user)
 	accountState	AccountState	@map("account_state") @default(created)
-	profile  		Profile[]					
-	post			Post[]
-	like			Like[]
-	subscribe		Subscribe[]
+	profiles  		Profile[]					
+	posts			Post[]
+	likes			Like[]
+	subscribtions	Subscribtion[]
 	blacklist		BlackList[]
-	friend			Friend[]
+	friends			Friend[]
 	sessions		Session[]		
 
 	login			String			@unique
@@ -164,8 +164,8 @@ model Profile {
 	avatarImageId		String?			@map("avatar_image_id") 
 	coverImageId		String?			@map("cover_image_id") 
 	name        		String?			@map("name")	
-	post				Post[]
-	subscribe			Subscribe[]
+	posts				Post[]
+	subscribers			Subscribtion[]
 	comments			Comment[]					
 
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
@@ -192,7 +192,7 @@ model Profile {
 	@@map("profiles")
 }
 
-model Subscribe {
+model Subscribtion {
 	id 					String			@id @default(uuid())
 	subscriberAid		String			@map("subscriber_aid")
 	authorPid			String			@map("author_pid")

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../core/database/prisma.service.js'
+import { PrismaService } from '../../../core/database/prisma.service.js'
 import bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto.js'
-import { JwtAuthService } from '../../core/keys/jwt/jwt.auth.service.js'
-import { SessionService } from '../../core/session/session.service.js'
-import { MutexManager } from '../../core/util/mutex.manager.js'
+import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
+import { SessionService } from '../../../core/session/session.service.js'
+import { MutexManager } from '../../../core/util/mutex.manager.js'
 
 @Injectable()
 export class AuthService {
@@ -57,7 +57,7 @@ export class AuthService {
                 where: { deleted: false, superUser: true, accountId },
             })
 
-            superUserCheck ? (superUser = false) : (superUser = true)
+            superUser = !superUserCheck
             const data: {
                 accountId: string
                 expiresAt: any
@@ -114,7 +114,7 @@ export class AuthService {
                         password: hashedPassword,
                         email,
                         createdBy: headers,
-                        profile: {
+                        profiles: {
                             create: {
                                 profileType: 'personal',
                                 createdBy: headers,

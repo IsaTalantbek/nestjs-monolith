@@ -22,8 +22,8 @@ export class SupportController {
 
     @Post()
     async writeSupport(
-        @Req() req: FastifyRequest,
         @Body() bodyDto: SupportBodyDto,
+        @Req() req: FastifyRequest,
         @Res() reply: FastifyReply
     ) {
         try {
@@ -52,7 +52,7 @@ export class SupportController {
         try {
             const accountId = req.user.accountId
             const fileOption = parseInt(option, 10)
-            const result = await this.support.readSupport(accountId, fileOption)
+            const result = await this.support.readSupport(fileOption, accountId)
             return reply.status(200).send(result)
         } catch (error) {
             errorStatic(
@@ -74,8 +74,8 @@ export class SupportController {
             const accountId = req.user.accountId
             const fileOption = parseInt(option, 10)
             const result = await this.support.clearSupport(
-                accountId,
-                fileOption
+                fileOption,
+                accountId
             )
             return reply.status(200).send(result)
         } catch (error) {
