@@ -12,8 +12,5 @@ export interface SupportServiceInterface {
         fileOption: number,
         accountId?: string
     ): Promise<boolean | string>
-    readSupport(
-        fileOption: number,
-        accountId?: string
-    ): Promise<boolean | string>
+    readSupport(fileOption: number, accountId?: string): Promise<string>
 }

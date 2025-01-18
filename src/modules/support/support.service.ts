@@ -37,7 +37,7 @@ export class SupportService implements SupportServiceInterface {
     }
 
     // Функция 3: вернуть содержимое файла rm или am
-    async readSupport(fileOption: number, accountId: string) {
+    async readSupport(fileOption: number, accountId: string): Promise<string> {
         const check = await this.prisma.account.findUnique({
             where: { id: accountId },
         })

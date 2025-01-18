@@ -42,7 +42,7 @@ model Account {
 	profiles  		Profile[]					
 	posts			Post[]
 	likes			Like[]
-	subscribtions	Subscribtion[]
+	Subscriptions	Subscription[]
 	blacklist		BlackList[]
 	friends			Friend[]
 	sessions		Session[]		
@@ -52,7 +52,7 @@ model Account {
 	tfaCode			String?			@unique @map("tfa_code")
 	email			String?			@unique	@map("email")
 	phone			String?			@unique	@map("phone")
-	accountUI		String?			
+	accountUI		String?			@default(uuid())
 	
 	createdAt		DateTime		@map("created_at") @default(now())
 	createdBy		String			@map("created_by") @default("System")	
@@ -165,7 +165,7 @@ model Profile {
 	coverImageId		String?			@map("cover_image_id") 
 	name        		String?			@map("name")	
 	posts				Post[]
-	subscribers			Subscribtion[]
+	subscribers			Subscription[]
 	comments			Comment[]					
 
 	official			Boolean			@default(false) //Имеется ввиду, подтвержденный человек
@@ -192,7 +192,7 @@ model Profile {
 	@@map("profiles")
 }
 
-model Subscribtion {
+model Subscription {
 	id 					String			@id @default(uuid())
 	subscriberAid		String			@map("subscriber_aid")
 	authorPid			String			@map("author_pid")

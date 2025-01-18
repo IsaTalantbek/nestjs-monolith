@@ -1,26 +1,60 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
+import {
+    ProfilePrivacyStatsInterface,
+    ProfileServiceInterface,
+    UserProfileResult,
+} from './profile.interface.js'
+import { Post, Subscription } from '@prisma/client'
+import { plainToInstance } from 'class-transformer'
+import { MyAccountDTO, MyProfileDTO } from './profile.dto.js'
 
 @Injectable()
-export class ProfileService {
+export class ProfileService implements ProfileServiceInterface {
     constructor(private readonly prisma: PrismaService) {}
 
-    //Возвращает всю информацию о своем аккаунте. Изменить потом,
-    //Сделать меньше информации
-    async myProfile(accountId: string) {
-        return await this.prisma.account.findUnique({
+    async myProfile(
+        accountId: string,
+        profileId?: string
+    ): Promise<MyProfileDTO | string> {
+        let result
+        if (!profileId) {
+            result = await this.prisma.profile.findFirst({
+                where: { ownerId: accountId, profileType: 'personal' },
+            })
+        } else {
+            result = await this.prisma.profile.findUnique({
+                where: { id: profileId, ownerId: accountId },
+            })
+        }
+        if (!result) {
+            return 'Похоже такого профиля не существует, либо вы им не владеете'
+        }
+        return plainToInstance(MyProfileDTO, result, {
+            excludeExtraneousValues: true, // Исключить поля без @Expose
+        })
+    }
+
+    async myAccount(accountId: string): Promise<MyAccountDTO> {
+        const result = await this.prisma.account.findUnique({
             where: { id: accountId },
-            include: { profiles: true },
+        })
+        return plainToInstance(MyAccountDTO, result, {
+            excludeExtraneousValues: true, // Исключить поля без @Expose
         })
     }
     //Тут можно получить информацию о профиле. Айди пользователя
     //по желанию. Но если у профиля включены настройки 'friends'
     //то только друзья могут получить дополнительную информацию
-    async userProfile(userPid: string, accountId?: string) {
-        const result = await this.prisma.profile.findUnique({
-            where: { id: userPid, deleted: false },
-            include: { privacy: true, stats: true },
-        })
+    async userProfile(
+        userPid: string,
+        accountId?: string
+    ): Promise<UserProfileResult | string> {
+        const result: ProfilePrivacyStatsInterface =
+            await this.prisma.profile.findUnique({
+                where: { id: userPid, deleted: false },
+                include: { privacy: true, stats: true },
+            })
         if (!result) {
             return 'Такого профиля не существует'
         }
@@ -29,10 +63,11 @@ export class ProfileService {
             avatarImage: result.avatarImageId,
             coverImage: result.coverImageId,
         }
-        const subscription = await this.prisma.subscribtion.findMany({
-            where: { subscriberAid: result.ownerId, active: true },
-        })
-        const posts = await this.prisma.post.findMany({
+        const subscription: Subscription[] =
+            await this.prisma.subscription.findMany({
+                where: { subscriberAid: result.ownerId, active: true },
+            })
+        const posts: Post[] = await this.prisma.post.findMany({
             where: { initPid: result.id, deleted: false },
         })
 
