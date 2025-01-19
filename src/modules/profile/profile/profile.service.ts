@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import {
-    ProfilePrivacyStatsInterface,
+    ProfilePrivacyStats,
     ProfileServiceInterface,
     UserProfileResult,
-} from './profile.interface.js'
+} from './sample/profile.interface.js'
 import { Post, Subscription } from '@prisma/client'
 import { plainToInstance } from 'class-transformer'
-import { MyAccountDTO, MyProfileDTO } from './profile.dto.js'
+import { MyAccountDTO, MyProfileDTO } from './sample/profile.dto.js'
 
 @Injectable()
 export class ProfileService implements ProfileServiceInterface {
@@ -15,12 +15,12 @@ export class ProfileService implements ProfileServiceInterface {
 
     async myProfile(
         accountId: string,
-        profileId?: string
+        login?: string
     ): Promise<MyProfileDTO | string> {
         let result
-        if (profileId) {
+        if (login) {
             result = await this.prisma.profile.findUnique({
-                where: { id: profileId, ownerId: accountId },
+                where: { login: login, ownerId: accountId },
             })
         } else {
             result = await this.prisma.profile.findFirst({
@@ -47,12 +47,12 @@ export class ProfileService implements ProfileServiceInterface {
     //по желанию. Но если у профиля включены настройки 'friends'
     //то только друзья могут получить дополнительную информацию
     async userProfile(
-        userPid: string,
+        login: string,
         accountId?: string
     ): Promise<UserProfileResult | string> {
-        const result: ProfilePrivacyStatsInterface =
+        const result: ProfilePrivacyStats =
             await this.prisma.profile.findUnique({
-                where: { id: userPid, deleted: false },
+                where: { login: login, deleted: false },
                 include: { privacy: true, stats: true },
             })
         if (!result) {

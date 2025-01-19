@@ -2,6 +2,11 @@ import { Account, Post, Subscription } from '@prisma/client'
 import { Prisma } from '@prisma/client'
 import { MyAccountDTO, MyProfileDTO } from './profile.dto'
 
+export type UserProfileResult = MinData | UserProfileData
+
+export type ProfilePrivacyStats = Prisma.ProfileGetPayload<{
+    include: { privacy: true; stats: true }
+}>
 export type AccountWithProfile = Prisma.AccountGetPayload<{
     include: { profiles: true }
 }>
@@ -40,9 +45,3 @@ interface UserProfileData {
     dislikes?: number
     ratio?: number
 }
-
-export type UserProfileResult = MinData | UserProfileData
-
-export type ProfilePrivacyStatsInterface = Prisma.ProfileGetPayload<{
-    include: { privacy: true; stats: true }
-}>
