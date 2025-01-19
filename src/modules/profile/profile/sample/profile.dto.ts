@@ -1,11 +1,11 @@
 import { Expose } from 'class-transformer'
-import { IsOptional, IsUUID } from 'class-validator'
+import { IsOptional, IsString } from 'class-validator'
 
 export class MyAccountDTO {
     @Expose()
     id: string
     @Expose()
-    login: string
+    slug: string
     @Expose()
     email: string
     @Expose()
@@ -43,8 +43,8 @@ export class MyProfileDTO {
     otherLinks: JSON
 }
 
-export class ProfileIdQueryDTO {
-    @IsUUID()
+export class slugQueryDTO {
+    @IsString()
     @IsOptional()
-    profileId: string
+    slug: string
 }

@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common'
 import { AuthService } from './auth.service.js'
 import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
-import { CreateUserDto, LoginUserDto, PreRegisterUserDto } from './auth.dto.js'
+import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
 import { SessionAuthorized } from '../../../common/guards/session/session.authorized.js'
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
 import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
@@ -18,16 +18,16 @@ export class AuthController {
         private readonly block: IpAdressBlockManager
     ) {}
 
-    @Post('login')
-    async login(
-        @Body() loginUserDto: LoginUserDto,
+    @Post('slug')
+    async slug(
+        @Body() loginUserDto: loginUserDto,
         @Res({ passthrough: true }) reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
         try {
-            const { login, password } = loginUserDto
+            const { slug, password } = loginUserDto
             const userId = await this.auth.validateUser({
-                login,
+                slug,
                 password,
             })
             if (!userId) {
@@ -36,7 +36,7 @@ export class AuthController {
                     .send({ message: 'Неправильные данные' })
             }
             const ipPrefix = req.ip.split('.').slice(0, 2).join('.') // Берем первые два октета
-            const { newRefreshToken } = await this.auth.login(
+            const { newRefreshToken } = await this.auth.slug(
                 userId,
                 ipPrefix,
                 req.ip,
@@ -48,7 +48,7 @@ export class AuthController {
                 .send({ message: 'Успешный логин', token: newRefreshToken })
         } catch (error) {
             this.block.unlock(req.ip)
-            errorStatic(error, reply, 'LOGIN-AUTH', 'входа в аккаунт')
+            errorStatic(error, reply, 'slug-AUTH', 'входа в аккаунт')
             return
         } finally {
             this.block.unlock(req.ip)
@@ -62,10 +62,10 @@ export class AuthController {
         @Req() req: FastifyRequest
     ) {
         try {
-            const { login, email, password } = createUserDto // извлекаем данные
+            const { slug, email, password } = createUserDto // извлекаем данные
             const headers = req.headers['user-agent']
             const result = await this.auth.register({
-                login,
+                slug,
                 email,
                 password,
                 headers,
@@ -89,8 +89,8 @@ export class AuthController {
         @Res() reply: FastifyReply
     ) {
         try {
-            const { login } = preRegisterUserDto
-            const check = await this.auth.ifUserExist(login)
+            const { slug } = preRegisterUserDto
+            const check = await this.auth.ifUserExist(slug)
             if (check) {
                 return reply
                     .status(409)

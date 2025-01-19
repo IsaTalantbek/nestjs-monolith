@@ -86,7 +86,7 @@ CREATE TABLE `profiles` (
     `city_id` VARCHAR(191) NULL,
     `avatar_image_id` VARCHAR(191) NULL,
     `cover_image_id` VARCHAR(191) NULL,
-    `login` VARCHAR(191) NOT NULL,
+    `slug` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NULL,
     `official` BOOLEAN NOT NULL DEFAULT false,
     `ownerId` VARCHAR(191) NULL,
@@ -103,7 +103,7 @@ CREATE TABLE `profiles` (
     `deleted_by` VARCHAR(191) NULL,
     `deleted` BOOLEAN NULL DEFAULT false,
 
-    UNIQUE INDEX `profiles_login_key`(`login`),
+    UNIQUE INDEX `profiles_slug_key`(`slug`),
     UNIQUE INDEX `profiles_privacyId_key`(`privacyId`),
     UNIQUE INDEX `profiles_statsId_key`(`statsId`),
     PRIMARY KEY (`id`)

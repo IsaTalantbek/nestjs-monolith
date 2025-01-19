@@ -1,73 +1,53 @@
-import {
-    Controller,
-    Get,
-    Param,
-    Put,
-    Req,
-    Res,
-    UseGuards,
-    UsePipes,
-} from '@nestjs/common'
-import { SessionCheck } from '../../../common/guards/session/session.check.js'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { SubscribeService } from './subscribe.service.js'
-import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
+import { Controller } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { UUID } from 'crypto'
+import { SubscribeService } from './subscribe.service.js'
+import { SubscribeController_BASE } from './subscribe.base.controller.js'
 
 @Controller('profile/subscribe')
-export class SubscribeController {
-    constructor(private readonly subscribeService: SubscribeService) {}
-    @UseGuards(SessionCheck)
-    @Get(':profileId')
-    async getSubscribe(
-        @Param('profileId') profileId: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
-        try {
-            const accountId = req.user?.accountId
-            const result = await this.subscribeService.getSubscribe(
-                accountId,
-                profileId
-            )
-            if (result === 'Неправильные данные') {
-                return reply.status(400).send({ message: result })
-            }
-            return reply.status(200).send(result)
-        } catch (error) {
-            console.error(`Get-Subscribe: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке получить данные подписки. Пожалуйста, сообщите нам что случилось',
-            })
-        }
+export class SubscribeController extends SubscribeController_BASE {
+    constructor(private readonly subscribeService: SubscribeService) {
+        super()
     }
-    @UseGuards(SessionGuard)
-    @UsePipes(ParamUuidPipe)
-    @Put(':profileId')
-    async subscribe(
-        @Param('profileId') profileId: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
+
+    async giveSubscriptions(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        profileId?: UUID
     ) {
-        try {
-            const accountId = req.user.accountId
-            const result = await this.subscribeService.subscribe(
-                accountId,
-                profileId
-            )
-            if (result !== true) {
-                return reply.status(400).send({ message: result })
-            }
-            return reply
-                .status(200)
-                .send({ message: 'Успешная подписка/отписка' })
-        } catch (error) {
-            console.error(`Subscribe: ${error}`)
-            return reply.status(500).send({
-                message:
-                    'Возникла ошибка при попытке поодписаться. Пожалуйста, напишите нам что случилось',
-            })
+        const accountId = req.user.accountId
+        const result = await this.subscribeService.giveSubscriptions(
+            accountId,
+            profileId
+        )
+        if (result === 'Неправильные данные') {
+            return reply.status(400).send({ message: result })
         }
+        return reply.status(200).send(result)
+    }
+
+    async giveSubscription(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        profileId: UUID
+    ) {
+        const accountId = req.user.accountId
+        const result = await this.subscribeService.giveSubscription(
+            accountId,
+            profileId
+        )
+        return reply.status(200).send(result)
+    }
+
+    async subscribe(reply: FastifyReply, req: FastifyRequest, profileId: UUID) {
+        const accountId: UUID = req.user.accountId
+        const result = await this.subscribeService.subscribe(
+            accountId,
+            profileId
+        )
+        if (result !== true) {
+            return reply.status(400).send({ message: result })
+        }
+        return reply.status(200).send({ message: 'Успешная подписка/отписка' })
     }
 }

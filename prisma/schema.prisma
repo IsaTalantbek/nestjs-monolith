@@ -161,7 +161,7 @@ model Profile {
 	cityId				String?			@map("city_id") 
 	avatarImageId		String?			@map("avatar_image_id") 
 	coverImageId		String?			@map("cover_image_id") 
-	login				String			@unique
+	slug				String			@map("slug") @unique 
 	name        		String?			@map("name")	
 	posts				Post[]
 	subscribers			Subscription[]

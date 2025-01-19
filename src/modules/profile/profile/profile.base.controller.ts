@@ -6,27 +6,24 @@ import {
     Req,
     Res,
     UseGuards,
-    UsePipes,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ProfileService } from './profile.service.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { SessionCheck } from '../../../common/guards/session/session.check.js'
-import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { errorStatic } from '../../../core/util/error.static.js'
-import { ProfileIdQueryDTO } from './sample/profile.dto.js'
+import { slugQueryDTO } from './sample/profile.dto.js'
 
 @Controller('profile')
-export abstract class ProfileControllerBase {
+export abstract class ProfileController_BASE {
     @Get()
     @UseGuards(SessionGuard)
-    protected async myProfileBase(
-        @Query('profileId') profileIdDTO: ProfileIdQueryDTO,
+    protected async myProfile_BASE(
+        @Query('slug') slugDTO: slugQueryDTO,
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
         try {
-            return this.myProfile(profileIdDTO, reply, req)
+            return await this.myProfile(slugDTO, reply, req)
         } catch (error) {
             errorStatic(error, reply, 'MY-PROFILE', 'загрузки своего профиля')
             return
@@ -34,26 +31,26 @@ export abstract class ProfileControllerBase {
     }
     @Get('account')
     @UseGuards(SessionGuard)
-    protected async myAccountBase(
+    protected async myAccount_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
         try {
-            return this.myAccount(reply, req)
+            return await this.myAccount(reply, req)
         } catch (error) {
             errorStatic(error, reply, 'MY-ACCOUNT', 'загрузки своего аккаунта')
             return
         }
     }
-    @Get(':login')
+    @Get(':slug')
     @UseGuards(SessionCheck)
-    protected async userProfileBase(
-        @Param('login') login: string,
+    protected async userProfile_BASE(
+        @Param('slug') slug: string,
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
         try {
-            return this.userProfile(login, reply, req)
+            return await this.userProfile(slug, reply, req)
         } catch (error) {
             errorStatic(error, reply, 'USER-PROFILE', 'загрузки профиля')
             return
@@ -61,10 +58,14 @@ export abstract class ProfileControllerBase {
     }
 
     protected abstract myProfile(
-        profileIdDTO: ProfileIdQueryDTO,
-        reply,
-        req
-    ): void
-    protected abstract myAccount(reply, req): void
-    protected abstract userProfile(login, reply, req): void
+        profileIdDTO: slugQueryDTO,
+        reply: FastifyReply,
+        req: FastifyRequest
+    )
+    protected abstract myAccount(reply: FastifyReply, req: FastifyRequest)
+    protected abstract userProfile(
+        slug: string,
+        reply: FastifyReply,
+        req: FastifyRequest
+    )
 }

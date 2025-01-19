@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common'
+import { UUID } from 'crypto'
+import { Profile, Subscription } from '@prisma/client'
+import { plainToInstance } from 'class-transformer'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import * as _ from 'lodash'
 import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { SubscriptionsDTO } from './sample/subscribe.DTO.js'
+import { subscribeService_INTERFACE } from './sample/subscribe.interface.js'
 
 @Injectable()
-export class SubscribeService {
+export class SubscribeService implements subscribeService_INTERFACE {
     constructor(
         private readonly prisma: PrismaService,
         private readonly mutex: MutexManager
@@ -12,42 +16,73 @@ export class SubscribeService {
 
     //Если передан userPid, возвращает все подписки которые оформлены на этот профиль
     //Если передан accountId, возвращает все подписки этого аккаунта
-    async getSubscribe(accountId?: string, userPid?: string) {
-        if (userPid) {
-            const result = await this.prisma.subscription.findMany({
-                where: { authorPid: userPid, active: true },
+    async giveSubscriptions(
+        accountId?: UUID,
+        profileId?: UUID
+    ): Promise<string | SubscriptionsDTO[]> {
+        if (profileId) {
+            const check = await this.prisma.profile.findUnique({
+                where: { id: profileId },
             })
-            return result.map(({ subscriberAid }) => ({ subscriberAid }))
+            if (!check) {
+                return 'Такого профиля не существует'
+            } else if (check.ownerId !== accountId) {
+                return 'Вы не владеете этим профилем'
+            }
+            const result = await this.prisma.subscription.findMany({
+                where: { authorPid: profileId, active: true },
+            })
+            return plainToInstance(SubscriptionsDTO, result, {
+                excludeExtraneousValues: true, // Исключить поля без @Expose
+                enableImplicitConversion: true, // Для поддержки конверсии типов, если требуется
+            })
         } else if (accountId) {
             const result = await this.prisma.subscription.findMany({
                 where: { subscriberAid: accountId, active: true },
             })
-            return result.map(({ authorPid }) => ({ authorPid }))
+            return plainToInstance(SubscriptionsDTO, result, {
+                excludeExtraneousValues: true, // Исключить поля без @Expose
+                enableImplicitConversion: true, // Для поддержки конверсии типов, если требуется
+            })
         }
         return 'Неправильные данные'
     }
+
+    async giveSubscription(
+        accountId: UUID,
+        profileId: UUID
+    ): Promise<SubscriptionsDTO> {
+        const result = await this.prisma.subscription.findFirst({
+            where: { authorPid: profileId, subscriberAid: accountId },
+        })
+        return plainToInstance(SubscriptionsDTO, result, {
+            excludeExtraneousValues: true, // Исключить поля без @Expose
+        })
+    }
+
     //Ставит подписку или наоборот убирает ее. Большего знать не нужно
     //Передается аккаунт подписчика и профиль подписки
     async subscribe(
-        accountId: string,
-        userPid: string
+        accountId: UUID,
+        profileId: UUID
     ): Promise<boolean | string> {
         return this.mutex.lock(accountId, async () => {
-            const checkProfile = await this.prisma.profile.findUnique({
-                where: { id: userPid, deleted: false },
+            const checkProfile: Profile = await this.prisma.profile.findUnique({
+                where: { id: profileId, deleted: false },
             })
             if (!checkProfile) {
                 return 'Такого профиля не существует'
             }
-            const subscribe = await this.prisma.subscription.findFirst({
-                where: { authorPid: userPid, subscriberAid: accountId },
-            })
+            const subscribe: Subscription =
+                await this.prisma.subscription.findFirst({
+                    where: { authorPid: profileId, subscriberAid: accountId },
+                })
             if (!subscribe) {
                 await this.prisma.$transaction(async (prisma) => {
                     await prisma.subscription.create({
                         data: {
                             subscriberAid: accountId,
-                            authorPid: userPid,
+                            authorPid: profileId,
                             createdBy: accountId,
                             active: true,
                         },

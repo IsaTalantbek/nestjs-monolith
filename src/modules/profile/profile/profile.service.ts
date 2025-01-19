@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../../core/database/prisma.service.js'
-import {
-    ProfilePrivacyStats,
-    ProfileServiceInterface,
-    UserProfileResult,
-} from './sample/profile.interface.js'
 import { Post, Subscription } from '@prisma/client'
 import { plainToInstance } from 'class-transformer'
+import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MyAccountDTO, MyProfileDTO } from './sample/profile.dto.js'
+import {
+    ProfilePrivacyStats,
+    ProfileService_INTERFACE,
+    UserProfileResult,
+} from './sample/profile.interface.js'
 
 @Injectable()
-export class ProfileService implements ProfileServiceInterface {
+export class ProfileService implements ProfileService_INTERFACE {
     constructor(private readonly prisma: PrismaService) {}
 
     async myProfile(
         accountId: string,
-        login?: string
+        slug?: string
     ): Promise<MyProfileDTO | string> {
         let result
-        if (login) {
+        if (slug) {
             result = await this.prisma.profile.findUnique({
-                where: { login: login, ownerId: accountId },
+                where: { slug: slug, ownerId: accountId },
             })
         } else {
             result = await this.prisma.profile.findFirst({
@@ -47,12 +47,12 @@ export class ProfileService implements ProfileServiceInterface {
     //по желанию. Но если у профиля включены настройки 'friends'
     //то только друзья могут получить дополнительную информацию
     async userProfile(
-        login: string,
+        slug: string,
         accountId?: string
     ): Promise<UserProfileResult | string> {
         const result: ProfilePrivacyStats =
             await this.prisma.profile.findUnique({
-                where: { login: login, deleted: false },
+                where: { slug: slug, deleted: false },
                 include: { privacy: true, stats: true },
             })
         if (!result) {
@@ -134,14 +134,14 @@ export class ProfileService implements ProfileServiceInterface {
             result.privacy.posts !== 'nobody' &&
             result.privacy.posts !== 'friends'
         ) {
-            ;(data.likes = result.stats.likes),
-                (data.dislikes = result.stats.dislikes),
-                (data.ratio = result.stats.ratio)
+            data.likes = result.stats.likes
+            data.dislikes = result.stats.dislikes
+            data.ratio = result.stats.ratio
             data.posts = posts
         } else if (result.privacy.posts === 'friends' && friend) {
-            ;(data.likes = result.stats.likes),
-                (data.dislikes = result.stats.dislikes),
-                (data.ratio = result.stats.ratio)
+            data.likes = result.stats.likes
+            data.dislikes = result.stats.dislikes
+            data.ratio = result.stats.ratio
             data.posts = posts
         }
         return data

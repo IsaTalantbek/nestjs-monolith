@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { UUID } from 'crypto'
 
 @Injectable()
 export class CookieSettings {
@@ -53,13 +54,16 @@ export class CookieSettings {
                 newData.length === 2 &&
                 newData.every((item) => typeof item === 'string')
             ) {
-                return { accountId: newData[0], sessionId: newData[1] }
+                return { accountId: newData[0], sessionId: newData[1] } as {
+                    accountId: UUID
+                    sessionId: UUID
+                }
             }
 
             // Если это просто объект с другими свойствами
             const { accountId, id } = data as {
-                accountId?: string
-                id?: string
+                accountId?: UUID
+                id?: UUID
             }
 
             return {

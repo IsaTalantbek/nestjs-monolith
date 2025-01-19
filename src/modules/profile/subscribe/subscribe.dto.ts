@@ -1,7 +1,8 @@
 import { IsOptional, IsUUID } from 'class-validator'
+import { UUID } from 'crypto'
 
-export class GiveSubscribesQueryDto {
+export class GiveSubscriptionQueryDto {
     @IsOptional()
     @IsUUID()
-    profileId?: string
+    profileId?: UUID
 }

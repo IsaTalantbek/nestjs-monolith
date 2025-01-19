@@ -1,4 +1,4 @@
-import { Account, Post, Subscription } from '@prisma/client'
+import { Post, Subscription } from '@prisma/client'
 import { Prisma } from '@prisma/client'
 import { MyAccountDTO, MyProfileDTO } from './profile.dto'
 
@@ -11,7 +11,7 @@ export type AccountWithProfile = Prisma.AccountGetPayload<{
     include: { profiles: true }
 }>
 
-export interface ProfileServiceInterface {
+export interface ProfileService_INTERFACE {
     myProfile(
         accountId: string,
         profileId?: string

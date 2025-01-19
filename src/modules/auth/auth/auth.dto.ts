@@ -18,7 +18,7 @@ export class CreateUserDto {
     @Matches(/^\S.*\S$/, {
         message: 'Логин не должен содержать пробелы по бокам.',
     }) // регулярка для проверки пробелов по бокам
-    login: string
+    slug: string
 
     @IsEmail() // проверка на email
     email: string
@@ -40,7 +40,7 @@ export class PreRegisterUserDto {
     @Matches(/^\S.*\S$/, {
         message: 'Логин не должен содержать пробелы по бокам.',
     }) // регулярка для проверки пробелов по бокам
-    login: string
+    slug: string
 
     @IsString()
     @MinLength(8) // минимум 8 символов для пароля
@@ -48,11 +48,11 @@ export class PreRegisterUserDto {
     password: string
 }
 
-export class LoginUserDto {
+export class loginUserDto {
     @Matches(/^[a-zA-Zа-яА-Я0-9_-]+$/, {
         message: 'Неправильный логин или пароль',
     }) // проверка на латиницу, кириллицу, цифры и спецсимволы "-"
-    login: string
+    slug: string
     @Matches(/^\S.*\S$/, {
         message: 'Неправильный логин или пароль',
     })
@@ -60,13 +60,13 @@ export class LoginUserDto {
 }
 
 export type registerForm = {
-    login: string
+    slug: string
     password: string
     email: string
     headers: string
 }
 
 export type loginForm = {
-    login: string
+    slug: string
     password: string
 }

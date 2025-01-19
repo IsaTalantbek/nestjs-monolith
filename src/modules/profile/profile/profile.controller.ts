@@ -1,36 +1,23 @@
-import {
-    Controller,
-    Get,
-    Param,
-    Query,
-    Req,
-    Res,
-    UseGuards,
-    UsePipes,
-} from '@nestjs/common'
+import { Controller } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { ProfileService } from './profile.service.js'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { SessionCheck } from '../../../common/guards/session/session.check.js'
-import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { errorStatic } from '../../../core/util/error.static.js'
-import { ProfileIdQueryDTO } from './sample/profile.dto.js'
-import { ProfileControllerBase } from './profile.base.controller.js'
+import { ProfileController_BASE } from './profile.base.controller.js'
+import { slugQueryDTO } from './sample/profile.dto.js'
 
 @Controller('profile')
-export class ProfileController extends ProfileControllerBase {
+export class ProfileController extends ProfileController_BASE {
     constructor(private readonly profile: ProfileService) {
         super()
     }
 
     async myProfile(
-        profileIdDTO: ProfileIdQueryDTO,
+        slugDto: slugQueryDTO,
         reply: FastifyReply,
         req: FastifyRequest
     ) {
-        const { profileId } = profileIdDTO || undefined
+        const { slug } = slugDto || {}
         const accountId = req.user.accountId
-        const result = await this.profile.myProfile(accountId, profileId)
+        const result = await this.profile.myProfile(accountId, slug)
         if (typeof result === 'string') {
             return reply.status(400).send({
                 message: result,
@@ -45,9 +32,9 @@ export class ProfileController extends ProfileControllerBase {
         return reply.status(200).send(result)
     }
 
-    async userProfile(login: string, reply: FastifyReply, req: FastifyRequest) {
+    async userProfile(slug: string, reply: FastifyReply, req: FastifyRequest) {
         const accountId = req.user?.accountId
-        const result = await this.profile.userProfile(login, accountId)
+        const result = await this.profile.userProfile(slug, accountId)
         return reply.status(200).send(result)
     }
 }

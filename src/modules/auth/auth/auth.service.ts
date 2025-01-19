@@ -15,9 +15,9 @@ export class AuthService {
         private readonly mutex: MutexManager
     ) {}
 
-    async validateUser({ login, password }: loginForm): Promise<boolean | any> {
+    async validateUser({ slug, password }: loginForm): Promise<boolean | any> {
         const user = await this.prisma.profile.findUnique({
-            where: { login },
+            where: { slug },
             include: { owner: true },
         })
         if (user && (await bcrypt.compare(password, user.owner.password))) {
@@ -26,7 +26,7 @@ export class AuthService {
         return false
     }
 
-    async login(
+    async slug(
         accountId: string,
         ipAdress: string,
         ipAdressFull: string,
@@ -89,7 +89,7 @@ export class AuthService {
         })
     }
 
-    async ifUserExist(login?: string, email?: string) {
+    async ifUserExist(slug?: string, email?: string) {
         let check, check2
 
         if (email) {
@@ -97,9 +97,9 @@ export class AuthService {
                 where: { email: email },
             })
         }
-        if (login) {
+        if (slug) {
             check2 = await this.prisma.profile.findUnique({
-                where: { login: login },
+                where: { slug: slug },
             })
         }
         if (check || check2) {
@@ -108,9 +108,9 @@ export class AuthService {
         return false
     }
 
-    async register({ login, password, email, headers }: registerForm) {
-        return this.mutex.lock(login, async () => {
-            const check = await this.ifUserExist(login, email)
+    async register({ slug, password, email, headers }: registerForm) {
+        return this.mutex.lock(slug, async () => {
+            const check = await this.ifUserExist(slug, email)
             if (check) {
                 return 'Пользователь уже существует'
             }
@@ -126,7 +126,7 @@ export class AuthService {
                         createdBy: headers,
                         profiles: {
                             create: {
-                                login: login,
+                                slug: slug,
                                 profileType: 'personal',
                                 createdBy: headers,
                                 privacy: {
