@@ -3,7 +3,6 @@ CREATE TABLE `accounts` (
     `id` VARCHAR(191) NOT NULL,
     `account_role` ENUM('owner', 'user', 'developer', 'moderator', 'support') NOT NULL DEFAULT 'user',
     `account_state` ENUM('created', 'activated', 'deleted', 'banned') NOT NULL DEFAULT 'created',
-    `login` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `tfa_code` VARCHAR(191) NULL,
     `email` VARCHAR(191) NULL,
@@ -17,11 +16,9 @@ CREATE TABLE `accounts` (
     `deleted_by` VARCHAR(191) NULL,
     `deleted` BOOLEAN NULL DEFAULT false,
 
-    UNIQUE INDEX `accounts_login_key`(`login`),
     UNIQUE INDEX `accounts_tfa_code_key`(`tfa_code`),
     UNIQUE INDEX `accounts_email_key`(`email`),
     UNIQUE INDEX `accounts_phone_key`(`phone`),
-    UNIQUE INDEX `accounts_login_email_key`(`login`, `email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -89,6 +86,7 @@ CREATE TABLE `profiles` (
     `city_id` VARCHAR(191) NULL,
     `avatar_image_id` VARCHAR(191) NULL,
     `cover_image_id` VARCHAR(191) NULL,
+    `login` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NULL,
     `official` BOOLEAN NOT NULL DEFAULT false,
     `ownerId` VARCHAR(191) NULL,
@@ -105,6 +103,7 @@ CREATE TABLE `profiles` (
     `deleted_by` VARCHAR(191) NULL,
     `deleted` BOOLEAN NULL DEFAULT false,
 
+    UNIQUE INDEX `profiles_login_key`(`login`),
     UNIQUE INDEX `profiles_privacyId_key`(`privacyId`),
     UNIQUE INDEX `profiles_statsId_key`(`statsId`),
     PRIMARY KEY (`id`)
@@ -202,7 +201,7 @@ CREATE TABLE `likes` (
     `id` VARCHAR(191) NOT NULL,
     `initAid` VARCHAR(191) NOT NULL,
     `postId` VARCHAR(191) NOT NULL,
-    `type` VARCHAR(191) NOT NULL DEFAULT 'like',
+    `type` ENUM('like', 'dislike') NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_by` VARCHAR(191) NOT NULL DEFAULT 'System',
     `updated_at` DATETIME(3) NOT NULL,

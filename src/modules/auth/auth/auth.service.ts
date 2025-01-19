@@ -15,13 +15,15 @@ export class AuthService {
         private readonly mutex: MutexManager
     ) {}
 
-    async validateUser({ login, password }: loginForm): Promise<any> {
-        const user = await this.prisma.account.findUnique({ where: { login } })
-        if (user && (await bcrypt.compare(password, user.password))) {
-            const { password, ...result } = user
-            return result
+    async validateUser({ login, password }: loginForm): Promise<boolean | any> {
+        const user = await this.prisma.profile.findUnique({
+            where: { login },
+            include: { owner: true },
+        })
+        if (user && (await bcrypt.compare(password, user.owner.password))) {
+            return user.owner.id
         }
-        return null
+        return false
     }
 
     async login(
@@ -87,11 +89,20 @@ export class AuthService {
         })
     }
 
-    async ifUserExist(login: string, email?: string) {
-        const check = await this.prisma.account.findFirst({
-            where: { OR: [{ login: login }, { email: email }] },
-        })
-        if (check) {
+    async ifUserExist(login?: string, email?: string) {
+        let check, check2
+
+        if (email) {
+            check = await this.prisma.account.findUnique({
+                where: { email: email },
+            })
+        }
+        if (login) {
+            check2 = await this.prisma.profile.findUnique({
+                where: { login: login },
+            })
+        }
+        if (check || check2) {
             return true
         }
         return false
@@ -106,16 +117,16 @@ export class AuthService {
 
             const hashedPassword = await bcrypt.hash(password, 10)
 
-            const result = await this.prisma.$transaction(async (prisma) => {
+            return this.prisma.$transaction(async (prisma) => {
                 // Внутри транзакции все операции должны быть атомарными и независимыми
-                const user = await prisma.account.create({
+                return prisma.account.create({
                     data: {
-                        login,
                         password: hashedPassword,
                         email,
                         createdBy: headers,
                         profiles: {
                             create: {
+                                login: login,
                                 profileType: 'personal',
                                 createdBy: headers,
                                 privacy: {
@@ -132,11 +143,7 @@ export class AuthService {
                         },
                     },
                 })
-
-                return user // Возвращаем результаты
             })
-
-            return result // Если все прошло успешно, возвращаем данные
         })
     }
 }

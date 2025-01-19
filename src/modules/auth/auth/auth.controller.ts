@@ -26,18 +26,18 @@ export class AuthController {
     ) {
         try {
             const { login, password } = loginUserDto
-            const user = await this.auth.validateUser({
+            const userId = await this.auth.validateUser({
                 login,
                 password,
             })
-            if (!user) {
+            if (!userId) {
                 return reply
                     .status(401)
                     .send({ message: 'Неправильные данные' })
             }
             const ipPrefix = req.ip.split('.').slice(0, 2).join('.') // Берем первые два октета
             const { newRefreshToken } = await this.auth.login(
-                user.id,
+                userId,
                 ipPrefix,
                 req.ip,
                 req.headers['user-agent']
