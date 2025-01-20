@@ -13,10 +13,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDto } from './support.dto.js'
 import { SupportService } from './support.service.js'
 import { SessionCheck } from '../../common/guards/session/session.check.js'
-import { errorStatic } from '../../core/util/error.static.js'
+import { Log } from '../../common/log/log.js'
 
 @Controller('support')
 @UseGuards(SessionCheck)
+@Log('errors')
 export class SupportController {
     constructor(private readonly support: SupportService) {}
 
@@ -26,22 +27,12 @@ export class SupportController {
         @Req() req: FastifyRequest,
         @Res() reply: FastifyReply
     ) {
-        try {
-            const accountId = req.user?.accountId
-            const { text } = bodyDto
-            await this.support.writeSupport(text, accountId)
-            return reply
-                .status(200)
-                .send({ message: 'Ваше сообщение успешно отправлено' })
-        } catch (error) {
-            errorStatic(
-                error,
-                reply,
-                'WRITE-SUPPORT',
-                'отправки сообщение поддержке'
-            )
-            return
-        }
+        const accountId = req.user?.accountId
+        const { text } = bodyDto
+        await this.support.writeSupport(text, accountId)
+        return reply
+            .status(200)
+            .send({ message: 'Ваше сообщение успешно отправлено' })
     }
     @Get(':fileOption')
     async readSupport(
@@ -49,20 +40,10 @@ export class SupportController {
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
-        try {
-            const accountId = req.user.accountId
-            const fileOption = parseInt(option, 10)
-            const result = await this.support.readSupport(fileOption, accountId)
-            return reply.status(200).send(result)
-        } catch (error) {
-            errorStatic(
-                error,
-                reply,
-                'READ-SUPPORT',
-                'Охереть, а че теперь? Сообщите нам как нибудь пожалуйста, я бедный бэкэндер'
-            )
-            return
-        }
+        const accountId = req.user.accountId
+        const fileOption = parseInt(option, 10)
+        const result = await this.support.readSupport(fileOption, accountId)
+        return reply.status(200).send(result)
     }
     @Delete(':fileOption')
     async clearSupport(
@@ -70,22 +51,9 @@ export class SupportController {
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
-        try {
-            const accountId = req.user.accountId
-            const fileOption = parseInt(option, 10)
-            const result = await this.support.clearSupport(
-                fileOption,
-                accountId
-            )
-            return reply.status(200).send(result)
-        } catch (error) {
-            errorStatic(
-                error,
-                reply,
-                'CLEAR-SUPPORT',
-                'удалить файлы с сообщениями'
-            )
-            return
-        }
+        const accountId = req.user.accountId
+        const fileOption = parseInt(option, 10)
+        const result = await this.support.clearSupport(fileOption, accountId)
+        return reply.status(200).send(result)
     }
 }

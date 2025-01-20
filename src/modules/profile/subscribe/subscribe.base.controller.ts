@@ -12,9 +12,10 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { UUID } from 'crypto'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { errorStatic } from '../../../core/util/error.static.js'
+import { Log } from '../../../common/log/log.js'
 
 @Controller('profile/subscribe')
+@Log('errors')
 export abstract class SubscribeController_BASE {
     @UseGuards(SessionGuard)
     @Get(':profileId?')
@@ -23,12 +24,7 @@ export abstract class SubscribeController_BASE {
         @Req() req: FastifyRequest,
         @Param('profileId') profileId: UUID
     ) {
-        try {
-            return await this.giveSubscriptions(reply, req, profileId)
-        } catch (error) {
-            errorStatic(error, reply, 'GIVE-SUBSCRIPTIONS', 'получить подписки')
-            return
-        }
+        return await this.giveSubscriptions(reply, req, profileId)
     }
     @UseGuards(SessionGuard)
     @UsePipes(ParamUuidPipe)
@@ -38,12 +34,7 @@ export abstract class SubscribeController_BASE {
         @Req() req: FastifyRequest,
         @Param('profileId') profileId: UUID
     ) {
-        try {
-            return await this.giveSubscription(reply, req, profileId)
-        } catch (error) {
-            errorStatic(error, reply, 'GIVE-SUBSCRIPTION', 'получить подписку')
-            return
-        }
+        return await this.giveSubscription(reply, req, profileId)
     }
     @UseGuards(SessionGuard)
     @UsePipes(ParamUuidPipe)
@@ -53,12 +44,7 @@ export abstract class SubscribeController_BASE {
         @Req() req: FastifyRequest,
         @Param('profileId') profileId: UUID
     ) {
-        try {
-            return await this.subscribe(reply, req, profileId)
-        } catch (error) {
-            errorStatic(error, reply, 'SUBSCRIBE', 'подписаться на профиль')
-            return
-        }
+        return await this.subscribe(reply, req, profileId)
     }
     protected abstract giveSubscriptions(
         reply: FastifyReply,

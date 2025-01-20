@@ -3,10 +3,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { EditorDto } from './editor.dto.js'
 import { EditorService } from './editor.service.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { errorStatic } from '../../../core/util/error.static.js'
+import { Log } from '../../../common/log/log.js'
 
 @Controller('editor')
 @UseGuards(SessionGuard)
+@Log('errors')
 export class EditorController {
     constructor(private readonly editor: EditorService) {}
 
@@ -16,26 +17,21 @@ export class EditorController {
         @Req() req: FastifyRequest,
         @Res() reply: FastifyReply
     ) {
-        try {
-            const accountId = req.user.accountId
-            let { type, tags, text, profileId, title } = editorDto
-            const result = await this.editor.createPost({
-                type,
-                tags,
-                accountId,
-                profileId,
-                text,
-                title,
+        const accountId = req.user.accountId
+        let { type, tags, text, profileId, title } = editorDto
+        const result = await this.editor.createPost({
+            type,
+            tags,
+            accountId,
+            profileId,
+            text,
+            title,
+        })
+        if (!result) {
+            reply.status(400).send({
+                message: 'Профиля, который создает пост не существует',
             })
-            if (!result) {
-                reply.status(400).send({
-                    message: 'Профиля, который создает пост не существует',
-                })
-            }
-            reply.status(200).send(result)
-        } catch (error) {
-            errorStatic(error, reply, 'CREATE-POST-EDITOR', 'создания поста')
-            return
         }
+        reply.status(200).send(result)
     }
 }

@@ -1,0 +1,54 @@
+
+--- Request ---
+URL: /profile?type=article
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzYwNjQsImV4cCI6MTczNzM3NjM2NH0.VFVa8SvfTcP8mRIDxmcyyXBufJ_sZ81cZvZNubgMy3A; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
+Params: {} 
+Body: undefined 
+Query: {"type":"article"} 
+Date: 2025-01-20T12:33:22.495Z
+
+--- Error ---
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:29:15)
+    at async ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:28:16)
+Date: 2025-01-20T12:33:22.495Z
+UserInfo: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"}, {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzYwNjQsImV4cCI6MTczNzM3NjM2NH0.VFVa8SvfTcP8mRIDxmcyyXBufJ_sZ81cZvZNubgMy3A; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"}
+
+--- Request ---
+URL: /profile?type=article
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzY0MDIsImV4cCI6MTczNzM3NjcwMn0.4PxYaQrUR4ykLND885q160-FIb5SY3wpb_J1_6NbhhU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
+Params: {} 
+Body: undefined 
+Query: {"type":"article"} 
+Date: 2025-01-20T12:33:27.938Z
+
+--- Error ---
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:29:15)
+    at async ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:28:16)
+Date: 2025-01-20T12:33:27.938Z
+UserInfo: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"}, {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzY0MDIsImV4cCI6MTczNzM3NjcwMn0.4PxYaQrUR4ykLND885q160-FIb5SY3wpb_J1_6NbhhU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"}
+
+--- Request ---
+URL: /profile?type=article
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzY0MDIsImV4cCI6MTczNzM3NjcwMn0.4PxYaQrUR4ykLND885q160-FIb5SY3wpb_J1_6NbhhU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
+Params: {} 
+Body: undefined 
+Query: {"type":"article"} 
+Date: 2025-01-20T12:33:28.846Z
+
+--- Error ---
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:29:15)
+    at async ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:28:16)
+Date: 2025-01-20T12:33:28.846Z
+UserInfo: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"}, {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzY0MDIsImV4cCI6MTczNzM3NjcwMn0.4PxYaQrUR4ykLND885q160-FIb5SY3wpb_J1_6NbhhU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"}

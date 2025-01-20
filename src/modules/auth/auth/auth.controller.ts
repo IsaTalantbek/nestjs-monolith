@@ -6,11 +6,12 @@ import { SessionAuthorized } from '../../../common/guards/session/session.author
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
 import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorStatic } from '../../../core/util/error.static.js'
+import { Log } from '../../../common/log/log.js'
 
 @Controller('auth')
 @UseGuards(IpAdressGuard)
 @UseGuards(SessionAuthorized)
+@Log('errors')
 export class AuthController {
     constructor(
         private readonly auth: AuthService,
@@ -46,10 +47,6 @@ export class AuthController {
             return reply
                 .status(200)
                 .send({ message: 'Успешный логин', token: newRefreshToken })
-        } catch (error) {
-            this.block.unlock(req.ip)
-            errorStatic(error, reply, 'slug-AUTH', 'входа в аккаунт')
-            return
         } finally {
             this.block.unlock(req.ip)
         }
@@ -74,10 +71,6 @@ export class AuthController {
                 return reply.status(409).send({ message: result })
             }
             return reply.status(200).send(result)
-        } catch (error) {
-            this.block.unlock(req.ip)
-            errorStatic(error, reply, 'REGISTER-AUTH', 'регистрации')
-            return
         } finally {
             this.block.unlock(req.ip)
         }
@@ -97,15 +90,6 @@ export class AuthController {
                     .send({ message: 'Пользователь уже существует' })
             }
             return reply.status(200).send({ message: 'Логин не занят' })
-        } catch (error) {
-            this.block.unlock(req.ip)
-            errorStatic(
-                error,
-                reply,
-                'PREREGISTER-AUTH',
-                'проверки перед регистрацией'
-            )
-            return
         } finally {
             this.block.unlock(req.ip)
         }

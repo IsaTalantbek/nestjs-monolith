@@ -1,0 +1,24 @@
+
+--- Request ---
+Date: 2025-01-20T14:06:19.307Z
+URL: /profile/privacy?type=article
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODE2OTEsImV4cCI6MTczNzM4MTk5MX0._BlSh3TlNpo08eJ_EndW1VQTkvFhoZ3d3jzqkGZGxLE; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
+Params: {} 
+Body: undefined 
+Query: {"type":"article"} 
+
+--- Error ---
+Message: property type should not exist
+Stack: No stack trace
+
+--- Request ---
+Date: 2025-01-20T14:07:21.661Z
+URL: /profile/privacy
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODE2OTEsImV4cCI6MTczNzM4MTk5MX0._BlSh3TlNpo08eJ_EndW1VQTkvFhoZ3d3jzqkGZGxLE; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
+Params: {} 
+Body: undefined 
+Query: {} 

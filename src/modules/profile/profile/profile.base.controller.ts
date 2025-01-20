@@ -10,10 +10,11 @@ import {
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { SessionCheck } from '../../../common/guards/session/session.check.js'
-import { errorStatic } from '../../../core/util/error.static.js'
 import { SlugQueryDTO } from './sample/profile.dto.js'
+import { Log } from '../../../common/log/log.js'
 
 @Controller('profile')
+@Log('profile') // ЛОГ! Можно использовать и в методе конкретном
 export abstract class ProfileController_BASE {
     @Get()
     @UseGuards(SessionGuard)
@@ -22,12 +23,8 @@ export abstract class ProfileController_BASE {
         @Req() req: FastifyRequest,
         @Query('slug') slugDTO: SlugQueryDTO
     ) {
-        try {
-            return await this.myProfile(reply, req, slugDTO)
-        } catch (error) {
-            errorStatic(error, reply, 'MY-PROFILE', 'загрузки своего профиля')
-            return
-        }
+        throw new Error('THIS IS ERROR')
+        return await this.myProfile(reply, req, slugDTO)
     }
     @Get('account')
     @UseGuards(SessionGuard)
@@ -35,12 +32,7 @@ export abstract class ProfileController_BASE {
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
-        try {
-            return await this.myAccount(reply, req)
-        } catch (error) {
-            errorStatic(error, reply, 'MY-ACCOUNT', 'загрузки своего аккаунта')
-            return
-        }
+        return await this.myAccount(reply, req)
     }
     @Get(':slug')
     @UseGuards(SessionCheck)
@@ -49,12 +41,7 @@ export abstract class ProfileController_BASE {
         @Req() req: FastifyRequest,
         @Param('slug') slug: string
     ) {
-        try {
-            return await this.userProfile(reply, req, slug)
-        } catch (error) {
-            errorStatic(error, reply, 'USER-PROFILE', 'загрузки профиля')
-            return
-        }
+        return await this.userProfile(reply, req, slug)
     }
 
     protected abstract myProfile(

@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import * as fs from 'fs'
 import { PrismaService } from '../../core/database/prisma.service.js'
-import { RandomUUIDOptions, UUID } from 'crypto'
 import { SupportServiceInterface } from './support.dto.js'
 
-const am = './messages/am.txt' // Authorized Messages
-const rm = './messages/rm.txt' // Randrom Messages
+const am = './messages/support/am.txt' // Authorized Messages
+const rm = './messages/support/rm.txt' // Randrom Messages
 
 @Injectable()
 export class SupportService implements SupportServiceInterface {

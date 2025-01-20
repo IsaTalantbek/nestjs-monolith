@@ -27,17 +27,20 @@ export class ProfileController extends ProfileController_BASE {
             slug
         )
         if (!(result instanceof MyProfileDTO)) {
-            return reply.status(400).send({
+            reply.status(400).send({
                 message: result,
             })
+            return result
         }
-        return reply.status(200).send(result)
+        reply.status(200).send(result)
+        return result
     }
 
     async myAccount(reply: FastifyReply, req: FastifyRequest) {
         const accountId = req.user.accountId
         const result: MyAccountDTO = await this.profile.myAccount(accountId)
-        return reply.status(200).send(result)
+        reply.status(200).send(result)
+        return result
     }
 
     async userProfile(reply: FastifyReply, req: FastifyRequest, slug: string) {
@@ -45,8 +48,10 @@ export class ProfileController extends ProfileController_BASE {
         const result: MinData | UserProfileData | string =
             await this.profile.userProfile(slug, accountId)
         if (typeof result === 'string') {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply.status(200).send(result)
+        reply.status(200).send(result)
+        return result
     }
 }
