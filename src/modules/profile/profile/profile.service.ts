@@ -4,9 +4,10 @@ import { plainToInstance } from 'class-transformer'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MyAccountDTO, MyProfileDTO } from './sample/profile.dto.js'
 import {
+    MinData,
     ProfilePrivacyStats,
     ProfileService_INTERFACE,
-    UserProfileResult,
+    UserProfileData,
 } from './sample/profile.interface.js'
 
 @Injectable()
@@ -49,7 +50,7 @@ export class ProfileService implements ProfileService_INTERFACE {
     async userProfile(
         slug: string,
         accountId?: string
-    ): Promise<UserProfileResult | string> {
+    ): Promise<MinData | UserProfileData | string> {
         const result: ProfilePrivacyStats =
             await this.prisma.profile.findUnique({
                 where: { slug: slug, deleted: false },

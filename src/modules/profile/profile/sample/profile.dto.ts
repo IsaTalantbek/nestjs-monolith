@@ -43,7 +43,7 @@ export class MyProfileDTO {
     otherLinks: JSON
 }
 
-export class slugQueryDTO {
+export class SlugQueryDTO {
     @IsString()
     @IsOptional()
     slug: string

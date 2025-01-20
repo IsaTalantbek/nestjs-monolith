@@ -12,7 +12,7 @@ export class IpAdressBlockManager {
 
     constructor() {
         // Настроим периодическую очистку каждую минуту
-        this.cleanupInterval = setInterval(() => this.cleanup(), 100000)
+        this.cleanupInterval = setInterval(() => this.cleanup(), 60000)
     }
 
     // Проверяем, есть ли блокировка для пользователя
@@ -35,11 +35,11 @@ export class IpAdressBlockManager {
     // Метод для очистки мусора из карты
     private cleanup(): void {
         const currentTime = Date.now()
-        const MINUTE = 100000 // минута в милисекундах
+        const MINUTE = 10000 // 10 секунд в миллисекундах
 
         for (let [ip, block] of this.userLocks) {
             if (block.locked && currentTime - block.lockTime > MINUTE) {
-                // Удаляем блокировки, которые действуют больше 1 минуты
+                // Удаляем блокировки, которые действуют больше 10 секунд
                 this.userLocks.delete(ip)
             }
         }

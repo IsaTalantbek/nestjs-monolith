@@ -26,7 +26,7 @@ export class AuthService {
         return false
     }
 
-    async slug(
+    async login(
         accountId: string,
         ipAdress: string,
         ipAdressFull: string,

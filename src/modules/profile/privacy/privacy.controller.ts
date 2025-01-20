@@ -1,78 +1,54 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Put,
-    Query,
-    Req,
-    Res,
-    UseGuards,
-} from '@nestjs/common'
+import { Controller } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { PrivacyService } from './privacy.service.js'
-import { GivePrivacyQueryDto, UpdatePrivacyBodyDto } from './privacy.dto.js'
-import { errorStatic } from '../../../core/util/error.static.js'
+import {
+    GivePrivacyDTO,
+    GivePrivacyQueryDTO,
+    UpdatePrivacyBodyDTO,
+} from './sample/privacy.dto.js'
+import { PrivacyController_BASE } from './privacy.base.controller.js'
 
 @Controller('profile/privacy')
-@UseGuards(SessionGuard)
-export class PrivacyController {
-    constructor(private readonly privacy: PrivacyService) {}
-    @Get()
-    async getPrivacy(
-        @Query() profileIdDto: GivePrivacyQueryDto,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
-        try {
-            const accountId = req.user.accountId
-            const { profileId } = profileIdDto
-            const result = await this.privacy.getPrivacy(accountId, profileId)
-            if (!result) {
-                return reply.status(400).send({
-                    message: 'Неправильные данные, или недостаточно данных',
-                })
-            }
-            return reply.status(200).send(result)
-        } catch (error) {
-            errorStatic(
-                error,
-                reply,
-                'GET-PRIVACY',
-                'загрузки настроек приватности'
-            )
-            return
-        }
+export class PrivacyController extends PrivacyController_BASE {
+    constructor(private readonly privacy: PrivacyService) {
+        super()
     }
-    @Put()
-    async updatePrivacy(
-        @Body() updatePrivacyDto: UpdatePrivacyBodyDto,
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
+    async givePrivacy(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        givePrivacyDTO: GivePrivacyQueryDTO
     ) {
-        try {
-            const accountId = req.user.accountId
-            const { profileId, value, update } = updatePrivacyDto
-            const result = await this.privacy.updatePrivacy(
-                profileId,
-                update,
-                value,
-                accountId
-            )
-            if (result !== true) {
-                return reply.status(400).send({ message: result })
-            }
-            return reply
-                .status(200)
-                .send({ message: 'Изменения успешно сохранены' })
-        } catch (error) {
-            errorStatic(
-                error,
-                reply,
-                'UPDATE-PRIVACY',
-                'обновить настройки приватности'
-            )
-            return
+        const accountId = req.user.accountId
+        const { profileId } = givePrivacyDTO
+        const result: GivePrivacyDTO | string = await this.privacy.givePrivacy(
+            accountId,
+            profileId
+        )
+        if (!(result instanceof GivePrivacyDTO)) {
+            return reply.status(400).send({
+                message: result,
+            })
         }
+        return reply.status(200).send(result)
+    }
+    async updatePrivacy(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        updatePrivacyDto: UpdatePrivacyBodyDTO
+    ) {
+        const accountId = req.user.accountId
+        const { profileId, value, update } = updatePrivacyDto
+        const result: string | boolean = await this.privacy.updatePrivacy(
+            profileId,
+            update,
+            value,
+            accountId
+        )
+        if (result !== true) {
+            return reply.status(400).send({ message: result })
+        }
+        return reply
+            .status(200)
+            .send({ message: 'Изменения успешно сохранены' })
     }
 }

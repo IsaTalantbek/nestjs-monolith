@@ -44,8 +44,9 @@ export class SessionAuthorized extends BaseGuard {
             const decoded = this.jwtAuth.verifyRefreshToken(refreshToken)
             if (decoded) {
                 const session = await this.session.getSession(decoded.data)
-
-                if (session.deleted === true) {
+                if (!session) {
+                    return this.handleSessionExpired(reply)
+                } else if (session.deleted === true) {
                     this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
                     reply.status(401).send({
                         message:

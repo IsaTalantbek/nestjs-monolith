@@ -2,8 +2,6 @@ import { Post, Subscription } from '@prisma/client'
 import { Prisma } from '@prisma/client'
 import { MyAccountDTO, MyProfileDTO } from './profile.dto'
 
-export type UserProfileResult = MinData | UserProfileData
-
 export type ProfilePrivacyStats = Prisma.ProfileGetPayload<{
     include: { privacy: true; stats: true }
 }>
@@ -20,10 +18,10 @@ export interface ProfileService_INTERFACE {
     userProfile(
         userPid: string,
         accountId?: string
-    ): Promise<UserProfileResult | string>
+    ): Promise<MinData | UserProfileData | string>
 }
 
-interface MinData {
+export interface MinData {
     name: string
     avatarImage: string | null
     coverImage: string | null
@@ -37,7 +35,7 @@ interface FullData extends MinData {
     subscribers: number
 }
 
-interface UserProfileData {
+export interface UserProfileData {
     fullData?: FullData
     subscription?: Subscription[]
     posts?: Post[]

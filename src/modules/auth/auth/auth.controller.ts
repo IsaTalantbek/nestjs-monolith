@@ -18,8 +18,8 @@ export class AuthController {
         private readonly block: IpAdressBlockManager
     ) {}
 
-    @Post('slug')
-    async slug(
+    @Post('login')
+    async login(
         @Body() loginUserDto: loginUserDto,
         @Res({ passthrough: true }) reply: FastifyReply,
         @Req() req: FastifyRequest
@@ -36,7 +36,7 @@ export class AuthController {
                     .send({ message: 'Неправильные данные' })
             }
             const ipPrefix = req.ip.split('.').slice(0, 2).join('.') // Берем первые два октета
-            const { newRefreshToken } = await this.auth.slug(
+            const { newRefreshToken } = await this.auth.login(
                 userId,
                 ipPrefix,
                 req.ip,

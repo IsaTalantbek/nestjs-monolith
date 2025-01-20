@@ -17,7 +17,7 @@ import { errorStatic } from '../../../core/util/error.static.js'
 @Controller('profile/subscribe')
 export abstract class SubscribeController_BASE {
     @UseGuards(SessionGuard)
-    @Get(':profileId')
+    @Get(':profileId?')
     protected async giveSubscribtions_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest,
