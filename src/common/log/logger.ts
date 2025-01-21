@@ -2,26 +2,14 @@ import { Injectable, ExecutionContext, CallHandler } from '@nestjs/common'
 import { Observable, from } from 'rxjs'
 import * as fs from 'fs/promises'
 import { errorStatic } from '../../core/util/error/error.static.js'
+import { LoggerService } from './logger.service.js'
 
 @Injectable()
 export class LogRequestInterceptor {
-    constructor(private logPath: string) {}
-
-    private async logToFile(message: string): Promise<void> {
-        try {
-            await fs.appendFile(this.logPath, message)
-        } catch (fileError) {
-            console.error('Failed to write log:', fileError)
-        }
-    }
-
-    private async logError(message: string): Promise<void> {
-        try {
-            await fs.appendFile('./messages/logs/errors.log', message)
-        } catch (error) {
-            console.error('Failed to write log:', error)
-        }
-    }
+    constructor(
+        private logPath: string,
+        private readonly logService: LoggerService
+    ) {}
 
     private async createLogEntry(
         context: ExecutionContext,
@@ -31,30 +19,33 @@ export class LogRequestInterceptor {
     ): Promise<string> {
         const request = context.switchToHttp().getRequest()
         const logEntry = `
---- Request ---
-Date: ${DATE}
+--- START ${DATE} ---
+
+- Request -
 URL: ${request.url}
 Method: ${request.method}
 User: ${JSON.stringify(request.user)} 
-Headers: ${JSON.stringify(request.headers)} 
+Headers: ${JSON.stringify(request.headers.cookie)} 
 Params: ${JSON.stringify(request.params)} 
 Body: ${JSON.stringify(request.body)} 
 Query: ${JSON.stringify(request.query)} 
 `
-
         const resultLog = result
             ? `
---- Response ---
+- Response -
 Result: ${JSON.stringify(result)}
+
+--- END ${new Date().toISOString()} ---
 `
             : ''
 
         const errorLog = error
             ? `
---- Error ---
+- Error -
 Message: ${error.message || 'Unknown error'}
 Stack: ${error.stack || 'No stack trace'}
-Date: ${DATE}
+
+--- END ${new Date().toISOString()} ---
 `
             : ''
 
@@ -66,7 +57,6 @@ Date: ${DATE}
         next: CallHandler
     ): Promise<Observable<any>> {
         const DATE = new Date().toISOString()
-        let logMessage = ''
 
         return from(
             (async () => {
@@ -74,39 +64,46 @@ Date: ${DATE}
                     // Достаём результат из потока
                     const result = await next.handle().toPromise()
                     // Логируем ответ вместе с запросом в одну запись
-                    logMessage = await this.createLogEntry(
+                    const logMessage = await this.createLogEntry(
                         context,
                         DATE,
                         result
                     )
-                    await this.logToFile(logMessage)
+                    await this.logService.logToFile(logMessage, this.logPath)
                     return result
                 } catch (error) {
                     const reply = context.switchToHttp().getResponse()
                     if (error?.status >= 500 || !error.status) {
                         // Логируем ошибку вместе с запросом в одну запись
 
-                        logMessage = await this.createLogEntry(
+                        const logMessage = await this.createLogEntry(
                             context,
                             DATE,
                             undefined,
                             error
                         )
-                        await this.logToFile(logMessage)
-                        await this.logError(logMessage)
+                        await this.logService.createErrorLogEntry(
+                            error,
+                            context,
+                            DATE
+                        )
+                        await this.logService.logToFile(
+                            logMessage,
+                            this.logPath
+                        )
                         return errorStatic(
                             error,
                             reply,
                             context.switchToHttp().getRequest()
                         )
                     }
-                    logMessage = await this.createLogEntry(
+                    const logMessage = await this.createLogEntry(
                         context,
                         DATE,
                         undefined,
                         error.response
                     )
-                    await this.logToFile(logMessage)
+                    await this.logService.logToFile(logMessage, this.logPath)
                     return reply.status(error.status).send(error.response)
                 }
             })()

@@ -12,12 +12,12 @@ import {
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDto } from './support.dto.js'
 import { SupportService } from './support.service.js'
-import { SessionCheck } from '../../common/guards/session/session.check.js'
-import { Log } from '../../common/log/log.js'
+import { SessionCheck } from '../../../common/guards/session/session.check.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('support')
 @UseGuards(SessionCheck)
-@Log('errors')
 export class SupportController {
     constructor(private readonly support: SupportService) {}
 

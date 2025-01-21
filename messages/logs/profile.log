@@ -1,332 +1,67 @@
 
---- Request ---
-Date: 2025-01-20T12:59:04.506Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzY0MDIsImV4cCI6MTczNzM3NjcwMn0.4PxYaQrUR4ykLND885q160-FIb5SY3wpb_J1_6NbhhU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
+--- START 2025-01-21T08:25:26.828Z ---
 
---- Request ---
-Date: 2025-01-20T12:59:04.506Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzY0MDIsImV4cCI6MTczNzM3NjcwMn0.4PxYaQrUR4ykLND885q160-FIb5SY3wpb_J1_6NbhhU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T12:59:44.505Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzc5NDQsImV4cCI6MTczNzM3ODI0NH0.t7JKfb2X4LkM1lfwbDFNRVDjuAcgGRb6HjzaC-gKXV0; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T12:59:44.505Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzc5NDQsImV4cCI6MTczNzM3ODI0NH0.t7JKfb2X4LkM1lfwbDFNRVDjuAcgGRb6HjzaC-gKXV0; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Error ---
-Message: hello world
-Stack: Error: hello world
-    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
-    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
-
---- Request ---
-Date: 2025-01-20T13:01:11.342Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzc5NDQsImV4cCI6MTczNzM3ODI0NH0.t7JKfb2X4LkM1lfwbDFNRVDjuAcgGRb6HjzaC-gKXV0; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:01:11.342Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzc5NDQsImV4cCI6MTczNzM3ODI0NH0.t7JKfb2X4LkM1lfwbDFNRVDjuAcgGRb6HjzaC-gKXV0; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:04:02.858Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzc5NDQsImV4cCI6MTczNzM3ODI0NH0.t7JKfb2X4LkM1lfwbDFNRVDjuAcgGRb6HjzaC-gKXV0; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:04:02.858Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzc5NDQsImV4cCI6MTczNzM3ODI0NH0.t7JKfb2X4LkM1lfwbDFNRVDjuAcgGRb6HjzaC-gKXV0; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Response ---
-Result: {"id":"1412e851-6e2c-4038-8acb-e8530de98384","name":null,"profileType":"personal","profileState":"created","cityId":null,"avatarImageId":null,"coverImageId":null,"official":false,"shortInfo":null,"extraInfo":null,"otherLinks":null}
-
---- Request ---
-Date: 2025-01-20T13:12:43.072Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:12:43.072Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:16:17.309Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:16:17.309Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:16:27.965Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:16:27.965Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:17:08.457Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:17:08.457Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzg3MjIsImV4cCI6MTczNzM3OTAyMn0.kwX3rOZdqoNx7tDgtxBmEI6GyqcgqAXYHuaHprSw4tA; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:18:40.825Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzkwMjgsImV4cCI6MTczNzM3OTMyOH0.xedtIcEOTpFJ6MMD_dmvVs_czXm7QnYzaqkWw5X1SW4; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:34:11.264Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzkwMjgsImV4cCI6MTczNzM3OTMyOH0.xedtIcEOTpFJ6MMD_dmvVs_czXm7QnYzaqkWw5X1SW4; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:34:11.264Z
-URL: /profile?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczNzkwMjgsImV4cCI6MTczNzM3OTMyOH0.xedtIcEOTpFJ6MMD_dmvVs_czXm7QnYzaqkWw5X1SW4; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Error ---
-Message: THIS IS ERROR
-Stack: Error: THIS IS ERROR
-    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
-    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
-
---- Request ---
-Date: 2025-01-20T13:35:06.061Z
-URL: /profile/account?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODAwNTEsImV4cCI6MTczNzM4MDM1MX0._0R6uhcnzVAHPW3GJUYTKzwdqvgumqhJWSVJkx8-2Uw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Request ---
-Date: 2025-01-20T13:35:06.061Z
-URL: /profile/account?type=article
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODAwNTEsImV4cCI6MTczNzM4MDM1MX0._0R6uhcnzVAHPW3GJUYTKzwdqvgumqhJWSVJkx8-2Uw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {"type":"article"} 
-
---- Response ---
-Result: {"id":"bcbd1661-e179-4509-921e-d19a2ea9711e","email":"User1@gmail.com","phone":null,"createdAt":"2025-01-20T12:07:41.745Z","tfaCode":null,"accountUI":"234bf420-68ff-4545-bc7d-c02a4e1ea793"}
-
---- Request ---
-Date: 2025-01-20T14:07:49.518Z
-URL: /profile
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODIwNDEsImV4cCI6MTczNzM4MjM0MX0.thNIuiQDfexeZN4swmshb7il6lp49j_4fj3GJkW81fM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Response ---
-Result: {"id":"1412e851-6e2c-4038-8acb-e8530de98384","name":null,"profileType":"personal","profileState":"created","cityId":null,"avatarImageId":null,"coverImageId":null,"official":false,"shortInfo":null,"extraInfo":null,"otherLinks":null}
-
---- Request ---
-Date: 2025-01-20T14:08:08.684Z
-URL: /profile
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODIwNDEsImV4cCI6MTczNzM4MjM0MX0.thNIuiQDfexeZN4swmshb7il6lp49j_4fj3GJkW81fM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Request ---
-Date: 2025-01-20T14:09:00.468Z
-URL: /profile
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODIwNDEsImV4cCI6MTczNzM4MjM0MX0.thNIuiQDfexeZN4swmshb7il6lp49j_4fj3GJkW81fM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Request ---
-Date: 2025-01-20T14:10:13.797Z
-URL: /profile
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODIwNDEsImV4cCI6MTczNzM4MjM0MX0.thNIuiQDfexeZN4swmshb7il6lp49j_4fj3GJkW81fM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Error ---
-Message: THIS IS ERROR
-Stack: Error: THIS IS ERROR
-    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
-    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
-
---- Request ---
-Date: 2025-01-20T14:11:46.024Z
-URL: /profile/account
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODIwNDEsImV4cCI6MTczNzM4MjM0MX0.thNIuiQDfexeZN4swmshb7il6lp49j_4fj3GJkW81fM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Response ---
-Result: {"id":"bcbd1661-e179-4509-921e-d19a2ea9711e","email":"User1@gmail.com","phone":null,"createdAt":"2025-01-20T12:07:41.745Z","tfaCode":null,"accountUI":"234bf420-68ff-4545-bc7d-c02a4e1ea793"}
-
---- Request ---
-Date: 2025-01-20T14:17:26.228Z
-URL: /profile/account
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODIwNDEsImV4cCI6MTczNzM4MjM0MX0.thNIuiQDfexeZN4swmshb7il6lp49j_4fj3GJkW81fM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Response ---
-Result: {"id":"bcbd1661-e179-4509-921e-d19a2ea9711e","email":"User1@gmail.com","phone":null,"createdAt":"2025-01-20T12:07:41.745Z","tfaCode":null,"accountUI":"234bf420-68ff-4545-bc7d-c02a4e1ea793"}
-
---- Request ---
-Date: 2025-01-20T14:17:48.744Z
-URL: /profile
-Method: GET
-User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODI2NDYsImV4cCI6MTczNzM4Mjk0Nn0.L6tkEn1d4p8t5h7I576syJcusKtDHUvYY03Sj0RFvvI; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
-Params: {} 
-Body: undefined 
-Query: {} 
-
---- Error ---
-Message: THIS IS ERROR
-Stack: Error: THIS IS ERROR
-    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
-    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
-
---- Request ---
-Date: 2025-01-20T14:22:31.218Z
+- Request -
 URL: /profile/ael
 Method: GET
 User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
-Headers: {"host":"127.0.0.1:3000","cookie":"aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3MzczODI2NDYsImV4cCI6MTczNzM4Mjk0Nn0.L6tkEn1d4p8t5h7I576syJcusKtDHUvYY03Sj0RFvvI; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8","content-type":"application/json","user-agent":"insomnia/10.3.0","accept":"*/*","content-length":"184"} 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDc3NTYsImV4cCI6MTczNzQ0ODA1Nn0.qtfaY7MWQrX5sbujqPtT-todgFg_u_dYt2goO8xJ0Yo; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
 Params: {"slug":"ael"} 
 Body: undefined 
 Query: {} 
 
---- Response ---
+- Response -
 Result: "Такого профиля не существует"
+
+--- END 2025-01-21T08:25:26.846Z ---
+
+--- START 2025-01-21T08:25:48.990Z ---
+
+- Request -
+URL: /profile/ael
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDc3NTYsImV4cCI6MTczNzQ0ODA1Nn0.qtfaY7MWQrX5sbujqPtT-todgFg_u_dYt2goO8xJ0Yo; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+Params: {"slug":"ael"} 
+Body: undefined 
+Query: {} 
+
+- Response -
+Result: "Такого профиля не существует"
+
+--- END 2025-01-21T08:25:48.996Z ---
+
+--- START 2025-01-21T08:26:42.400Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDc3NTYsImV4cCI6MTczNzQ0ODA1Nn0.qtfaY7MWQrX5sbujqPtT-todgFg_u_dYt2goO8xJ0Yo; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+Params: {} 
+Body: undefined 
+Query: {} 
+
+- Error -
+Message: THIS IS ERROR
+Stack: Error: THIS IS ERROR
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-21T08:26:42.435Z ---
+
+--- START 2025-01-21T09:31:31.853Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDgxNzcsImV4cCI6MTczNzQ0ODQ3N30.wMmXn7dx017lR9rql2emEvNq1qLd9cKhcBXSHTte1zk; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+Params: {} 
+Body: undefined 
+Query: {} 
+
+- Response -
+Result: {"id":"1412e851-6e2c-4038-8acb-e8530de98384","name":null,"profileType":"personal","profileState":"created","cityId":null,"avatarImageId":null,"coverImageId":null,"official":false,"shortInfo":null,"extraInfo":null,"otherLinks":null}
+
+--- END 2025-01-21T09:31:32.232Z ---

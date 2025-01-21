@@ -12,10 +12,10 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { UUID } from 'crypto'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('profile/subscribe')
-@Log('errors')
 export abstract class SubscribeController_BASE {
     @UseGuards(SessionGuard)
     @Get(':profileId?')

@@ -14,11 +14,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { BlackLIstService } from './blacklist.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('profile/blacklist')
 @UseGuards(SessionGuard)
-@Log('errors')
 export class BlackListController {
     constructor(private readonly blacklist: BlackLIstService) {}
 

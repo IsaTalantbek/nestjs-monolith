@@ -1,6 +1,5 @@
 import {
     Controller,
-    Post,
     Get,
     Req,
     Res,
@@ -13,12 +12,11 @@ import { SessionService } from '../../../core/session/session.service.js'
 import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { errorMessage } from '../../../core/util/error/error.message.js'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('session')
 @UseGuards(SessionGuard)
-@Log('errors')
 export class SessionController {
     constructor(
         private readonly session: SessionService,

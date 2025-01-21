@@ -11,10 +11,10 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { SessionCheck } from '../../../common/guards/session/session.check.js'
 import { SlugQueryDTO } from './sample/profile.dto.js'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
-@Controller('profile')
 @Log('profile') // ЛОГ! Можно использовать и в методе конкретном
+@Controller('profile')
 export abstract class ProfileController_BASE {
     @Get()
     @UseGuards(SessionGuard)
@@ -23,7 +23,6 @@ export abstract class ProfileController_BASE {
         @Req() req: FastifyRequest,
         @Query('slug') slugDTO: SlugQueryDTO
     ) {
-        throw new Error('THIS IS ERROR')
         return await this.myProfile(reply, req, slugDTO)
     }
     @Get('account')

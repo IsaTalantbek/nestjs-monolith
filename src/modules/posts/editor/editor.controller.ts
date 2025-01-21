@@ -3,11 +3,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { EditorDto } from './editor.dto.js'
 import { EditorService } from './editor.service.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('editor')
 @UseGuards(SessionGuard)
-@Log('errors')
 export class EditorController {
     constructor(private readonly editor: EditorService) {}
 

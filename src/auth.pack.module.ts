@@ -5,6 +5,7 @@ import { JwtAuthService } from './core/keys/jwt/jwt.auth.service.js'
 import { PrismaService } from './core/database/prisma.service.js'
 import { SessionService } from './core/session/session.service.js'
 import { MutexManager } from './core/util/mutex.manager.js'
+import { LoggerService } from './common/log/logger.service.js'
 
 @Global()
 @Module({
@@ -15,6 +16,7 @@ import { MutexManager } from './core/util/mutex.manager.js'
         PrismaService,
         SessionService,
         MutexManager,
+        LoggerService,
     ],
     exports: [
         CookieSettings,
@@ -23,6 +25,7 @@ import { MutexManager } from './core/util/mutex.manager.js'
         PrismaService,
         SessionService,
         MutexManager,
+        LoggerService,
     ],
 })
 export class AuthPackModule {}

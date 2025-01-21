@@ -14,11 +14,11 @@ import { FriendService } from './friend.service.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('profile/friends')
 @UseGuards(SessionGuard)
-@Log('errors')
 export class FriendController {
     constructor(private readonly friend: FriendService) {}
 

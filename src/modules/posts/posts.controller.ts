@@ -11,12 +11,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { GivePostQueryDto } from './posts.dto.js'
 import { PostsService } from './posts.service.js'
 import { SessionCheck } from '../../common/guards/session/session.check.js'
-import { errorMessage } from '../../core/util/error/error.message.js'
 import { PrismaService } from '../../core/database/prisma.service.js'
-import { Log } from '../../common/log/log.js'
+import { Log } from '../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('feed')
-@Log('errors')
 export class PostsController {
     constructor(
         private readonly posts: PostsService,

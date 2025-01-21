@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import * as fs from 'fs'
-import { PrismaService } from '../../core/database/prisma.service.js'
+import { PrismaService } from '../../../core/database/prisma.service.js'
 import { SupportServiceInterface } from './support.dto.js'
 
 const am = './messages/support/am.txt' // Authorized Messages

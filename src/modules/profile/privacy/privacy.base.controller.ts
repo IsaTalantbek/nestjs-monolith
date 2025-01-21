@@ -15,11 +15,11 @@ import {
     GivePrivacyQueryDTO,
     UpdatePrivacyBodyDTO,
 } from './sample/privacy.dto.js'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('profile/privacy')
 @UseGuards(SessionGuard)
-@Log('errors')
 export abstract class PrivacyController_BASE {
     @Get()
     protected async givePrivacy_BASE(

@@ -6,12 +6,12 @@ import { SessionAuthorized } from '../../../common/guards/session/session.author
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
 import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Log } from '../../../common/log/log.js'
+import { Log } from '../../../common/decorators/logger.decorator.js'
 
+@Log()
 @Controller('auth')
 @UseGuards(IpAdressGuard)
 @UseGuards(SessionAuthorized)
-@Log('errors')
 export class AuthController {
     constructor(
         private readonly auth: AuthService,

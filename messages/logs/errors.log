@@ -158,3 +158,124 @@ Stack: Error: THIS IS ERROR
     at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
     at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
 Date: Mon Jan 20 2025 20:19:56 GMT+0600 (Киргизия)
+
+--- START 2025-01-21T08:26:42.400Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDc3NTYsImV4cCI6MTczNzQ0ODA1Nn0.qtfaY7MWQrX5sbujqPtT-todgFg_u_dYt2goO8xJ0Yo; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+Params: {} 
+Body: undefined 
+Query: {} 
+
+- Error -
+Message: THIS IS ERROR
+Stack: Error: THIS IS ERROR
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-21T08:26:42.435Z ---
+
+--- START Tue Jan 21 2025 14:29:37 GMT+0600 (Киргизия) ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {"accountId":"bcbd1661-e179-4509-921e-d19a2ea9711e","sessionId":"14c82bf9-ebe2-4491-8f22-ffa3ced86c86"} 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDc3NTYsImV4cCI6MTczNzQ0ODA1Nn0.qtfaY7MWQrX5sbujqPtT-todgFg_u_dYt2goO8xJ0Yo; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+Params: {} 
+Body: undefined 
+Query: {} 
+
+- Error -
+Message: he;
+Stack: Error: he;
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:26:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+Date: Tue Jan 21 2025 14:29:37 GMT+0600 (Киргизия)
+
+--- END Tue Jan 21 2025 14:29:37 GMT+0600 (Киргизия) ---
+
+    --- START 2025-01-21T09:26:55.381Z ---
+    
+    - Request -
+    URL: /profile
+    Method: GET
+    User: undefined 
+    Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDgxNzcsImV4cCI6MTczNzQ0ODQ3N30.wMmXn7dx017lR9rql2emEvNq1qLd9cKhcBXSHTte1zk; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+    Params: {} 
+    Body: undefined 
+    Query: {} 
+    
+    - Error -
+    Message: helo
+    Stack: Error: helo
+    at SessionGuard.handleRequest (D:\Games\OT\Database\New_Project\prologue\src\common\guards\session\session.guard.ts:38:19)
+    at SessionGuard.canActivate (D:\Games\OT\Database\New_Project\prologue\src\common\guards\base.guard.ts:21:31)
+    at GuardsConsumer.tryActivate (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\guards\guards-consumer.js:15:34)
+    at canActivateFn (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:135:59)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:42:37
+    at Object.<anonymous> (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-proxy.js:9:23)
+    at preHandlerCallback (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:138:37)
+    at validationCompleted (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:122:5)
+    at preValidationCallback (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:99:5)
+    at handler (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:76:7)
+    
+    --- END 2025-01-21T09:26:55.490Z ---
+    
+    --- START 2025-01-21T09:27:38.913Z ---
+    
+    - Request -
+    URL: /profile
+    Method: GET
+    User: undefined 
+    Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDgxNzcsImV4cCI6MTczNzQ0ODQ3N30.wMmXn7dx017lR9rql2emEvNq1qLd9cKhcBXSHTte1zk; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+    Params: {} 
+    Body: undefined 
+    Query: {} 
+    
+    - Error -
+    Message: helo
+    Stack: Error: helo
+    at SessionGuard.handleRequest (D:\Games\OT\Database\New_Project\prologue\src\common\guards\session\session.guard.ts:38:19)
+    at SessionGuard.canActivate (D:\Games\OT\Database\New_Project\prologue\src\common\guards\base.guard.ts:21:31)
+    at GuardsConsumer.tryActivate (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\guards\guards-consumer.js:15:34)
+    at canActivateFn (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:135:59)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:42:37
+    at Object.<anonymous> (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-proxy.js:9:23)
+    at preHandlerCallback (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:138:37)
+    at validationCompleted (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:122:5)
+    at preValidationCallback (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:99:5)
+    at handler (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:76:7)
+    
+    --- END 2025-01-21T09:27:39.051Z ---
+    
+--- START 2025-01-21T09:28:23.630Z ---
+    
+- Request -
+URL: /profile
+Method: GET
+User: undefined 
+Headers: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc0NDgxNzcsImV4cCI6MTczNzQ0ODQ3N30.wMmXn7dx017lR9rql2emEvNq1qLd9cKhcBXSHTte1zk; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8" 
+Params: {} 
+Body: undefined 
+Query: {} 
+    
+- Error -
+Message: helo
+Stack: Error: helo
+    at SessionGuard.handleRequest (D:\Games\OT\Database\New_Project\prologue\src\common\guards\session\session.guard.ts:38:19)
+    at SessionGuard.canActivate (D:\Games\OT\Database\New_Project\prologue\src\common\guards\base.guard.ts:21:31)
+    at GuardsConsumer.tryActivate (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\guards\guards-consumer.js:15:34)
+    at canActivateFn (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:135:59)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:42:37
+    at Object.<anonymous> (D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-proxy.js:9:23)
+    at preHandlerCallback (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:138:37)
+    at validationCompleted (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:122:5)
+    at preValidationCallback (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:99:5)
+    at handler (D:\Games\OT\Database\New_Project\prologue\node_modules\fastify\lib\handleRequest.js:76:7)
+    
+--- END 2025-01-21T09:28:23.749Z ---
+    
