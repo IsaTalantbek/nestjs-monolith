@@ -1,0 +1,40 @@
+
+--- START 2025-01-22T09:40:00.865Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc1Mzg2OTksImV4cCI6MTczNzUzODk5OX0.UPqI_oTl9BwHFeXjNNiA6EDWjZXb3Dr2EKUzyh5hSYg; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3NTM4Njk0LCJleHAiOjE3MzgxNDM0OTR9.yS7_IPyCMzM-iE-CR5Dqf19dOCVFeew1SV9xbHekCpQ"
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Status: 500
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-22T09:40:00.874Z ---
+
+
+--- START 2025-01-22T09:40:09.925Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc1Mzg2OTksImV4cCI6MTczNzUzODk5OX0.UPqI_oTl9BwHFeXjNNiA6EDWjZXb3Dr2EKUzyh5hSYg; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3NTM4Njk0LCJleHAiOjE3MzgxNDM0OTR9.yS7_IPyCMzM-iE-CR5Dqf19dOCVFeew1SV9xbHekCpQ"
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Status: 500
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-22T09:40:09.926Z ---
+

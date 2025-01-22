@@ -29,7 +29,8 @@ export class PrivacyController extends PrivacyController_BASE {
                 message: result,
             })
         }
-        return reply.status(200).send(result)
+        reply.status(200).send(result)
+        return result
     }
     async updatePrivacy(
         reply: FastifyReply,

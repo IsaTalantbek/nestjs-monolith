@@ -26,7 +26,9 @@ export abstract class BaseGuard implements CanActivate {
                 request,
                 'Возникла ошибка при попытке авторизации, напишите нам, что случилось'
             )
-            this.logService.createErrorLogEntry(error, context, DATE)
+            const requestLog = this.logService.requestSample(request, DATE)
+            const errorLog = this.logService.errorSample(error)
+            this.logService.error(requestLog + errorLog, './logs/errors.log')
             return false
         }
     }

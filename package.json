@@ -1,6 +1,6 @@
 {
     "name": "prologue",
-    "version": "3.1.1",
+    "version": "3.1.2",
     "description": "акундалякака",
     "author": "isat",
     "private": true,
@@ -45,7 +45,8 @@
         "prisma": "^6.2.1",
         "rate-limiter-flexible": "^5.0.4",
         "reflect-metadata": "^0.2.0",
-        "rxjs": "^7.8.1"
+        "rxjs": "^7.8.1",
+        "winston": "^3.17.0"
     },
     "devDependencies": {
         "@nestjs/cli": "^10.0.0",

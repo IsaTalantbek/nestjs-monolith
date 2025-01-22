@@ -6,6 +6,7 @@ import {
     Req,
     Res,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
@@ -13,7 +14,7 @@ import { SessionCheck } from '../../../common/guards/session/session.check.js'
 import { SlugQueryDTO } from './sample/profile.dto.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 
-@Log('profile') // ЛОГ! Можно использовать и в методе конкретном
+@Log('profile')
 @Controller('profile')
 export abstract class ProfileController_BASE {
     @Get()
@@ -23,6 +24,7 @@ export abstract class ProfileController_BASE {
         @Req() req: FastifyRequest,
         @Query('slug') slugDTO: SlugQueryDTO
     ) {
+        throw new Error('helo')
         return await this.myProfile(reply, req, slugDTO)
     }
     @Get('account')

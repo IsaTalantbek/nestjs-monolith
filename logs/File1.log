@@ -1,0 +1,50 @@
+
+--- START 2025-01-22T08:56:50.115Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc1MzYwNzksImV4cCI6MTczNzUzNjM3OX0.LCOnHSsdZMfoPT196xLtnVIBDe2ceF8HFu9i8frUSTI; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8"
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-22T08:56:50.141Z ---
+            
+
+
+--- START 2025-01-22T08:57:05.789Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc1MzYwNzksImV4cCI6MTczNzUzNjM3OX0.LCOnHSsdZMfoPT196xLtnVIBDe2ceF8HFu9i8frUSTI; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3Mzc2MDU1LCJleHAiOjE3Mzc5ODA4NTV9.hnHUoutg47aSmMMju2-3yCwqq54vng1qdwk_V94_1X8"
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-22T08:57:05.798Z ---
+            
+

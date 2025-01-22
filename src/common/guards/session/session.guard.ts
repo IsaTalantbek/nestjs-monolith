@@ -5,7 +5,7 @@ import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
 import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../core/session/session.service.js'
 import { BaseGuard } from '../base.guard.js'
-import { LoggerService } from '../../../common/log/logger.service.js'
+import { LoggerService } from '../../log/logger.service.js'
 
 @Injectable()
 export class SessionGuard extends BaseGuard {

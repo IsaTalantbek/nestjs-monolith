@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { errorMessage } from '../../../core/util/error/error.message.js'
 import {
     GivePrivacyQueryDTO,
     UpdatePrivacyBodyDTO,
@@ -27,6 +26,7 @@ export abstract class PrivacyController_BASE {
         @Res() reply: FastifyReply,
         @Query() givePrivacyDTO: GivePrivacyQueryDTO
     ) {
+        throw new Error('hello')
         return await this.givePrivacy(reply, req, givePrivacyDTO)
     }
     @Put()

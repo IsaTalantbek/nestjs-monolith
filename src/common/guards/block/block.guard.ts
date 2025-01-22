@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
 import { BaseGuard } from '../base.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { LoggerService } from '../../../common/log/logger.service.js'
+import { LoggerService } from '../../log/logger.service.js'
 
 @Injectable()
 export class IpAdressGuard extends BaseGuard {

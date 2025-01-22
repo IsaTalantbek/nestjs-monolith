@@ -1,20 +1,15 @@
-import { UseInterceptors } from '@nestjs/common'
-import { LogRequestInterceptor } from '../log/logger.js'
-import { LogErrorInterceptor } from '../log/logger.error.js'
-import { LoggerService } from '../log/logger.service.js'
+import { SetMetadata } from '@nestjs/common'
 
-const interceptorCache = new Map<string, any>()
+export const LOGGING_FILE = 'logging_file'
 
-export function Log(path?: string) {
-    if (!interceptorCache.has(path)) {
-        const interceptor = !path
-            ? new LogErrorInterceptor(new LoggerService())
-            : new LogRequestInterceptor(
-                  `./messages/logs/${path}.log`,
-                  new LoggerService()
-              )
-        interceptorCache.set(path, interceptor)
-    }
-
-    return UseInterceptors(interceptorCache.get(path))
+export function Log(fileName?: string) {
+    return fileName
+        ? SetMetadata(
+              LOGGING_FILE,
+              `${process.env.DEFAULT_LOG_FILE}/${fileName}.log`
+          )
+        : SetMetadata(
+              LOGGING_FILE,
+              `${process.env.DEFAULT_LOG_FILE}/errors.log`
+          )
 }
