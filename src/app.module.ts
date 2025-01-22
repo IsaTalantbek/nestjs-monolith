@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 import { Modules } from './modules/modules.module.js'
 import { APP_INTERCEPTOR } from '@nestjs/core'
 import { LoggingInterceptor } from './common/log/logger.interceptor.js'
+import { BasePackModule } from './base.pack.module.js'
 
 @Module({
     imports: [
@@ -10,6 +11,7 @@ import { LoggingInterceptor } from './common/log/logger.interceptor.js'
             isGlobal: true,
         }),
         Modules,
+        BasePackModule,
     ],
     providers: [
         {

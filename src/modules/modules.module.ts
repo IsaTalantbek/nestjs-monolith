@@ -11,11 +11,9 @@ import { FriendModule } from './profile/friend/friend.module.js'
 import { SesionModule } from './auth/session/session.module.js'
 import { StatsModule } from './posts/stats/stats.module.js'
 import { CommentModule } from './posts/comment/comment.module.js'
-import { AuthPackModule } from '../auth.pack.module.js'
 
 @Module({
     imports: [
-        AuthPackModule,
         AuthModule,
         ProfileModule,
         BlackListModule,

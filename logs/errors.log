@@ -338,3 +338,23 @@ Stack: Error: helo
 
 --- END 2025-01-22T09:41:53.298Z ---
 
+
+--- START 2025-01-22T10:07:38.416Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbImJjYmQxNjYxLWUxNzktNDUwOS05MjFlLWQxOWEyZWE5NzExZSIsIjE0YzgyYmY5LWViZTItNDQ5MS04ZjIyLWZmYTNjZWQ4NmM4NiJdLCJpYXQiOjE3Mzc1Mzg4NDYsImV4cCI6MTczNzUzOTE0Nn0.g3zpL2kAl61YO6hKA5_Br3BcVWNzROUOAOA0Y52ZkjY; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTRjODJiZjktZWJlMi00NDkxLThmMjItZmZhM2NlZDg2Yzg2IiwiaWF0IjoxNzM3NTM4ODM5LCJleHAiOjE3MzgxNDM2Mzl9.9d6STDpX7ybkBhUpXn7A06yNP8EqoZAZsLQV_U8l9fk"
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Status: 500
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-22T10:07:38.488Z ---
+

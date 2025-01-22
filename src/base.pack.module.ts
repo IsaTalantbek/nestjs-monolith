@@ -28,4 +28,4 @@ import { LoggerService } from './common/log/logger.service.js'
         LoggerService,
     ],
 })
-export class AuthPackModule {}
+export class BasePackModule {}
