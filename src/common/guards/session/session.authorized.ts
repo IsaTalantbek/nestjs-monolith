@@ -1,10 +1,20 @@
 import { Injectable } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
-import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
+import {
+    CookieSettings,
+    UserData,
+    UserDataArray,
+} from '../../../core/keys/cookie/cookie.settings.js'
+import {
+    JwtAccessTokenData,
+    JwtAuthService,
+    JwtRefreshTokenData,
+} from '../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../core/session/session.service.js'
 import { BaseGuard } from '../base.guard.js'
 import { LoggerService } from '../../log/logger.service.js'
+import { UUID } from 'crypto'
+import { Session } from '@prisma/client'
 
 @Injectable()
 export class SessionAuthorized extends BaseGuard {
@@ -27,12 +37,16 @@ export class SessionAuthorized extends BaseGuard {
         return false
     }
 
-    async handleRequest(request: FastifyRequest, reply: FastifyReply) {
+    async handleRequest(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ): Promise<boolean> {
         const accessToken = request.cookies?.[this.cookie.accessTokenName]
         const refreshToken = request.cookies?.[this.cookie.refreshTokenName]
 
         if (accessToken) {
-            const decoded = this.jwtAuth.verifyAccessToken(accessToken)
+            const decoded: JwtAccessTokenData =
+                this.jwtAuth.verifyAccessToken(accessToken)
             if (decoded) {
                 request.user = this.cookie.userData(decoded)
                 return this.ifAuthorizedSend(reply)
@@ -43,9 +57,12 @@ export class SessionAuthorized extends BaseGuard {
 
         // Если нет действительного access токена, пробуем refresh
         if (refreshToken) {
-            const decoded = this.jwtAuth.verifyRefreshToken(refreshToken)
+            const decoded: JwtRefreshTokenData =
+                this.jwtAuth.verifyRefreshToken(refreshToken)
             if (decoded) {
-                const session = await this.session.getSession(decoded.data)
+                const sessionId: UUID = decoded.sessionId as UUID
+                const session: Session =
+                    await this.session.getSession(sessionId)
                 if (!session) {
                     return this.handleSessionExpired(reply)
                 } else if (session.deleted === true) {
@@ -56,7 +73,7 @@ export class SessionAuthorized extends BaseGuard {
                     })
                     return false
                 } else if (session.expiresAt < new Date()) {
-                    this.session.cleanExpiredSession(session.id)
+                    this.session.cleanExpiredSession(sessionId)
                     return this.handleSessionExpired(reply)
                 }
                 const ipPrefix = request.ip.split('.').slice(0, 2).join('.')
@@ -68,13 +85,18 @@ export class SessionAuthorized extends BaseGuard {
                     return this.handleSessionExpired(reply)
                 }
 
+                const accountId: UUID = session.accountId as UUID
+
                 const { newAccessToken } = this.jwtAuth.generateAccessToken(
-                    session.accountId,
-                    session.id
+                    accountId,
+                    sessionId
                 )
 
                 this.cookie.setCookie(reply, newAccessToken, 'a')
-                request.user = this.cookie.userData(session)
+                request.user = this.cookie.userData({
+                    accountId: accountId,
+                    sessionId: sessionId,
+                } as UserData)
                 return this.ifAuthorizedSend(reply)
             }
         }

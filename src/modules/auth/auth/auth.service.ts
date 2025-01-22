@@ -2,9 +2,14 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto.js'
-import { JwtAuthService } from '../../../core/keys/jwt/jwt.auth.service.js'
+import {
+    JwtAuthService,
+    NewRefreshToken,
+} from '../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../core/session/session.service.js'
 import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { Session } from '@prisma/client'
+import { UUID } from 'crypto'
 
 @Injectable()
 export class AuthService {
@@ -32,10 +37,10 @@ export class AuthService {
         ipAdressFull: string,
         headers: string,
         ttl: number = 24 * 60 * 60 * 1000 * 7
-    ) {
+    ): Promise<NewRefreshToken> {
         return this.mutex.lock(accountId, async () => {
             const expiresAt = new Date(Date.now() + ttl)
-            const existSession = await this.prisma.session.findFirst({
+            const existSession: Session = await this.prisma.session.findFirst({
                 where: {
                     accountId: accountId,
                     deleted: false,
@@ -43,12 +48,12 @@ export class AuthService {
                     headers,
                 },
             })
+            const sessionId: UUID = existSession.id as UUID
             if (existSession?.expiresAt < new Date()) {
-                await this.session.cleanExpiredSession(existSession.id)
+                await this.session.cleanExpiredSession(sessionId)
             } else if (existSession) {
-                const { newRefreshToken } = this.jwtAuth.generateRefreshToken(
-                    existSession.id
-                )
+                const { newRefreshToken } =
+                    this.jwtAuth.generateRefreshToken(sessionId)
                 return {
                     newRefreshToken,
                 }
@@ -75,13 +80,13 @@ export class AuthService {
                 headers,
                 superUser,
             }
-            const session = await this.prisma.session.create({
+            const newSession = await this.prisma.session.create({
                 data: data,
             })
+            const newSessionId: UUID = newSession.id as UUID
 
-            const { newRefreshToken } = this.jwtAuth.generateRefreshToken(
-                session.id
-            )
+            const { newRefreshToken } =
+                this.jwtAuth.generateRefreshToken(newSessionId)
 
             return {
                 newRefreshToken,

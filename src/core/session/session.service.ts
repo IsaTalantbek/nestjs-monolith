@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../database/prisma.service.js'
 import { MutexManager } from '../util/mutex.manager.js'
+import { UUID } from 'crypto'
+import { Session } from '@prisma/client'
 
 @Injectable()
 export class SessionService {
@@ -10,22 +12,22 @@ export class SessionService {
     ) {}
 
     // Получение сессии по ID
-    async getSession(id: string) {
+    async getSession(sessionId: UUID): Promise<Session> {
         return this.prisma.session.findUnique({
-            where: { id, deleted: false },
+            where: { id: sessionId, deleted: false },
         })
     }
-    async getSessions(accountId: string) {
+    async getSessions(accountId: UUID): Promise<Session[]> {
         return this.prisma.session.findMany({
-            where: { accountId, deleted: false },
+            where: { accountId: accountId, deleted: false },
         })
     }
     // Удаление сессии по ID
     async deleteSession(
-        accountId: string,
-        id: string,
+        accountId: UUID,
+        id: UUID,
         headers: string,
-        sessionId: string
+        sessionId: UUID
     ): Promise<boolean> {
         return this.mutex.lock(accountId, async () => {
             const date = new Date()
@@ -54,9 +56,9 @@ export class SessionService {
 
     // Удаление всех сессий пользователя
     async deleteAllSessionsForUser(
-        accountId: string,
+        accountId: UUID,
         headers: string,
-        sessionId: string
+        sessionId: UUID
     ): Promise<boolean> {
         return this.mutex.lock(accountId, async () => {
             const user = await this.prisma.session.findUnique({
@@ -84,9 +86,9 @@ export class SessionService {
     }
 
     async giveSuperUser(
-        accountId: string,
-        id: string,
-        sessionId: string,
+        accountId: UUID,
+        id: UUID,
+        sessionId: UUID,
         headers: string
     ): Promise<boolean | string> {
         return this.mutex.lock(accountId, async () => {
@@ -116,10 +118,10 @@ export class SessionService {
         })
     }
     // Очистка просроченных сессий
-    async cleanExpiredSessions(accountId) {
+    async cleanExpiredSessions(accountId: UUID): Promise<boolean> {
         return this.mutex.lock(accountId, async () => {
             const date = new Date()
-            await this.prisma.$transaction(async (prisma) => {
+            return this.prisma.$transaction(async (prisma) => {
                 const find = await prisma.session.findMany({
                     where: {
                         accountId: accountId,
@@ -167,13 +169,13 @@ export class SessionService {
             })
         })
     }
-    async cleanExpiredSession(id) {
-        return this.mutex.lock(id, async () => {
+    async cleanExpiredSession(sessionId: UUID): Promise<boolean> {
+        return this.mutex.lock(sessionId, async () => {
             const date = new Date()
-            await this.prisma.$transaction(async (prisma) => {
+            return this.prisma.$transaction(async (prisma) => {
                 const res = await prisma.session.update({
                     where: {
-                        id: id,
+                        id: sessionId,
                         expiresAt: { lt: new Date() },
                         deleted: false,
                     },
@@ -199,8 +201,8 @@ export class SessionService {
                         data: { superUser: true, updatedBy: 'SessionService' },
                     })
                 }
+                return true
             })
-            return true
         })
     }
 }

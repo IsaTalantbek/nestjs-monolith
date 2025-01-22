@@ -183,3 +183,98 @@ Stack: Error: helo
 
 --- END 2025-01-22T10:07:38.488Z ---
 
+
+--- START 2025-01-22T13:45:22.796Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: "rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MTgsImV4cCI6MTczODE1ODMxOH0.J8hFXDY1JR3zytSqyEc4-kBc2Q4Uw8mQRQ6uCUlsUVo"
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Status: 500
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-22T13:45:22.808Z ---
+
+
+--- START 2025-01-22T13:45:35.028Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MjIsImV4cCI6MTczNzU1MzgyMn0.nbrIUlv7T31ovG1kqhu93oXhfNlEuu0ewA9ehiCNaYg; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MTgsImV4cCI6MTczODE1ODMxOH0.J8hFXDY1JR3zytSqyEc4-kBc2Q4Uw8mQRQ6uCUlsUVo"
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-22T13:45:35.034Z ---
+            
+
+
+--- START 2025-01-22T13:45:38.868Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MjIsImV4cCI6MTczNzU1MzgyMn0.nbrIUlv7T31ovG1kqhu93oXhfNlEuu0ewA9ehiCNaYg; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MTgsImV4cCI6MTczODE1ODMxOH0.J8hFXDY1JR3zytSqyEc4-kBc2Q4Uw8mQRQ6uCUlsUVo"
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-22T13:45:38.871Z ---
+            
+
+
+--- START 2025-01-22T13:45:39.454Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: "aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MjIsImV4cCI6MTczNzU1MzgyMn0.nbrIUlv7T31ovG1kqhu93oXhfNlEuu0ewA9ehiCNaYg; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MTgsImV4cCI6MTczODE1ODMxOH0.J8hFXDY1JR3zytSqyEc4-kBc2Q4Uw8mQRQ6uCUlsUVo"
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-22T13:45:39.458Z ---
+            
+

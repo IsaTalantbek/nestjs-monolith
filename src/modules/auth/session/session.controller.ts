@@ -13,6 +13,7 @@ import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Log } from '../../../common/decorators/logger.decorator.js'
+import { UUID } from 'crypto'
 
 @Log()
 @Controller('session')
@@ -53,10 +54,10 @@ export class SessionController {
     async logout(
         @Req() req: FastifyRequest,
         @Res() reply: FastifyReply,
-        @Param('sessionId') sessionId?: string
+        @Param('sessionId') sessionId?: UUID
     ) {
         const accountId = req.user.accountId
-        const thisSession = req.user.sessionId
+        const thisSession: UUID = req.user.sessionId
         if (!sessionId) {
             sessionId = thisSession
         }
@@ -81,10 +82,10 @@ export class SessionController {
     async giveSuperUser(
         @Req() req: FastifyRequest,
         @Res() reply: FastifyReply,
-        @Param('userSessionId') userSessionId?: string
+        @Param('userSessionId') userSessionId?: UUID
     ) {
-        const sessionId = req.user.sessionId
-        const accountId = req.user.accountId
+        const sessionId: UUID = req.user.sessionId
+        const accountId: UUID = req.user.accountId
         const result = await this.session.giveSuperUser(
             accountId,
             userSessionId,

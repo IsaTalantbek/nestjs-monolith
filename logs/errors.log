@@ -358,3 +358,73 @@ Stack: Error: helo
 
 --- END 2025-01-22T10:07:38.488Z ---
 
+
+--- START 2025-01-22T13:44:12.958Z ---
+
+- Request -
+URL: /auth/login
+Method: POST
+Cookie: undefined
+Params: {}
+Body: {
+  "slug": "User1",
+  "password": "12345678"
+}
+Query: {}
+
+- Error -
+Status: 500
+Message: jwt.sign is not a function
+Stack: TypeError: jwt.sign is not a function
+    at JwtAuthService.generateRefreshToken (D:\Games\OT\Database\New_Project\prologue\src\core\keys\jwt\jwt.auth.service.ts:43:34)
+    at <anonymous> (D:\Games\OT\Database\New_Project\prologue\src\modules\auth\auth\auth.service.ts:56:34)
+    at async MutexManager.lock (D:\Games\OT\Database\New_Project\prologue\src\core\util\mutex.manager.ts:21:20)
+    at async AuthController.login (D:\Games\OT\Database\New_Project\prologue\src\modules\auth\auth\auth.controller.ts:40:41)
+
+--- END 2025-01-22T13:44:13.441Z ---
+
+
+--- START 2025-01-22T13:44:12.958Z ---
+
+- Request -
+URL: /auth/login
+Method: POST
+Cookie: undefined
+Params: {}
+Body: {
+  "slug": "User1",
+  "password": "12345678"
+}
+Query: {}
+
+- Error -
+Status: 500
+Message: jwt.sign is not a function
+Stack: TypeError: jwt.sign is not a function
+    at JwtAuthService.generateRefreshToken (D:\Games\OT\Database\New_Project\prologue\src\core\keys\jwt\jwt.auth.service.ts:43:34)
+    at <anonymous> (D:\Games\OT\Database\New_Project\prologue\src\modules\auth\auth\auth.service.ts:56:34)
+    at async MutexManager.lock (D:\Games\OT\Database\New_Project\prologue\src\core\util\mutex.manager.ts:21:20)
+    at async AuthController.login (D:\Games\OT\Database\New_Project\prologue\src\modules\auth\auth\auth.controller.ts:40:41)
+
+--- END 2025-01-22T13:44:13.441Z ---
+
+
+--- START 2025-01-22T13:45:22.796Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: "rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc1NTM1MTgsImV4cCI6MTczODE1ODMxOH0.J8hFXDY1JR3zytSqyEc4-kBc2Q4Uw8mQRQ6uCUlsUVo"
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Status: 500
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-22T13:45:22.808Z ---
+

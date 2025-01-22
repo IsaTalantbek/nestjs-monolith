@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { FastifyRequest } from 'fastify'
+import { FastifyError, FastifyRequest } from 'fastify'
 import * as winston from 'winston'
 
 @Injectable()
@@ -7,7 +7,7 @@ export class LoggerService {
     private readonly loggers: Record<string, winston.Logger> = {}
     private readonly maxLoggers = 100 // Максимальное количество логеров (настраиваемое)
 
-    private safeJSON(obj) {
+    private safeJSON(obj: object): JSON | string {
         try {
             return JSON.stringify(obj, null, 2)
         } catch {
@@ -15,21 +15,21 @@ export class LoggerService {
         }
     }
 
-    public requestSample(request: FastifyRequest, DATE?: any) {
+    public requestSample(request: FastifyRequest, DATE?: any): string {
         return `
 --- START ${DATE || new Date().toISOString()} ---
 
 - Request -
 URL: ${request.url}
 Method: ${request.method}
-Cookie: ${this.safeJSON(request.headers.cookie)}
-Params: ${this.safeJSON(request.params)}
-Body: ${this.safeJSON(request.body)}
-Query: ${this.safeJSON(request.query)}
+Cookie: ${request.headers.cookie}
+Params: ${this.safeJSON(request.params as object)}
+Body: ${this.safeJSON(request.body as object)}
+Query: ${this.safeJSON(request.query as object)}
 `
     }
 
-    public responseSample(result: any) {
+    public responseSample(result: object): string {
         return `
 - Response -
 Status: 200
@@ -40,10 +40,9 @@ Data: ${this.safeJSON(result)}
 `
     }
 
-    public errorSample(error: any) {
+    public errorSample(error: FastifyError): string {
         return `
 - Error -
-Status: ${error?.status || 500}
 Message: ${error?.message || 'Unknown error'}
 Stack: ${error?.stack || 'No stack trace'}
 

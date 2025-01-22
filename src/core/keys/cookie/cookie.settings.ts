@@ -1,5 +1,19 @@
 import { Injectable } from '@nestjs/common'
 import { UUID } from 'crypto'
+import { FastifyReply } from 'fastify'
+
+interface CookieOption {
+    option: 'a' | 'r'
+}
+
+export interface UserDataArray {
+    data: [string, string]
+}
+
+export interface UserData {
+    accountId: UUID
+    sessionId: UUID
+}
 
 @Injectable()
 export class CookieSettings {
@@ -21,32 +35,37 @@ export class CookieSettings {
         return 'rAuthToken'
     }
 
-    public setCookie = (reply, token, option) => {
-        if (option === 'a') {
-            return reply.setCookie(
-                this.accessTokenName,
-                token,
-                this.cookieSettings
-            )
-        } else if (option === 'r') {
-            return reply.setCookie(
-                this.refreshTokenName,
-                token,
-                this.cookieSettings
-            )
-        } else {
-            throw new Error('В setcookie выбрана неправильная опция')
+    public setCookie(
+        reply: FastifyReply,
+        token: string, // Уточните ожидаемый формат токена (например, строка)
+        option: CookieOption['option']
+    ) {
+        switch (option) {
+            case 'a':
+                return reply.setCookie(
+                    this.accessTokenName,
+                    token,
+                    this.cookieSettings
+                )
+            case 'r':
+                return reply.setCookie(
+                    this.refreshTokenName,
+                    token,
+                    this.cookieSettings
+                )
+            default:
+                throw new Error(`Некорректный параметр option: ${option}`) // Этот случай более описательный
         }
     }
 
-    public clearCookie = (reply, ...args) => {
+    public clearCookie(reply: FastifyReply, ...args: string[]) {
         args.forEach((cookie) => reply.clearCookie(cookie))
     }
 
-    public userData = (data: object) => {
+    public userData(data: UserData | UserDataArray): UserData {
         // Если session — объект
         if (data && typeof data === 'object') {
-            const newData = (data as any).data
+            const newData = (data as UserDataArray).data
 
             // Если есть поле `data` и оно массив строк
             if (
@@ -54,22 +73,19 @@ export class CookieSettings {
                 newData.length === 2 &&
                 newData.every((item) => typeof item === 'string')
             ) {
-                return { accountId: newData[0], sessionId: newData[1] } as {
-                    accountId: UUID
-                    sessionId: UUID
-                }
+                return {
+                    accountId: newData[0],
+                    sessionId: newData[1],
+                } as UserData
             }
 
             // Если это просто объект с другими свойствами
-            const { accountId, id } = data as {
-                accountId?: UUID
-                id?: UUID
-            }
+            const { accountId, sessionId } = data as UserData
 
             return {
-                accountId: accountId || null, // Если есть `accountId`, берем его, иначе используем `id`
-                sessionId: id || null, // Берем `sessionId`, если он есть
-            }
+                accountId: accountId,
+                sessionId: sessionId,
+            } as UserData
         }
 
         // Если данные имеют неизвестный формат

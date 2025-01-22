@@ -16,7 +16,7 @@ export abstract class BaseGuard implements CanActivate {
         const request = context.switchToHttp().getRequest<FastifyRequest>()
         const reply = context.switchToHttp().getResponse<FastifyReply>()
 
-        const DATE = new Date().toISOString()
+        const DATE: string = new Date().toISOString()
         try {
             return await this.handleRequest(request, reply)
         } catch (error) {
@@ -26,8 +26,11 @@ export abstract class BaseGuard implements CanActivate {
                 request,
                 'Возникла ошибка при попытке авторизации, напишите нам, что случилось'
             )
-            const requestLog = this.logService.requestSample(request, DATE)
-            const errorLog = this.logService.errorSample(error)
+            const requestLog: string = this.logService.requestSample(
+                request,
+                DATE
+            )
+            const errorLog: string = this.logService.errorSample(error)
             this.logService.error(requestLog + errorLog, './logs/errors.log')
             return false
         }

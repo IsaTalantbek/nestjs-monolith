@@ -3,6 +3,6 @@ import 'fastify'
 
 declare module 'fastify' {
     interface FastifyRequest {
-        user?: { accountId: UUID; sessionId?: UUID }
+        user?: { accountId: UUID; sessionId: UUID }
     }
 }
