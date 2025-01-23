@@ -4,7 +4,7 @@ import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
 import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
 import { SessionAuthorized } from '../../../common/guards/session/session.authorized.js'
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
-import { IpAdressBlockManager } from '../../../core/util/block.manager.js'
+import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 
@@ -16,7 +16,7 @@ export class AuthController {
     constructor(
         private readonly auth: AuthService,
         private readonly cookie: CookieSettings,
-        private readonly block: IpAdressBlockManager
+        private readonly block: IpAdressBlockService
     ) {}
 
     @Post('login')

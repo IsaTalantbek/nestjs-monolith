@@ -3,7 +3,7 @@ import { UUID } from 'crypto'
 import { Profile, Subscription } from '@prisma/client'
 import { plainToInstance } from 'class-transformer'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { MutexService } from '../../../core/util/mutex/mutex.service.js'
 import { SubscriptionsDTO } from './sample/subscribe.DTO.js'
 import { subscribeService_INTERFACE } from './sample/subscribe.interface.js'
 
@@ -11,7 +11,7 @@ import { subscribeService_INTERFACE } from './sample/subscribe.interface.js'
 export class SubscribeService implements subscribeService_INTERFACE {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly mutex: MutexManager
+        private readonly mutex: MutexService
     ) {}
 
     //Если передан userPid, возвращает все подписки которые оформлены на этот профиль

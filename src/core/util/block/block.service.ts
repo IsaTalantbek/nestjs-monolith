@@ -6,7 +6,7 @@ interface BlockedIp {
 }
 
 @Injectable()
-export class IpAdressBlockManager {
+export class IpAdressBlockService {
     private userLocks: Map<string, BlockedIp> = new Map()
     private cleanupInterval: NodeJS.Timeout
 

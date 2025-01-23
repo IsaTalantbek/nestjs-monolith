@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { Mutex } from 'async-mutex'
 
 @Injectable()
-export class MutexManager {
+export class MutexService {
     private locks: Map<string, Mutex> = new Map()
 
     // Метод для получения или создания мьютекса

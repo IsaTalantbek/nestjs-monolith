@@ -278,3 +278,47 @@ Data: {
 --- END 2025-01-22T13:45:39.458Z ---
             
 
+
+--- START 2025-01-23T07:57:30.601Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc2MTkwNDUsImV4cCI6MTczODIyMzg0NX0.ZGVClTNrIFkE4oezVBZSEOWPw_j9gHHffXRY6G_YH80; aAuthToken=
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-23T07:57:30.606Z ---
+            
+
+
+--- START 2025-01-23T07:57:34.434Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc2MTkwNDUsImV4cCI6MTczODIyMzg0NX0.ZGVClTNrIFkE4oezVBZSEOWPw_j9gHHffXRY6G_YH80; aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc2MTkwNTAsImV4cCI6MTczNzYxOTM1MH0.nb-5KOC0QgDQJ7Ibs5b7kmmN5zq7MCuyXv9o31J0k5Q
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-23T07:57:34.453Z ---
+

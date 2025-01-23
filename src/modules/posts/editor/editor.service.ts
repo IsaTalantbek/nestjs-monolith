@@ -3,13 +3,13 @@ import { Prisma } from '@prisma/client'
 import * as _ from 'lodash'
 import { CreatePostForm } from './editor.dto.js'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { MutexService } from '../../../core/util/mutex/mutex.service.js'
 
 @Injectable()
 export class EditorService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly mutex: MutexManager
+        private readonly mutex: MutexService
     ) {}
 
     async createPost({

@@ -7,7 +7,7 @@ import {
     NewRefreshToken,
 } from '../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../core/session/session.service.js'
-import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { MutexService } from '../../../core/util/mutex/mutex.service.js'
 import { Session } from '@prisma/client'
 import { UUID } from 'crypto'
 
@@ -17,7 +17,7 @@ export class AuthService {
         private readonly prisma: PrismaService,
         private readonly jwtAuth: JwtAuthService,
         private readonly session: SessionService,
-        private readonly mutex: MutexManager
+        private readonly mutex: MutexService
     ) {}
 
     async validateUser({ slug, password }: loginForm): Promise<boolean | any> {

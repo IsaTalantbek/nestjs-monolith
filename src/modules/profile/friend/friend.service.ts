@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { MutexManager } from '../../../core/util/mutex.manager.js'
+import { MutexService } from '../../../core/util/mutex/mutex.service.js'
 import { vsAidFriendDto } from './friend.dto.js'
 
 @Injectable()
 export class FriendService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly mutex: MutexManager
+        private readonly mutex: MutexService
     ) {}
 
     async giveActiveFriends(accountId: string) {

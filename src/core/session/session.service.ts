@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../database/prisma.service.js'
-import { MutexManager } from '../util/mutex.manager.js'
+import { MutexService } from '../util/mutex/mutex.service.js'
 import { UUID } from 'crypto'
 import { Session } from '@prisma/client'
 
@@ -8,7 +8,7 @@ import { Session } from '@prisma/client'
 export class SessionService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly mutex: MutexManager
+        private readonly mutex: MutexService
     ) {}
 
     // Получение сессии по ID

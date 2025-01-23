@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { MutexManager } from '../../../core/util/mutex.manager.js'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 
 @Injectable()
 export class CommentService {
-    constructor(
-        private readonly prisma: PrismaService,
-        private readonly mutex: MutexManager
-    ) {}
+    constructor(private readonly prisma: PrismaService) {}
 
     async giveComments(postId?, profileId?) {
         if (postId) {
