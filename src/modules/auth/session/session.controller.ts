@@ -9,7 +9,7 @@ import {
     Put,
 } from '@nestjs/common'
 import { SessionService } from '../../../core/session/session.service.js'
-import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
+import { CookieService } from '../../../core/keys/cookie/cookie.service.js'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Log } from '../../../common/decorators/logger.decorator.js'
@@ -21,7 +21,7 @@ import { UUID } from 'crypto'
 export class SessionController {
     constructor(
         private readonly session: SessionService,
-        private readonly cookie: CookieSettings
+        private readonly cookie: CookieService
     ) {}
     @Get()
     async getSessions(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {

@@ -1,0 +1,40 @@
+
+--- START 2025-01-24T14:57:39.383Z ---
+
+- Request -
+URL: /auth/login
+Method: POST
+Cookie: undefined
+Params: {}
+Body: {
+  "slug": "User1",
+  "password": "12345678"
+}
+Query: {}
+
+- Response -
+Status: 200
+Data: undefined
+
+--- END 2025-01-24T14:57:39.830Z ---
+            
+
+
+--- START 2025-01-24T14:57:47.160Z ---
+
+- Request -
+URL: /profile/privacy
+Method: GET
+Cookie: rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MzA2NTksImV4cCI6MTczODMzNTQ1OX0.SXQ3xGX0rp-6syaXR-C0sCUIobXiOpqTEsUWPFzWeHI
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at PrivacyController.givePrivacy_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\privacy\privacy.base.controller.ts:29:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-24T14:57:47.186Z ---
+

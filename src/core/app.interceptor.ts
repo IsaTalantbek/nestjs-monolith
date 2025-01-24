@@ -4,15 +4,15 @@ import {
     ExecutionContext,
     CallHandler,
 } from '@nestjs/common'
-import { LoggerService } from './logger.service.js'
+import { LoggerService } from './log/logger.service.js'
 import { catchError, Observable, tap } from 'rxjs'
 import { Reflector } from '@nestjs/core'
-import { LOGGING_FILE } from '../decorators/logger.decorator.js'
-import { errorStatic } from '../../core/util/error/error.static.js'
+import { LOGGING_FILE } from '../common/decorators/logger.decorator.js'
+import { errorStatic } from './util/error/error.static.js'
 import { FastifyRequest } from 'fastify'
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
+export class AppInterceptor implements NestInterceptor {
     constructor(
         private reflector: Reflector,
         private readonly loggerService: LoggerService
@@ -44,9 +44,9 @@ export class LoggingInterceptor implements NestInterceptor {
                 LOGGING_FILE,
                 context.getClass()
             )
-        }
-        if (!baseFilePath) {
-            return next.handle()
+            if (!baseFilePath) {
+                return next.handle()
+            }
         }
         const request: FastifyRequest = context.switchToHttp().getRequest()
         const errorFilePath = `${process.env.DEFAULT_LOG_FILE}/errors.log`

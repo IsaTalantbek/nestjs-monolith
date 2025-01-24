@@ -4,7 +4,7 @@ import { Profile, Subscription } from '@prisma/client'
 import { plainToInstance } from 'class-transformer'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MutexService } from '../../../core/util/mutex/mutex.service.js'
-import { SubscriptionsDTO } from './sample/subscribe.DTO.js'
+import { SubscriptionsDTO } from './sample/subscribe.dto.js'
 import { subscribeService_INTERFACE } from './sample/subscribe.interface.js'
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common'
 import { AuthService } from './auth.service.js'
-import { CookieSettings } from '../../../core/keys/cookie/cookie.settings.js'
+import { CookieService } from '../../../core/keys/cookie/cookie.service.js'
 import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
 import { SessionAuthorized } from '../../../common/guards/session/session.authorized.js'
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
@@ -15,15 +15,15 @@ import { Log } from '../../../common/decorators/logger.decorator.js'
 export class AuthController {
     constructor(
         private readonly auth: AuthService,
-        private readonly cookie: CookieSettings,
+        private readonly cookie: CookieService,
         private readonly block: IpAdressBlockService
     ) {}
 
     @Post('login')
     async login(
-        @Body() loginUserDto: loginUserDto,
-        @Res({ passthrough: true }) reply: FastifyReply,
-        @Req() req: FastifyRequest
+        @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest,
+        @Body() loginUserDto: loginUserDto
     ) {
         try {
             const { slug, password } = loginUserDto

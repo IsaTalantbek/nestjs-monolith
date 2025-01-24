@@ -447,3 +447,121 @@ Stack: Error: helo
 
 --- END 2025-01-23T07:57:34.453Z ---
 
+
+--- START 2025-01-24T10:06:09.638Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjUsImV4cCI6MTczNzcxMzQ2NX0.OScOLPVh-Esv3oVuZrFgNYBp9eyScRwXTTafJfRayzM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjEsImV4cCI6MTczODMxNzk2MX0.obL42MlcuYM5qo1l7C4BaqXXfKrWZKg-C5i15sDgLYw
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-24T10:06:09.642Z ---
+
+
+--- START 2025-01-24T10:06:31.849Z ---
+
+- Request -
+URL: /profile/privacy
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjUsImV4cCI6MTczNzcxMzQ2NX0.OScOLPVh-Esv3oVuZrFgNYBp9eyScRwXTTafJfRayzM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjEsImV4cCI6MTczODMxNzk2MX0.obL42MlcuYM5qo1l7C4BaqXXfKrWZKg-C5i15sDgLYw
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at PrivacyController.givePrivacy_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\privacy\privacy.base.controller.ts:29:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-24T10:06:31.850Z ---
+
+
+--- START 2025-01-24T10:06:31.849Z ---
+
+- Request -
+URL: /profile/privacy
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjUsImV4cCI6MTczNzcxMzQ2NX0.OScOLPVh-Esv3oVuZrFgNYBp9eyScRwXTTafJfRayzM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjEsImV4cCI6MTczODMxNzk2MX0.obL42MlcuYM5qo1l7C4BaqXXfKrWZKg-C5i15sDgLYw
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at PrivacyController.givePrivacy_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\privacy\privacy.base.controller.ts:29:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-24T10:06:31.850Z ---
+
+
+--- START 2025-01-24T10:16:10.849Z ---
+
+- Request -
+URL: /auth/login
+Method: POST
+Cookie: undefined
+Params: {}
+Body: {
+  "slug": "User1",
+  "password": "12345678"
+}
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'ip')
+Stack: TypeError: Cannot read properties of undefined (reading 'ip')
+    at AuthController.login (D:\Games\OT\Database\New_Project\prologue\src\modules\auth\auth\auth.controller.ts:49:42)
+
+--- END 2025-01-24T10:16:11.002Z ---
+
+
+--- START 2025-01-24T10:16:10.849Z ---
+
+- Request -
+URL: /auth/login
+Method: POST
+Cookie: undefined
+Params: {}
+Body: {
+  "slug": "User1",
+  "password": "12345678"
+}
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'ip')
+Stack: TypeError: Cannot read properties of undefined (reading 'ip')
+    at AuthController.login (D:\Games\OT\Database\New_Project\prologue\src\modules\auth\auth\auth.controller.ts:49:42)
+
+--- END 2025-01-24T10:16:11.002Z ---
+
+
+--- START 2025-01-24T14:57:47.160Z ---
+
+- Request -
+URL: /profile/privacy
+Method: GET
+Cookie: rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MzA2NTksImV4cCI6MTczODMzNTQ1OX0.SXQ3xGX0rp-6syaXR-C0sCUIobXiOpqTEsUWPFzWeHI
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at PrivacyController.givePrivacy_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\privacy\privacy.base.controller.ts:29:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-24T14:57:47.186Z ---
+

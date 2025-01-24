@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { errorStatic } from '../../core/util/error/error.static.js'
-import { LoggerService } from '../log/logger.service.js'
+import { LoggerService } from '../../core/log/logger.service.js'
 
 @Injectable()
 export abstract class BaseGuard implements CanActivate {

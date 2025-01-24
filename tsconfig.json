@@ -1,23 +1,48 @@
 {
     "compilerOptions": {
-        "module": "ES2020",
+        // A_ Устанавливаем более современный модуль (ES2022, для поддержки новых стандартов)
+        "module": "ES2022",
+        // Создаем файл деклараций (TypeScript typings)
         "declaration": true,
+        // Используем стандартный алгоритм разрешения модулей Node.js
         "moduleResolution": "node",
+        // Убираем комментарии при компиляции
         "removeComments": true,
+        // Генерация метаданных для декораторов
         "emitDecoratorMetadata": true,
+        // Включаем экспериментальную поддержку декораторов
         "experimentalDecorators": true,
+        // Разрешаем использование синтетических `default` импортов
         "allowSyntheticDefaultImports": true,
+        // Включаем совместимость с CommonJS и ES модулями
         "esModuleInterop": true,
-        "target": "ES2021",
+        // A_ Устанавливаем целевой язык JavaScript (ES2022)
+        "target": "ES2022",
+        // Генерация карт кода для удобства дебага
         "sourceMap": true,
+        // Указываем выходной каталог для скомпилированного кода
         "outDir": "./dist",
+        // Базовый путь для поиска модулей
         "baseUrl": "./",
-        "incremental": true,
-        "skipLibCheck": true,
-        "strictNullChecks": false,
-        "noImplicitAny": false,
-        "strictBindCallApply": false,
-        "forceConsistentCasingInFileNames": false,
-        "noFallthroughCasesInSwitch": false
+        // Ускоряет сборку, позволяет делать инкрементальную компиляцию
+        "incremental": true
+        // A_ Включаем проверку библиотек для дополнительной строгости
+        //"skipLibCheck": false,
+        // A_ Включаем строгую проверку значений null и undefined
+        //"strictNullChecks": true,
+        // A_ Запрещаем использование implicit `any`
+        //"noImplicitAny": true,
+        // A_ Предотвращаем неявные ошибки вызова функций (строгое приведение типов)
+        //"strictBindCallApply": true,
+        // A_ Требуем консистентного использования регистра в именах файлов
+        //"forceConsistentCasingInFileNames": true,
+        // A_ Запрещаем падение между кейсами в switch
+        //"noFallthroughCasesInSwitch": true,
+        // A_ Требуем явное указание контекста this
+        //"noImplicitThis": true,
+        // A_ Включаем строгий режим во всех файлах
+        //"alwaysStrict": true,
+        // A_ Включаем строгую проверку типов функций
+        //"strictFunctionTypes": true
     }
 }

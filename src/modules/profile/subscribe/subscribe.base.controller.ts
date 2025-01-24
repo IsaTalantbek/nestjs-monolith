@@ -15,9 +15,9 @@ import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 
 @Log()
+@UseGuards(SessionGuard)
 @Controller('profile/subscribe')
 export abstract class SubscribeController_BASE {
-    @UseGuards(SessionGuard)
     @Get(':profileId?')
     protected async giveSubscribtions_BASE(
         @Res() reply: FastifyReply,
@@ -26,7 +26,6 @@ export abstract class SubscribeController_BASE {
     ) {
         return await this.giveSubscriptions(reply, req, profileId)
     }
-    @UseGuards(SessionGuard)
     @UsePipes(ParamUuidPipe)
     @Get('check/:profileId')
     protected async giveSubscription_BASE(
@@ -36,7 +35,6 @@ export abstract class SubscribeController_BASE {
     ) {
         return await this.giveSubscription(reply, req, profileId)
     }
-    @UseGuards(SessionGuard)
     @UsePipes(ParamUuidPipe)
     @Put(':profileId')
     protected async subscribe_BASE(

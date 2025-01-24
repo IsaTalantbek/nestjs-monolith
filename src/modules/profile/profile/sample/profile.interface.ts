@@ -27,7 +27,7 @@ export interface MinData {
     coverImage: string | null
 }
 
-interface FullData extends MinData {
+export interface FullData extends MinData {
     offcial: boolean
     shortInfo?: string
     extraInfo?: string

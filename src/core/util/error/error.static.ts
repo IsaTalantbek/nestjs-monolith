@@ -1,5 +1,5 @@
 export const errorStatic = (error, reply, req, message?) => {
-    const date = new Date()
+    const date = new Date().toISOString()
     console.error(error)
     console.error(req)
     console.error(date)

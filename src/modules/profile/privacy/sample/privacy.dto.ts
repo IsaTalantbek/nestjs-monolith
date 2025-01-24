@@ -32,3 +32,10 @@ export class GivePrivacyDTO {
     @Expose()
     subscriptions: privacyType
 }
+
+export class GiveFriendsDTO {
+    @Expose()
+    initAid: UUID
+    @Expose()
+    vsAid: UUID
+}

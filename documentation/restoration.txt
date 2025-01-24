@@ -3,6 +3,6 @@ profile - 3/5
 
 profile/profile   - O
 profile/blacklist - X
-profile/friend    - X
+profile/friend    - O
 profile/privacy   - O
 profile/subscribe - O

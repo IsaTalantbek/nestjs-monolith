@@ -4,4 +4,4 @@ import { SessionController } from './session.controller.js'
 @Module({
     controllers: [SessionController],
 })
-export class SesionModule {}
+export class SessionControllerModule {}

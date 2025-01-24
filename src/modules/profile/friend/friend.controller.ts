@@ -1,97 +1,63 @@
-import {
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-    Req,
-    Res,
-    UseGuards,
-    UsePipes,
-} from '@nestjs/common'
 import { FriendService } from './friend.service.js'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Log } from '../../../common/decorators/logger.decorator.js'
+import { FriendController_BASE } from './friend.base.controller.js'
+import { UUID } from 'crypto'
+import { ActiveWaitingFriendDTO } from './sample/friend.dto.js'
 
-@Log()
-@Controller('profile/friends')
-@UseGuards(SessionGuard)
-export class FriendController {
-    constructor(private readonly friend: FriendService) {}
+export class FriendController extends FriendController_BASE {
+    constructor(private readonly friend: FriendService) {
+        super()
+    }
 
-    @Get()
-    async giveActiveFriends(
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
+    async giveFriends(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        optionDTO: ActiveWaitingFriendDTO
     ) {
+        const { option } = optionDTO
         const accountId = req.user.accountId
-        const result = await this.friend.giveActiveFriends(accountId)
-        return reply.status(200).send(result)
+        const result = await this.friend.giveFriends(accountId, option)
+        reply.status(200).send(result)
+        return result
     }
-    @Get('waiting')
-    async giveWaitingFriends(
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
+
+    async addFriend(reply: FastifyReply, req: FastifyRequest, vsAid: UUID) {
         const accountId = req.user.accountId
-        const result = await this.friend.giveWaitingFriends(accountId)
-        return reply.status(200).send(result)
-    }
-    @UsePipes(ParamUuidPipe)
-    @Post(':vsAid')
-    async addFriend(
-        @Param('vsAid') vsAid: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
-        const accountId = req.user.accountId
-        const result = await this.friend.addFriend({
-            accountId,
-            vsAid,
-        })
+        const result = await this.friend.addFriend(accountId, vsAid)
         if (result !== true) {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply
-            .status(200)
-            .send({ message: 'Успешно отправлен запрос на дружбу' })
+        const message = 'Успешно отправлен запрос на дружбу'
+        reply.status(200).send({ message: message })
+        return message
     }
-    @UsePipes(ParamUuidPipe)
-    @Put(':friendId')
+
     async acceptFriend(
-        @Param('friendId') friendId: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
+        reply: FastifyReply,
+        req: FastifyRequest,
+        friendId: UUID
     ) {
         const accountId = req.user.accountId
         const result = await this.friend.acceptFriend(accountId, friendId)
         if (result !== true) {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply
-            .status(200)
-            .send({ message: 'Успешно принят запрос на дружбу' })
+        const message = 'Успешно принят запрос на дружбу'
+        reply.status(200).send({ message: message })
+        return message
     }
-    @UsePipes(ParamUuidPipe)
-    @Delete('vsAid')
-    async deleteFriend(
-        @Param('friendId') vsAid: string,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
+
+    async deleteFriend(reply: FastifyReply, req: FastifyRequest, vsAid: UUID) {
         const accountId = req.user.accountId
-        const result = await this.friend.deleteFriend({
-            accountId,
-            vsAid,
-        })
+        const result = await this.friend.deleteFriend(accountId, vsAid)
         if (result !== true) {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply
-            .status(200)
-            .send({ message: 'Пользователь успешно удален из друзей' })
+        const message = 'Пользователь успешно удален из друзей'
+        reply.status(200).send({ message: message })
+        return message
     }
 }

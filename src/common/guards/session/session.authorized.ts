@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
-    CookieSettings,
+    CookieService,
     UserData,
     UserDataArray,
-} from '../../../core/keys/cookie/cookie.settings.js'
+} from '../../../core/keys/cookie/cookie.service.js'
 import {
     JwtAccessTokenData,
     JwtAuthService,
@@ -12,15 +12,15 @@ import {
 } from '../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../core/session/session.service.js'
 import { BaseGuard } from '../base.guard.js'
-import { LoggerService } from '../../log/logger.service.js'
 import { UUID } from 'crypto'
 import { Session } from '@prisma/client'
+import { LoggerService } from '../../../core/log/logger.service.js'
 
 @Injectable()
 export class SessionAuthorized extends BaseGuard {
     constructor(
         private readonly jwtAuth: JwtAuthService,
-        private readonly cookie: CookieSettings,
+        private readonly cookie: CookieService,
         private readonly session: SessionService,
         private readonly LoggerService: LoggerService
     ) {

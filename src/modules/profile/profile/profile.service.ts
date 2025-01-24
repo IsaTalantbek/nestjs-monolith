@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { Post, Subscription } from '@prisma/client'
+import { Account, Post, Subscription } from '@prisma/client'
 import { plainToInstance } from 'class-transformer'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MyAccountDTO, MyProfileDTO } from './sample/profile.dto.js'
 import {
+    FullData,
     MinData,
     ProfilePrivacyStats,
     ProfileService_INTERFACE,
@@ -27,6 +28,9 @@ export class ProfileService implements ProfileService_INTERFACE {
             result = await this.prisma.profile.findFirst({
                 where: { ownerId: accountId, profileType: 'personal' },
             })
+            if (!result) {
+                throw new Error(`У пользователя нет профиля ${accountId}`)
+            }
         }
         if (!result) {
             return 'Похоже такого профиля не существует, либо вы им не владеете'
@@ -37,9 +41,12 @@ export class ProfileService implements ProfileService_INTERFACE {
     }
 
     async myAccount(accountId: string): Promise<MyAccountDTO> {
-        const result = await this.prisma.account.findUnique({
+        const result: Account | null = await this.prisma.account.findUnique({
             where: { id: accountId },
         })
+        if (!result) {
+            throw new Error(`У пользователя нет аккаунта ${accountId}`)
+        }
         return plainToInstance(MyAccountDTO, result, {
             excludeExtraneousValues: true, // Исключить поля без @Expose
         })
@@ -51,7 +58,7 @@ export class ProfileService implements ProfileService_INTERFACE {
         slug: string,
         accountId?: string
     ): Promise<MinData | UserProfileData | string> {
-        const result: ProfilePrivacyStats =
+        const result: ProfilePrivacyStats | null =
             await this.prisma.profile.findUnique({
                 where: { slug: slug, deleted: false },
                 include: { privacy: true, stats: true },
@@ -63,8 +70,13 @@ export class ProfileService implements ProfileService_INTERFACE {
             name: result.name,
             avatarImage: result.avatarImageId,
             coverImage: result.coverImageId,
+        } as MinData
+
+        if (!result.ownerId) {
+            throw new Error(`У профиля нет владелельца: ${result}`)
         }
-        const subscription: Subscription[] =
+
+        const subscription: Subscription[] | null =
             await this.prisma.subscription.findMany({
                 where: { subscriberAid: result.ownerId, active: true },
             })
@@ -101,15 +113,15 @@ export class ProfileService implements ProfileService_INTERFACE {
             extraInfo: result.extraInfo,
             otherLinks: result.otherLinks,
             subscribers: result.stats.subscribers,
-        }
+        } as FullData
 
         const data: {
-            fullData: any
-            subscription: any
-            posts: any
-            likes: any
-            dislikes: any
-            ratio: any
+            fullData?: any
+            subscription?: any
+            posts?: any
+            likes?: any
+            dislikes?: any
+            ratio?: any
         } = {
             fullData,
             subscription: undefined,
@@ -117,7 +129,13 @@ export class ProfileService implements ProfileService_INTERFACE {
             likes: undefined,
             dislikes: undefined,
             ratio: undefined,
+        } as UserProfileData
+        if (!result.privacy) {
+            throw new Error(
+                `У профиля не существует настроек приватности: ${result}`
+            )
         }
+
         if (result.privacy.viewProfile === 'nobody') {
             return minData
         } else if (result.privacy.viewProfile === 'friends' && !friend) {

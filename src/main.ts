@@ -6,11 +6,8 @@ import {
 } from '@nestjs/platform-fastify'
 import { ConfigService } from '@nestjs/config'
 import { ValidationPipe } from '@nestjs/common'
-import { CookieSettings } from './core/keys/cookie/cookie.settings.js'
 import cookie from '@fastify/cookie'
 import RateLimit from '@fastify/rate-limit'
-import session from '@fastify/session'
-import passport from 'passport'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
@@ -31,7 +28,7 @@ async function bootstrap() {
     })
     // Получаем ConfigService из контейнера зависимостей NestJS
     const configService = app.get(ConfigService)
-    //const cookieSettings = app.get(CookieSettings)
+    //const cookieSettings = app.get(CookieService)
     await app.register(cookie)
 
     //await app.register(session, {

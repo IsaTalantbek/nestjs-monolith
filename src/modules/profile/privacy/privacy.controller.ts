@@ -1,4 +1,3 @@
-import { Controller } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { PrivacyService } from './privacy.service.js'
 import {
@@ -8,7 +7,6 @@ import {
 } from './sample/privacy.dto.js'
 import { PrivacyController_BASE } from './privacy.base.controller.js'
 
-@Controller('profile/privacy')
 export class PrivacyController extends PrivacyController_BASE {
     constructor(private readonly privacy: PrivacyService) {
         super()

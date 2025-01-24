@@ -21,7 +21,7 @@ export class ProfileController extends ProfileController_BASE {
         slugDTO: SlugQueryDTO
     ) {
         const { slug } = slugDTO || {}
-        const accountId = req.user.accountId
+        const accountId = req.user!.accountId
         const result: string | MyProfileDTO = await this.profile.myProfile(
             accountId,
             slug
@@ -37,7 +37,7 @@ export class ProfileController extends ProfileController_BASE {
     }
 
     async myAccount(reply: FastifyReply, req: FastifyRequest) {
-        const accountId = req.user.accountId
+        const accountId = req.user!.accountId
         const result: MyAccountDTO = await this.profile.myAccount(accountId)
         reply.status(200).send(result)
         return result

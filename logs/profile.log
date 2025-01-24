@@ -322,3 +322,92 @@ Stack: Error: helo
 
 --- END 2025-01-23T07:57:34.453Z ---
 
+
+--- START 2025-01-24T10:06:09.638Z ---
+
+- Request -
+URL: /profile
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjUsImV4cCI6MTczNzcxMzQ2NX0.OScOLPVh-Esv3oVuZrFgNYBp9eyScRwXTTafJfRayzM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjEsImV4cCI6MTczODMxNzk2MX0.obL42MlcuYM5qo1l7C4BaqXXfKrWZKg-C5i15sDgLYw
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:27:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-24T10:06:09.642Z ---
+
+
+--- START 2025-01-24T10:06:15.886Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjUsImV4cCI6MTczNzcxMzQ2NX0.OScOLPVh-Esv3oVuZrFgNYBp9eyScRwXTTafJfRayzM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MTMxNjEsImV4cCI6MTczODMxNzk2MX0.obL42MlcuYM5qo1l7C4BaqXXfKrWZKg-C5i15sDgLYw
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-24T10:06:15.913Z ---
+            
+
+
+--- START 2025-01-24T14:57:54.383Z ---
+
+- Request -
+URL: /profile/profile
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MzA2NjcsImV4cCI6MTczNzczMDk2N30.yOa2MYsI4T3AjbezdA94Qf8s0Geou7Vhy71n4Nr1anw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MzA2NTksImV4cCI6MTczODMzNTQ1OX0.SXQ3xGX0rp-6syaXR-C0sCUIobXiOpqTEsUWPFzWeHI
+Params: {
+  "slug": "profile"
+}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: "Такого профиля не существует"
+
+--- END 2025-01-24T14:57:54.387Z ---
+            
+
+
+--- START 2025-01-24T14:58:47.297Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MzA2NjcsImV4cCI6MTczNzczMDk2N30.yOa2MYsI4T3AjbezdA94Qf8s0Geou7Vhy71n4Nr1anw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3MzA2NTksImV4cCI6MTczODMzNTQ1OX0.SXQ3xGX0rp-6syaXR-C0sCUIobXiOpqTEsUWPFzWeHI
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-24T14:58:47.304Z ---
+            
+

@@ -8,7 +8,7 @@ import { SupportModule } from './staff/support/support.module.js'
 import { SubscribeModule } from './profile/subscribe/subscribe.module.js'
 import { PrivacyModule } from './profile/privacy/privacy.module.js'
 import { FriendModule } from './profile/friend/friend.module.js'
-import { SesionModule } from './auth/session/session.module.js'
+import { SessionControllerModule } from './auth/session/session.module.js'
 import { StatsModule } from './posts/stats/stats.module.js'
 import { CommentModule } from './posts/comment/comment.module.js'
 
@@ -23,7 +23,7 @@ import { CommentModule } from './posts/comment/comment.module.js'
         SubscribeModule,
         PrivacyModule,
         FriendModule,
-        SesionModule,
+        SessionControllerModule,
         StatsModule,
         CommentModule,
     ],

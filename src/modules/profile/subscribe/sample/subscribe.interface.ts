@@ -1,5 +1,5 @@
 import { UUID } from 'crypto'
-import { SubscriptionsDTO } from './subscribe.DTO'
+import { SubscriptionsDTO } from './subscribe.dto.js'
 
 export interface subscribeService_INTERFACE {
     giveSubscriptions(

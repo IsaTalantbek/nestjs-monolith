@@ -11,8 +11,13 @@ import {
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { SessionCheck } from '../../../common/guards/session/session.check.js'
-import { SlugQueryDTO } from './sample/profile.dto.js'
+import {
+    MyAccountDTO,
+    MyProfileDTO,
+    SlugQueryDTO,
+} from './sample/profile.dto.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
+import { MinData, UserProfileData } from './sample/profile.interface.js'
 
 @Log('profile')
 @Controller('profile')
@@ -49,11 +54,14 @@ export abstract class ProfileController_BASE {
         reply: FastifyReply,
         req: FastifyRequest,
         slugDTO: SlugQueryDTO
-    )
-    protected abstract myAccount(reply: FastifyReply, req: FastifyRequest)
+    ): Promise<MyProfileDTO | string>
+    protected abstract myAccount(
+        reply: FastifyReply,
+        req: FastifyRequest
+    ): Promise<MyAccountDTO | string>
     protected abstract userProfile(
         reply: FastifyReply,
         req: FastifyRequest,
         slug: string
-    )
+    ): Promise<UserProfileData | MinData | string>
 }
