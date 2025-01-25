@@ -902,3 +902,26 @@ Stack: Error: hello
 
 --- END 2025-01-25T04:04:32.940Z ---
 
+
+--- START 2025-01-25T12:52:10.603Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc4MDk1MjcsImV4cCI6MTczNzgwOTgyN30.oSROxRr__ARW9w_63BL75J6ycCE6NHQKdJYbwFIUOKM; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc4MDk1MjEsImV4cCI6MTczODQxNDMyMX0.IVk69YOyz2M65bSqofd_EOKs00WO38QYSyF0hXbl08U
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: helo
+Stack: Error: helo
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:35:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T12:52:10.607Z ---
+

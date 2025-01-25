@@ -6,7 +6,7 @@ export const errorStatic = (error, reply, req, message?) => {
     return reply.status(500).send({
         message:
             message ||
-            'Возникла ошибка при попытке получить какие-то данные, пожалуйста сообщите нам подробности если вам это помешало',
+            'Возникла критическая ошибка при попытке получить данные. Пожалуйста, сообщите нам что случилось, если вам это помешало',
         path: req.url,
         method: req.method,
         date: date,
