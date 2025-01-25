@@ -21,7 +21,7 @@ export class SubscribeService implements subscribeService_INTERFACE {
         profileId?: UUID
     ): Promise<string | SubscriptionsDTO[]> {
         if (profileId) {
-            const check = await this.prisma.profile.findUnique({
+            const check: Profile = await this.prisma.profile.findUnique({
                 where: { id: profileId },
             })
             if (!check) {
@@ -29,17 +29,19 @@ export class SubscribeService implements subscribeService_INTERFACE {
             } else if (check.ownerId !== accountId) {
                 return 'Вы не владеете этим профилем'
             }
-            const result = await this.prisma.subscription.findMany({
-                where: { authorPid: profileId, active: true },
-            })
+            const result: Subscription[] =
+                await this.prisma.subscription.findMany({
+                    where: { authorPid: profileId, active: true },
+                })
             return plainToInstance(SubscriptionsDTO, result, {
                 excludeExtraneousValues: true, // Исключить поля без @Expose
                 enableImplicitConversion: true, // Для поддержки конверсии типов, если требуется
             })
         } else if (accountId) {
-            const result = await this.prisma.subscription.findMany({
-                where: { subscriberAid: accountId, active: true },
-            })
+            const result: Subscription[] =
+                await this.prisma.subscription.findMany({
+                    where: { subscriberAid: accountId, active: true },
+                })
             return plainToInstance(SubscriptionsDTO, result, {
                 excludeExtraneousValues: true, // Исключить поля без @Expose
                 enableImplicitConversion: true, // Для поддержки конверсии типов, если требуется
@@ -52,7 +54,7 @@ export class SubscribeService implements subscribeService_INTERFACE {
         accountId: UUID,
         profileId: UUID
     ): Promise<SubscriptionsDTO> {
-        const result = await this.prisma.subscription.findFirst({
+        const result: Subscription = await this.prisma.subscription.findFirst({
             where: { authorPid: profileId, subscriberAid: accountId },
         })
         return plainToInstance(SubscriptionsDTO, result, {

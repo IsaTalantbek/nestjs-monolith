@@ -1,8 +1,14 @@
 
-profile - 3/5
+Profile - 5/5
 
 profile/profile   - O
-profile/blacklist - X
+profile/blacklist - O
 profile/friend    - O
 profile/privacy   - O
 profile/subscribe - O
+
+// Юхуу
+
+Staff - 0/1
+
+staff/support     - X

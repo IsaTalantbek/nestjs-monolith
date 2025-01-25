@@ -1,8 +1,8 @@
 
-profile - 1/5
+profile - 2/5
 
 profile/profile   - O
-profile/blacklist - X
+profile/blacklist - O
 profile/friend    - X
 profile/privacy   - X
 profile/subscribe - X

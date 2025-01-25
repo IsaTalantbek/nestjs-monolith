@@ -1,86 +1,83 @@
-import {
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-    Req,
-    Res,
-    UseGuards,
-    UsePipes,
-} from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { BlackLIstService } from './blacklist.service.js'
+import { BlacklistService } from './blacklist.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
+import { BlackListController_BASE } from './blacklist.base.controller.js'
+import { UUID } from 'crypto'
+import { GiveBlacklistDTO } from './sample/blacklist.dto.js'
 
-@Log()
-@Controller('profile/blacklist')
-@UseGuards(SessionGuard)
-export class BlackListController {
-    constructor(private readonly blacklist: BlackLIstService) {}
-
-    @Get()
-    async getBlackList(@Res() reply: FastifyReply, @Req() req: FastifyRequest) {
-        const accountId = req.user.accountId
-        const result = await this.blacklist.getBlackList(accountId)
-        return reply.status(200).send(result)
+export class BlackListController extends BlackListController_BASE {
+    constructor(private readonly blacklistService: BlacklistService) {
+        super(blacklistService)
     }
 
-    @UsePipes(ParamUuidPipe)
-    @Post(':vsPid')
-    async addToBlackList(
-        @Param('vsPid') vsPid: string,
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
-    ) {
-        const accountId = req.user.accountId
-        const result = await this.blacklist.addToBlackList({
+    async giveBlacklist(
+        reply: FastifyReply,
+        req: FastifyRequest
+    ): Promise<GiveBlacklistDTO[]> {
+        const accountId: UUID = req.user!.accountId
+        const result: GiveBlacklistDTO[] =
+            await this.service.giveBlacklist(accountId)
+        reply.status(200).send(result)
+        return result
+    }
+
+    async addToBlacklist(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        vsPid: UUID
+    ): Promise<string> {
+        const accountId: UUID = req.user!.accountId
+        const result: true | string = await this.service.addToBlacklist(
             accountId,
-            vsPid,
-        })
+            vsPid
+        )
         if (result !== true) {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply.status(200).send({
-            message: 'Пользователь успешно добавлен в черный список',
+        const message: string = 'Пользователь успешно добавлен в черный список'
+        reply.status(200).send({
+            message: message,
         })
+        return message
     }
 
-    @UsePipes(ParamUuidPipe)
-    @Put(':vsPid')
-    async deleteFromBlackList(
-        @Param('vsPid') vsPid: string,
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
-    ) {
-        const accountId = req.user.accountId
-        const result = await this.blacklist.deleteFromBlackList({
+    async deleteToBlacklist(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        vsPid: UUID
+    ): Promise<string> {
+        const accountId: UUID = req.user!.accountId
+        const result: true | string = await this.service.deleteToBlacklist(
             accountId,
-            vsPid,
-        })
+            vsPid
+        )
         if (result !== true) {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply.status(200).send({
-            message: 'Пользователь успешно удален из черного списка',
+        const message = 'Пользователь успешно удален из черного списка'
+        reply.status(200).send({
+            message: message,
         })
+        return message
     }
 
-    @Delete()
-    async deleteAllFromBlackList(
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
-    ) {
-        const accountId = req.user.accountId
-        const result = await this.blacklist.deleteAllFromBlackList(accountId)
+    async deleteAllToBlacklist(
+        reply: FastifyReply,
+        req: FastifyRequest
+    ): Promise<string> {
+        const accountId: UUID = req.user!.accountId
+        const result: true | string =
+            await this.service.deleteAllToBlacklist(accountId)
         if (result !== true) {
-            return reply.status(400).send({ message: result })
+            reply.status(400).send({ message: result })
+            return result
         }
-        return reply.status(200).send({
-            message: 'Пользователи успешно удалены из черного списка',
+        const message: string = 'Пользователи успешно удалены из черного списка'
+        reply.status(200).send({
+            message: message,
         })
+        return message
     }
 }

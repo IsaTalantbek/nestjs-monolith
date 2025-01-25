@@ -11,6 +11,7 @@ import {
     UserProfileData,
 } from './sample/profile.interface.js'
 import { UUID } from 'crypto'
+import { Profile } from '@prisma/client'
 
 @Injectable()
 export class ProfileService implements ProfileService_INTERFACE {
@@ -20,7 +21,7 @@ export class ProfileService implements ProfileService_INTERFACE {
         accountId: UUID,
         slug?: string
     ): Promise<MyProfileDTO | string> {
-        let result
+        let result: Profile
         if (slug) {
             result = await this.prisma.profile.findUnique({
                 where: { slug: slug, ownerId: accountId },

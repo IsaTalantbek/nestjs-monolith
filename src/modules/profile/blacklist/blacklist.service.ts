@@ -1,46 +1,48 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MutexService } from '../../../core/util/mutex/mutex.service.js'
-import { vsPidBlacklistDto } from './blacklist.dto.js'
+import { GiveBlacklistDTO } from './sample/blacklist.dto.js'
+import { UUID } from 'crypto'
+import { BlackList, Profile } from '@prisma/client'
+import { plainToInstance } from 'class-transformer'
+import { BlacklistService_INTERFACE } from './sample/blacklist.interface.js'
 
 @Injectable()
-export class BlackLIstService {
+export class BlacklistService implements BlacklistService_INTERFACE {
     constructor(
         private readonly prisma: PrismaService,
         private readonly mutex: MutexService
     ) {}
 
-    async getBlackList(accountId) {
-        const result = await this.prisma.blackList.findMany({
+    async giveBlacklist(accountId: UUID): Promise<GiveBlacklistDTO[]> {
+        const result: BlackList[] = await this.prisma.blackList.findMany({
             where: { initAid: accountId },
         })
-        return result.map(({ vsPid }) => ({ vsPid }))
+        return plainToInstance(GiveBlacklistDTO, result, {
+            excludeExtraneousValues: true, // Исключить поля без @Expose
+        })
     }
 
-    async addToBlackList({ accountId, vsPid }: vsPidBlacklistDto) {
+    async addToBlacklist(accountId: UUID, vsPid: UUID): Promise<true | string> {
         return this.mutex.lock(accountId, async () => {
-            const ownerCheck = await this.prisma.profile.findFirst({
-                where: { ownerId: accountId, id: vsPid, deleted: false },
-            })
-            if (ownerCheck) {
-                return 'Нельзя добавить себя в черный список'
-            }
-
-            const check = await this.prisma.account.findUnique({
+            const check: Profile | null = await this.prisma.profile.findUnique({
                 where: { id: vsPid },
             })
             if (!check) {
-                return 'Пользователя не существует'
+                return 'Такого профиля не существует'
+            } else if (check.ownerId === accountId) {
+                return 'Вы не можете добавить в черный список свой профиль'
             }
-            const checkList = await this.prisma.blackList.findUnique({
-                where: {
-                    initAid_vsPid: {
-                        // Указываем составной уникальный ключ
-                        initAid: accountId,
-                        vsPid: vsPid,
+            const checkList: BlackList | null =
+                await this.prisma.blackList.findUnique({
+                    where: {
+                        initAid_vsPid: {
+                            // Указываем составной уникальный ключ
+                            initAid: accountId,
+                            vsPid: vsPid,
+                        },
                     },
-                },
-            })
+                })
             if (checkList) {
                 if (checkList.active === true) {
                     return 'Вы уже добавили этого человека в черный список'
@@ -65,19 +67,23 @@ export class BlackLIstService {
         })
     }
 
-    async deleteFromBlackList({ accountId, vsPid }: vsPidBlacklistDto) {
+    async deleteToBlacklist(
+        accountId: UUID,
+        vsPid: UUID
+    ): Promise<true | string> {
         return this.mutex.lock(accountId, async () => {
-            const checkList = await this.prisma.blackList.findUnique({
-                where: {
-                    initAid_vsPid: {
-                        // Указываем составной уникальный ключ
-                        initAid: accountId,
-                        vsPid: vsPid,
+            const checkList: BlackList | null =
+                await this.prisma.blackList.findUnique({
+                    where: {
+                        initAid_vsPid: {
+                            // Указываем составной уникальный ключ
+                            initAid: accountId,
+                            vsPid: vsPid,
+                        },
                     },
-                },
-            })
+                })
             if (!checkList) {
-                return 'Похоже, вы не добавляли этого человека в черный список'
+                return 'Похоже, вы не добавляли этого пользователя в черный список'
             }
             if (checkList.active === false) {
                 return 'Вы уже разблокировали этого человека'
@@ -96,11 +102,12 @@ export class BlackLIstService {
         })
     }
 
-    async deleteAllFromBlackList(accountId: string) {
+    async deleteAllToBlacklist(accountId: UUID): Promise<true | string> {
         return this.mutex.lock(accountId, async () => {
-            const check = await this.prisma.blackList.findFirst({
-                where: { initAid: accountId, active: true },
-            })
+            const check: BlackList | null =
+                await this.prisma.blackList.findFirst({
+                    where: { initAid: accountId, active: true },
+                })
             if (!check) {
                 return 'Похоже, ваш черный список пуст'
             }
