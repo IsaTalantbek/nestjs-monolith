@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { BlacklistService } from './blacklist.service.js'
-import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { BlackListController_BASE } from './blacklist.base.controller.js'
 import { UUID } from 'crypto'
 import { GiveBlacklistDTO } from './sample/blacklist.dto.js'
