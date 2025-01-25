@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import jwt from 'jsonwebtoken'
 import { JwtAuthSettings } from './jwt.auth.settings.js'
 import { UUID } from 'crypto'
+import { promisify } from 'util'
 
 export interface JwtAccessTokenData {
     sessionId: UUID
@@ -23,14 +24,28 @@ export interface NewRefreshToken {
 
 @Injectable()
 export class JwtAuthService {
-    constructor(private readonly jwtAuthSettings: JwtAuthSettings) {}
+    private readonly signAsync: (
+        payload: string | object | Buffer,
+        secretOrPrivateKey: jwt.Secret,
+        options: jwt.SignOptions
+    ) => Promise<string>
+    private readonly verifyAsync: (
+        token: string,
+        secretOrPublicKey: jwt.Secret,
+        options?: jwt.VerifyOptions
+    ) => Promise<any>
 
-    public generateAccessToken(
+    constructor(private readonly jwtAuthSettings: JwtAuthSettings) {
+        this.signAsync = promisify(jwt.sign)
+        this.verifyAsync = promisify(jwt.verify)
+    }
+
+    public async generateAccessToken(
         accountId: UUID,
         sessionId: UUID
-    ): NewAccessToken {
+    ): Promise<NewAccessToken> {
         return {
-            newAccessToken: jwt.sign(
+            newAccessToken: await this.signAsync(
                 { accountId: accountId, sessionId: sessionId },
                 this.jwtAuthSettings.accessSecret,
                 this.jwtAuthSettings.accessExpire
@@ -38,9 +53,11 @@ export class JwtAuthService {
         }
     }
 
-    public generateRefreshToken(sessionId: UUID): NewRefreshToken {
+    public async generateRefreshToken(
+        sessionId: UUID
+    ): Promise<NewRefreshToken> {
         return {
-            newRefreshToken: jwt.sign(
+            newRefreshToken: await this.signAsync(
                 { sessionId: sessionId },
                 this.jwtAuthSettings.refreshSecret,
                 this.jwtAuthSettings.refreshExpire
@@ -48,9 +65,14 @@ export class JwtAuthService {
         }
     }
 
-    public verifyAccessToken(token: string): JwtAccessTokenData | null {
+    public async verifyAccessToken(
+        token: string
+    ): Promise<JwtAccessTokenData | null> {
         try {
-            const decoded = jwt.verify(token, this.jwtAuthSettings.accessSecret)
+            const decoded = await this.verifyAsync(
+                token,
+                this.jwtAuthSettings.accessSecret
+            )
 
             // Приводим результат к интерфейсу JwtAccessTokenData
             if (
@@ -66,14 +88,16 @@ export class JwtAuthService {
         }
     }
 
-    public verifyRefreshToken(token: string): JwtRefreshTokenData | null {
+    public async verifyRefreshToken(
+        token: string
+    ): Promise<JwtRefreshTokenData | null> {
         try {
-            const decoded = jwt.verify(
+            const decoded = await this.verifyAsync(
                 token,
                 this.jwtAuthSettings.refreshSecret
             )
 
-            // Приводим результат к интерфейсу JwtAccessTokenData
+            // Приводим результат к интерфейсу JwtRefreshTokenData
             if (
                 typeof decoded === 'object' &&
                 decoded !== null &&

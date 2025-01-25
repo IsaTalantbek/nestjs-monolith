@@ -13,11 +13,14 @@ import { UUID } from 'crypto'
 import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
+import { SubscribeService } from './subscribe.service.js'
 
 @Log()
 @UseGuards(SessionGuard)
 @Controller('profile/subscribe')
 export abstract class SubscribeController_BASE {
+    constructor(protected readonly service: SubscribeService) {}
+
     @Get(':profileId?')
     protected async giveSubscribtions_BASE(
         @Res() reply: FastifyReply,

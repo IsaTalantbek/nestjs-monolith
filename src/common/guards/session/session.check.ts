@@ -39,7 +39,7 @@ export class SessionCheck extends BaseGuard {
 
         if (accessToken) {
             const decoded: JwtAccessTokenData =
-                this.jwtAuth.verifyAccessToken(accessToken)
+                await this.jwtAuth.verifyAccessToken(accessToken)
             if (decoded) {
                 request.user = this.cookie.userData(decoded)
                 return true
@@ -50,7 +50,7 @@ export class SessionCheck extends BaseGuard {
 
         // Если нет действительного access токена, пробуем refresh
         if (refreshToken) {
-            const decoded = this.jwtAuth.verifyRefreshToken(refreshToken)
+            const decoded = await this.jwtAuth.verifyRefreshToken(refreshToken)
             if (decoded) {
                 const sessionId: UUID = decoded.sessionId
                 const session = await this.session.getSession(sessionId)
@@ -78,10 +78,8 @@ export class SessionCheck extends BaseGuard {
 
                 const accountId: UUID = session.accountId as UUID
 
-                const { newAccessToken } = this.jwtAuth.generateAccessToken(
-                    accountId,
-                    sessionId
-                )
+                const { newAccessToken } =
+                    await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
                 this.cookie.setCookie(reply, newAccessToken, 'a')
                 request.user = this.cookie.userData({

@@ -53,7 +53,7 @@ export class AuthService {
                 await this.session.cleanExpiredSession(sessionId)
             } else if (existSession) {
                 const { newRefreshToken } =
-                    this.jwtAuth.generateRefreshToken(sessionId)
+                    await this.jwtAuth.generateRefreshToken(sessionId)
                 return {
                     newRefreshToken,
                 }
@@ -86,7 +86,7 @@ export class AuthService {
             const newSessionId: UUID = newSession.id as UUID
 
             const { newRefreshToken } =
-                this.jwtAuth.generateRefreshToken(newSessionId)
+                await this.jwtAuth.generateRefreshToken(newSessionId)
 
             return {
                 newRefreshToken,

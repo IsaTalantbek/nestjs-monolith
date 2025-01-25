@@ -8,8 +8,8 @@ import {
 import { PrivacyController_BASE } from './privacy.base.controller.js'
 
 export class PrivacyController extends PrivacyController_BASE {
-    constructor(private readonly privacy: PrivacyService) {
-        super()
+    constructor(private readonly privacyService: PrivacyService) {
+        super(privacyService)
     }
     async givePrivacy(
         reply: FastifyReply,
@@ -18,7 +18,7 @@ export class PrivacyController extends PrivacyController_BASE {
     ) {
         const accountId = req.user.accountId
         const { profileId } = givePrivacyDTO
-        const result: GivePrivacyDTO | string = await this.privacy.givePrivacy(
+        const result: GivePrivacyDTO | string = await this.service.givePrivacy(
             accountId,
             profileId
         )
@@ -37,7 +37,7 @@ export class PrivacyController extends PrivacyController_BASE {
     ) {
         const accountId = req.user.accountId
         const { profileId, value, update } = updatePrivacyDto
-        const result: string | boolean = await this.privacy.updatePrivacy(
+        const result: string | boolean = await this.service.updatePrivacy(
             profileId,
             update,
             value,

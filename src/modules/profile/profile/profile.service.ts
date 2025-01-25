@@ -10,13 +10,14 @@ import {
     ProfileService_INTERFACE,
     UserProfileData,
 } from './sample/profile.interface.js'
+import { UUID } from 'crypto'
 
 @Injectable()
 export class ProfileService implements ProfileService_INTERFACE {
     constructor(private readonly prisma: PrismaService) {}
 
     async myProfile(
-        accountId: string,
+        accountId: UUID,
         slug?: string
     ): Promise<MyProfileDTO | string> {
         let result
@@ -40,7 +41,7 @@ export class ProfileService implements ProfileService_INTERFACE {
         })
     }
 
-    async myAccount(accountId: string): Promise<MyAccountDTO> {
+    async myAccount(accountId: UUID): Promise<MyAccountDTO> {
         const result: Account | null = await this.prisma.account.findUnique({
             where: { id: accountId },
         })
@@ -56,7 +57,7 @@ export class ProfileService implements ProfileService_INTERFACE {
     //то только друзья могут получить дополнительную информацию
     async userProfile(
         slug: string,
-        accountId?: string
+        accountId?: UUID
     ): Promise<MinData | UserProfileData | string> {
         const result: ProfilePrivacyStats | null =
             await this.prisma.profile.findUnique({

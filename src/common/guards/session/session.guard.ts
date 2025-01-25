@@ -42,9 +42,8 @@ export class SessionGuard extends BaseGuard {
 
         if (accessToken) {
             const decoded: JwtAccessTokenData =
-                this.jwtAuth.verifyAccessToken(accessToken)
+                await this.jwtAuth.verifyAccessToken(accessToken)
             if (decoded) {
-                console.log(decoded)
                 request.user = this.cookie.userData(decoded)
                 return true
             } else {
@@ -55,7 +54,7 @@ export class SessionGuard extends BaseGuard {
         // Если нет действительного access токена, пробуем refresh
         if (refreshToken) {
             const decoded: JwtRefreshTokenData =
-                this.jwtAuth.verifyRefreshToken(refreshToken)
+                await this.jwtAuth.verifyRefreshToken(refreshToken)
             if (decoded) {
                 const sessionId: UUID = decoded.sessionId as UUID
                 const session = await this.session.getSession(sessionId)
@@ -83,10 +82,8 @@ export class SessionGuard extends BaseGuard {
 
                 const accountId: UUID = session.accountId as UUID
 
-                const { newAccessToken } = this.jwtAuth.generateAccessToken(
-                    accountId,
-                    sessionId
-                )
+                const { newAccessToken } =
+                    await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
                 this.cookie.setCookie(reply, newAccessToken, 'a')
                 request.user = this.cookie.userData({

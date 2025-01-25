@@ -22,6 +22,7 @@ export class LoggerService {
 - Request -
 URL: ${request.url}
 Method: ${request.method}
+User: ${this.safeJSON(request.user)}
 Cookie: ${request.headers.cookie}
 Params: ${this.safeJSON(request.params as object)}
 Body: ${this.safeJSON(request.body as object)}

@@ -18,10 +18,13 @@ import {
 } from './sample/profile.dto.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
+import { ProfileService } from './profile.service.js'
 
 @Log('profile')
 @Controller('profile')
 export abstract class ProfileController_BASE {
+    constructor(protected readonly service: ProfileService) {}
+
     @Get()
     @UseGuards(SessionGuard)
     protected async myProfile_BASE(

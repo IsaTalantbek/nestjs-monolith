@@ -411,3 +411,318 @@ Data: {
 --- END 2025-01-24T14:58:47.304Z ---
             
 
+
+--- START 2025-01-25T03:36:16.509Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNzIsImV4cCI6MTczNzc3NjQ3Mn0.QDJMZdTVXwcHxPYqYh8yNs2sZiZdPyXIL-wrg_dw0Lw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:39:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:36:16.559Z ---
+
+
+--- START 2025-01-25T03:39:14.703Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: [object Object]
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNzIsImV4cCI6MTczNzc3NjQ3Mn0.QDJMZdTVXwcHxPYqYh8yNs2sZiZdPyXIL-wrg_dw0Lw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:39:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:39:14.708Z ---
+
+
+--- START 2025-01-25T03:39:47.239Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNzIsImV4cCI6MTczNzc3NjQ3Mn0.QDJMZdTVXwcHxPYqYh8yNs2sZiZdPyXIL-wrg_dw0Lw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:39:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:39:47.245Z ---
+
+
+--- START 2025-01-25T03:40:43.904Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNzIsImV4cCI6MTczNzc3NjQ3Mn0.QDJMZdTVXwcHxPYqYh8yNs2sZiZdPyXIL-wrg_dw0Lw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:42:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:40:43.911Z ---
+
+
+--- START 2025-01-25T03:41:37.616Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNzIsImV4cCI6MTczNzc3NjQ3Mn0.QDJMZdTVXwcHxPYqYh8yNs2sZiZdPyXIL-wrg_dw0Lw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:40:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+--- END 2025-01-25T03:41:37.634Z ---
+
+
+--- START 2025-01-25T03:44:36.436Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY0OTcsImV4cCI6MTczNzc3Njc5N30.Epi9wnHAtnsKMx8jLxjm64w3OOTSoxcvlePK74Uf33s; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:40:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:44:36.442Z ---
+
+
+--- START 2025-01-25T03:46:25.049Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY0OTcsImV4cCI6MTczNzc3Njc5N30.Epi9wnHAtnsKMx8jLxjm64w3OOTSoxcvlePK74Uf33s; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:40:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:46:25.056Z ---
+
+
+--- START 2025-01-25T03:47:17.624Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY0OTcsImV4cCI6MTczNzc3Njc5N30.Epi9wnHAtnsKMx8jLxjm64w3OOTSoxcvlePK74Uf33s; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:39:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+--- END 2025-01-25T03:47:17.629Z ---
+
+
+--- START 2025-01-25T03:48:15.007Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY4MzcsImV4cCI6MTczNzc3NzEzN30.m71mYfMTbBC9WYtTaGoPkKTRo8eGZdBC7fM8f3H7fdc; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: undefined
+
+--- END 2025-01-25T03:48:15.016Z ---
+            
+
+
+--- START 2025-01-25T03:49:30.173Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY4MzcsImV4cCI6MTczNzc3NzEzN30.m71mYfMTbBC9WYtTaGoPkKTRo8eGZdBC7fM8f3H7fdc; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:39:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:49:30.178Z ---
+
+
+--- START 2025-01-25T03:51:27.227Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY4MzcsImV4cCI6MTczNzc3NzEzN30.m71mYfMTbBC9WYtTaGoPkKTRo8eGZdBC7fM8f3H7fdc; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: Cannot read properties of undefined (reading 'myAccount')
+Stack: TypeError: Cannot read properties of undefined (reading 'myAccount')
+    at ProfileController.myAccount (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.controller.ts:40:57)
+    at ProfileController.myAccount_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:41:27)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-25T03:51:27.235Z ---
+
+
+--- START 2025-01-25T03:53:21.483Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzY4MzcsImV4cCI6MTczNzc3NzEzN30.m71mYfMTbBC9WYtTaGoPkKTRo8eGZdBC7fM8f3H7fdc; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-25T03:53:21.520Z ---
+            
+
+
+--- START 2025-01-25T04:03:43.882Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzcyMDEsImV4cCI6MTczNzc3NzUwMX0.aulrc8jc7akZEbXMjqExtsVn8owLVvVJt93-5gRbAu4; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc3NzYxNjcsImV4cCI6MTczODM4MDk2N30.7-HE5c256w4AshtW0ASlVsGHNKTIZzUqoQ_MIVcgdFk
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-25T04:03:43.924Z ---
+            
+

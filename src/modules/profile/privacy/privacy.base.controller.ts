@@ -15,18 +15,20 @@ import {
     UpdatePrivacyBodyDTO,
 } from './sample/privacy.dto.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
+import { PrivacyService } from './privacy.service.js'
 
 @Log()
 @Controller('profile/privacy')
 @UseGuards(SessionGuard)
 export abstract class PrivacyController_BASE {
+    constructor(protected readonly service: PrivacyService) {}
+
     @Get()
     protected async givePrivacy_BASE(
-        @Req() req: FastifyRequest,
         @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest,
         @Query() givePrivacyDTO: GivePrivacyQueryDTO
     ) {
-        throw new Error('hello')
         return await this.givePrivacy(reply, req, givePrivacyDTO)
     }
     @Put()

@@ -16,11 +16,14 @@ import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UUID } from 'crypto'
 import { ActiveWaitingFriendDTO } from './sample/friend.dto.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { FriendService } from './friend.service.js'
 
 @Log()
 @UseGuards(SessionGuard)
 @Controller('profile/friends')
 export abstract class FriendController_BASE {
+    constructor(protected readonly service: FriendService) {}
+
     @Get(':option')
     async giveFriends_BASE(
         @Res() reply: FastifyReply,

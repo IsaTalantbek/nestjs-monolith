@@ -5,8 +5,8 @@ import { UUID } from 'crypto'
 import { ActiveWaitingFriendDTO } from './sample/friend.dto.js'
 
 export class FriendController extends FriendController_BASE {
-    constructor(private readonly friend: FriendService) {
-        super()
+    constructor(private readonly friendService: FriendService) {
+        super(friendService)
     }
 
     async giveFriends(
@@ -16,14 +16,14 @@ export class FriendController extends FriendController_BASE {
     ) {
         const { option } = optionDTO
         const accountId = req.user.accountId
-        const result = await this.friend.giveFriends(accountId, option)
+        const result = await this.service.giveFriends(accountId, option)
         reply.status(200).send(result)
         return result
     }
 
     async addFriend(reply: FastifyReply, req: FastifyRequest, vsAid: UUID) {
         const accountId = req.user.accountId
-        const result = await this.friend.addFriend(accountId, vsAid)
+        const result = await this.service.addFriend(accountId, vsAid)
         if (result !== true) {
             reply.status(400).send({ message: result })
             return result
@@ -39,7 +39,7 @@ export class FriendController extends FriendController_BASE {
         friendId: UUID
     ) {
         const accountId = req.user.accountId
-        const result = await this.friend.acceptFriend(accountId, friendId)
+        const result = await this.service.acceptFriend(accountId, friendId)
         if (result !== true) {
             reply.status(400).send({ message: result })
             return result
@@ -51,7 +51,7 @@ export class FriendController extends FriendController_BASE {
 
     async deleteFriend(reply: FastifyReply, req: FastifyRequest, vsAid: UUID) {
         const accountId = req.user.accountId
-        const result = await this.friend.deleteFriend(accountId, vsAid)
+        const result = await this.service.deleteFriend(accountId, vsAid)
         if (result !== true) {
             reply.status(400).send({ message: result })
             return result

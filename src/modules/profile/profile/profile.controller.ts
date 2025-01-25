@@ -1,4 +1,3 @@
-import { Controller } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { ProfileService } from './profile.service.js'
 import { ProfileController_BASE } from './profile.base.controller.js'
@@ -9,10 +8,9 @@ import {
 } from './sample/profile.dto.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 
-@Controller('profile')
 export class ProfileController extends ProfileController_BASE {
-    constructor(private readonly profile: ProfileService) {
-        super()
+    constructor(private readonly profileService: ProfileService) {
+        super(profileService)
     }
 
     async myProfile(
@@ -22,7 +20,7 @@ export class ProfileController extends ProfileController_BASE {
     ) {
         const { slug } = slugDTO || {}
         const accountId = req.user!.accountId
-        const result: string | MyProfileDTO = await this.profile.myProfile(
+        const result: string | MyProfileDTO = await this.service.myProfile(
             accountId,
             slug
         )
@@ -37,8 +35,9 @@ export class ProfileController extends ProfileController_BASE {
     }
 
     async myAccount(reply: FastifyReply, req: FastifyRequest) {
+        console.log(this)
         const accountId = req.user!.accountId
-        const result: MyAccountDTO = await this.profile.myAccount(accountId)
+        const result: MyAccountDTO = await this.service.myAccount(accountId)
         reply.status(200).send(result)
         return result
     }
@@ -46,7 +45,7 @@ export class ProfileController extends ProfileController_BASE {
     async userProfile(reply: FastifyReply, req: FastifyRequest, slug: string) {
         const accountId = req.user?.accountId
         const result: MinData | UserProfileData | string =
-            await this.profile.userProfile(slug, accountId)
+            await this.service.userProfile(slug, accountId)
         if (typeof result === 'string') {
             reply.status(400).send({ message: result })
             return result
