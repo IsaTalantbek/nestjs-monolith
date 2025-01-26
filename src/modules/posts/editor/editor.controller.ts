@@ -2,12 +2,10 @@ import { Controller, UseGuards, Post, Body, Req, Res } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { EditorDto } from './editor.dto.js'
 import { EditorService } from './editor.service.js'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 
 @Log()
 @Controller('editor')
-@UseGuards(SessionGuard)
 export class EditorController {
     constructor(private readonly editor: EditorService) {}
 

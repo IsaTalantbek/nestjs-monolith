@@ -5,17 +5,13 @@ import { PrismaModule } from './core/database/prisma.module.js'
 import { LoggerModule } from './core/log/logger.module.js'
 import { SessionModule } from './core/session/session.module.js'
 import { CookieModule } from './core/keys/cookie/cookie.module.js'
+import { SessionGuardModule } from './common/guards/session/session.guards.module.js'
+import { JwtAuthService } from './core/keys/jwt/jwt.auth.service.js'
+import { JwtAuthSettings } from './core/keys/jwt/jwt.auth.settings.js'
 
 @Global()
 @Module({
-    imports: [
-        JwtAuthModule,
-        PrismaModule,
-        MutexModule,
-        LoggerModule,
-        SessionModule,
-        CookieModule,
-    ],
-    exports: [JwtAuthModule, CookieModule, SessionModule, LoggerModule],
+    imports: [LoggerModule, SessionGuardModule],
+    exports: [LoggerModule, SessionGuardModule],
 })
 export class BasePackModule {}

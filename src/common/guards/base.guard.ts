@@ -4,12 +4,13 @@ import { errorStatic } from '../../core/util/error/error.static.js'
 import { LoggerService } from '../../core/log/logger.service.js'
 
 @Injectable()
-export abstract class BaseGuard implements CanActivate {
+export abstract class Guard_BASE implements CanActivate {
     constructor(private readonly logService: LoggerService) {}
 
-    abstract handleRequest(
+    protected abstract handleRequest(
+        reply: FastifyReply,
         request: FastifyRequest,
-        reply: FastifyReply
+        context?: ExecutionContext
     ): Promise<boolean>
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,7 +19,7 @@ export abstract class BaseGuard implements CanActivate {
 
         const DATE: string = new Date().toISOString()
         try {
-            return await this.handleRequest(request, reply)
+            return await this.handleRequest(reply, request, context)
         } catch (error) {
             errorStatic(
                 error,

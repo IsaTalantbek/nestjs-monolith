@@ -1,16 +1,7 @@
-import {
-    Controller,
-    Get,
-    Query,
-    Req,
-    UseGuards,
-    Res,
-    Param,
-} from '@nestjs/common'
+import { Controller, Get, Query, Req, Res, Param } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { GivePostQueryDto } from './posts.dto.js'
 import { PostsService } from './posts.service.js'
-import { SessionCheck } from '../../common/guards/session/session.check.js'
 import { PrismaService } from '../../core/database/prisma.service.js'
 import { Log } from '../../common/decorators/logger.decorator.js'
 
@@ -22,7 +13,6 @@ export class PostsController {
         private readonly prisma: PrismaService
     ) {}
 
-    @UseGuards(SessionCheck)
     @Get()
     async givePosts(
         @Query() queryDto: GivePostQueryDto,

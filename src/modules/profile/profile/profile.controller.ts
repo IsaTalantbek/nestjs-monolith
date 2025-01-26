@@ -35,7 +35,6 @@ export class ProfileController extends ProfileController_BASE {
     }
 
     async myAccount(reply: FastifyReply, req: FastifyRequest) {
-        console.log(this)
         const accountId = req.user!.accountId
         const result: MyAccountDTO = await this.service.myAccount(accountId)
         reply.status(200).send(result)

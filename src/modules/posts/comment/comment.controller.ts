@@ -13,13 +13,11 @@ import {
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { CommentService } from './comment.service.js'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UpdateCommentDto, WriteCommentDto } from './comment.dto.js'
 
 @Log()
 @Controller('feed/comment')
-@UseGuards(SessionGuard)
 export class CommentController {
     constructor(private readonly comment: CommentService) {}
 

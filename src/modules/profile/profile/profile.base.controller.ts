@@ -1,16 +1,5 @@
-import {
-    Controller,
-    Get,
-    Param,
-    Query,
-    Req,
-    Res,
-    UseGuards,
-    UseInterceptors,
-} from '@nestjs/common'
+import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
-import { SessionCheck } from '../../../common/guards/session/session.check.js'
 import {
     MyAccountDTO,
     MyProfileDTO,
@@ -19,32 +8,33 @@ import {
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 import { ProfileService } from './profile.service.js'
+import { Guard } from '../../../common/decorators/guard.decorator.js'
 
 @Log('profile')
+@Guard('un')
 @Controller('profile')
 export abstract class ProfileController_BASE {
     constructor(protected readonly service: ProfileService) {}
 
     @Get()
-    @UseGuards(SessionGuard)
     protected async myProfile_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest,
         @Query('slug') slugDTO: SlugQueryDTO
     ) {
-        throw new Error('helo')
         return await this.myProfile(reply, req, slugDTO)
     }
+    @Guard('ch')
     @Get('account')
-    @UseGuards(SessionGuard)
     protected async myAccount_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
+        console.log(req.user)
         return await this.myAccount(reply, req)
     }
+    @Guard('au')
     @Get(':slug')
-    @UseGuards(SessionCheck)
     protected async userProfile_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest,

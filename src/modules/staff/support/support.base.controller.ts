@@ -7,17 +7,14 @@ import {
     Post,
     Req,
     Res,
-    UseGuards,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDTO } from './sample/support.dto.js'
 import { SupportService } from './support.service.js'
-import { SessionCheck } from '../../../common/guards/session/session.check.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 
 @Log()
 @Controller('support')
-@UseGuards(SessionCheck)
 export abstract class SupportController_BASE {
     constructor(protected readonly service: SupportService) {}
 

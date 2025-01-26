@@ -10,14 +10,15 @@ import {
 } from '@nestjs/common'
 import { SessionService } from '../../../core/session/session.service.js'
 import { CookieService } from '../../../core/keys/cookie/cookie.service.js'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UUID } from 'crypto'
+import { Guard } from '../../../common/decorators/guard.decorator.js'
+import { SGM } from '../../../common/guards/session/session.guard.js'
 
 @Log()
+@Guard(SGM.unauthorized)
 @Controller('session')
-@UseGuards(SessionGuard)
 export class SessionController {
     constructor(
         private readonly session: SessionService,

@@ -4,44 +4,37 @@ import {
     CookieService,
     UserData,
     UserDataArray,
-} from '../../../core/keys/cookie/cookie.service.js'
+} from '../../../../core/keys/cookie/cookie.service.js'
 import {
     JwtAccessTokenData,
     JwtAuthService,
-} from '../../../core/keys/jwt/jwt.auth.service.js'
-import { SessionService } from '../../../core/session/session.service.js'
-import { BaseGuard } from '../base.guard.js'
+} from '../../../../core/keys/jwt/jwt.auth.service.js'
+import { SessionService } from '../../../../core/session/session.service.js'
 import { UUID } from 'crypto'
-import { LoggerService } from '../../../core/log/logger.service.js'
+import { LoggerService } from '../../../../core/log/logger.service.js'
 
 @Injectable()
-export class SessionCheck extends BaseGuard {
+export class SessionCheck {
     constructor(
         private readonly jwtAuth: JwtAuthService,
         private readonly cookie: CookieService,
-        private readonly session: SessionService,
-        private readonly LoggerService: LoggerService
-    ) {
-        super(LoggerService)
-    }
+        private readonly session: SessionService
+    ) {}
 
     private handleSessionExpired(reply: FastifyReply): boolean {
         this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
         return true
     }
 
-    async handleRequest(
-        request: FastifyRequest,
-        reply: FastifyReply
-    ): Promise<boolean> {
-        const accessToken = request.cookies?.[this.cookie.accessTokenName]
-        const refreshToken = request.cookies?.[this.cookie.refreshTokenName]
+    async use(reply: FastifyReply, req: FastifyRequest): Promise<boolean> {
+        const accessToken = req.cookies?.[this.cookie.accessTokenName]
+        const refreshToken = req.cookies?.[this.cookie.refreshTokenName]
 
         if (accessToken) {
             const decoded: JwtAccessTokenData =
                 await this.jwtAuth.verifyAccessToken(accessToken)
             if (decoded) {
-                request.user = this.cookie.userData(decoded)
+                req.user = this.cookie.userData(decoded)
                 return true
             } else {
                 this.cookie.clearCookie(reply, this.cookie.accessTokenName)
@@ -67,11 +60,11 @@ export class SessionCheck extends BaseGuard {
                     this.session.cleanExpiredSession(sessionId)
                     return this.handleSessionExpired(reply)
                 }
-                const ipPrefix = request.ip.split('.').slice(0, 2).join('.')
+                const ipPrefix = req.ip.split('.').slice(0, 2).join('.')
 
                 if (
                     ipPrefix !== session.ipAdress ||
-                    request.headers['user-agent'] !== session.headers
+                    req.headers['user-agent'] !== session.headers
                 ) {
                     return this.handleSessionExpired(reply)
                 }
@@ -82,7 +75,7 @@ export class SessionCheck extends BaseGuard {
                     await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
                 this.cookie.setCookie(reply, newAccessToken, 'a')
-                request.user = this.cookie.userData({
+                req.user = this.cookie.userData({
                     accountId: accountId,
                     sessionId: sessionId,
                 } as UserData)

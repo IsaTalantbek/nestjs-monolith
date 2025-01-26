@@ -9,7 +9,6 @@ import {
     UseGuards,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { SessionGuard } from '../../../common/guards/session/session.guard.js'
 import {
     GivePrivacyQueryDTO,
     UpdatePrivacyBodyDTO,
@@ -19,7 +18,6 @@ import { PrivacyService } from './privacy.service.js'
 
 @Log()
 @Controller('profile/privacy')
-@UseGuards(SessionGuard)
 export abstract class PrivacyController_BASE {
     constructor(protected readonly service: PrivacyService) {}
 

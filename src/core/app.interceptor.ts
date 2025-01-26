@@ -7,7 +7,7 @@ import {
 import { LoggerService } from './log/logger.service.js'
 import { catchError, Observable, tap } from 'rxjs'
 import { Reflector } from '@nestjs/core'
-import { LOGGING_FILE } from '../common/decorators/logger.decorator.js'
+import { LOG_CONSTANT } from '../common/decorators/logger.decorator.js'
 import { errorStatic } from './util/error/error.static.js'
 import { FastifyRequest } from 'fastify'
 
@@ -36,17 +36,15 @@ export class AppInterceptor implements NestInterceptor {
     ): Promise<Observable<any>> {
         let baseFilePath
         baseFilePath = this.reflector.get<string>(
-            LOGGING_FILE,
+            LOG_CONSTANT,
             context.getHandler()
         )
         if (!baseFilePath) {
             baseFilePath = this.reflector.get<string>(
-                LOGGING_FILE,
+                LOG_CONSTANT,
                 context.getClass()
             )
-            if (!baseFilePath) {
-                return next.handle()
-            }
+            return next.handle()
         }
         const request: FastifyRequest = context.switchToHttp().getRequest()
         const errorFilePath = `${process.env.DEFAULT_LOG_FILE}/errors.log`

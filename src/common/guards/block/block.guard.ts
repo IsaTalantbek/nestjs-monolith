@@ -1,11 +1,11 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
-import { BaseGuard } from '../base.guard.js'
+import { Guard_BASE } from '../base.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { LoggerService } from '../../../core/log/logger.service.js'
 
 @Injectable()
-export class IpAdressGuard extends BaseGuard {
+export class IpAdressGuard extends Guard_BASE {
     constructor(
         private readonly blockManager: IpAdressBlockService,
         private readonly LoggerService: LoggerService
@@ -14,10 +14,10 @@ export class IpAdressGuard extends BaseGuard {
     }
 
     async handleRequest(
-        request: FastifyRequest,
-        reply: FastifyReply
+        reply: FastifyReply,
+        req: FastifyRequest
     ): Promise<boolean> {
-        const ipAdress = request.ip
+        const ipAdress = req.ip
 
         // Если запрос блокирован, отклоняем новый
         if (this.blockManager.isLocked(ipAdress)) {
