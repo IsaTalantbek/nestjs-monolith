@@ -1,59 +1,65 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Req,
-    Res,
-    UseGuards,
-} from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { SupportBodyDto } from './support.dto.js'
+import { SupportBodyDTO } from './sample/support.dto.js'
 import { SupportService } from './support.service.js'
 import { SessionCheck } from '../../../common/guards/session/session.check.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
+import { SupportController_BASE } from './support.base.controller.js'
 
-@Log()
-@Controller('support')
-@UseGuards(SessionCheck)
-export class SupportController {
-    constructor(private readonly support: SupportService) {}
+export class SupportController extends SupportController_BASE {
+    constructor(private readonly supportService: SupportService) {
+        super(supportService)
+    }
 
-    @Post()
     async writeSupport(
-        @Body() bodyDto: SupportBodyDto,
-        @Req() req: FastifyRequest,
-        @Res() reply: FastifyReply
-    ) {
+        reply: FastifyReply,
+        req: FastifyRequest,
+        bodyDto: SupportBodyDTO
+    ): Promise<string> {
         const accountId = req.user?.accountId
         const { text } = bodyDto
-        await this.support.writeSupport(text, accountId)
-        return reply
-            .status(200)
-            .send({ message: 'Ваше сообщение успешно отправлено' })
+        await this.service.writeSupport(text, accountId)
+        const message = 'Ваше сообщение успешно отправлено'
+        reply.status(200).send({ message: message })
+        return message
     }
-    @Get(':fileOption')
+
     async readSupport(
-        @Param('fileOption') option: string,
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
-    ) {
-        const accountId = req.user.accountId
+        reply: FastifyReply,
+        req: FastifyRequest,
+        option: string
+    ): Promise<string> {
+        const accountId = req.user!.accountId
         const fileOption = parseInt(option, 10)
-        const result = await this.support.readSupport(fileOption, accountId)
-        return reply.status(200).send(result)
+        const result: string = await this.service.readSupport(
+            fileOption,
+            accountId
+        )
+        if (result === 'Не имеете доступа') {
+            reply.status(400).send({ message: result })
+        } else {
+            reply.status(200).send(result)
+        }
+        return result
     }
-    @Delete(':fileOption')
+
     async clearSupport(
-        @Param('fileOption') option: string,
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
-    ) {
-        const accountId = req.user.accountId
+        reply: FastifyReply,
+        req: FastifyRequest,
+        option: string
+    ): Promise<string> {
+        const accountId = req.user!.accountId
         const fileOption = parseInt(option, 10)
-        const result = await this.support.clearSupport(fileOption, accountId)
-        return reply.status(200).send(result)
+        const result: true | string = await this.service.clearSupport(
+            fileOption,
+            accountId
+        )
+        if (result !== true) {
+            reply.status(400).send({ message: result })
+            return result
+        } else {
+            const message = 'ВЫ успешно очистили файлы'
+            reply.status(200).send({ message: message })
+            return message
+        }
     }
 }

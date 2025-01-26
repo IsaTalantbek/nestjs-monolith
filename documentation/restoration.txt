@@ -9,6 +9,15 @@ profile/subscribe - O
 
 // Юхуу
 
-Staff - 0/1
+Staff - 1/1
 
-staff/support     - X
+staff/support     - O
+
+// Ez
+
+Posts - 0/4
+
+posts/comment     - X
+posts/editor      - X
+posts/stats       - X
+posts/posts       - X

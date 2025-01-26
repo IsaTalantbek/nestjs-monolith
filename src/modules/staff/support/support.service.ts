@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common'
 import * as fs from 'fs'
 import { PrismaService } from '../../../core/database/prisma.service.js'
-import { SupportServiceInterface } from './support.dto.js'
+import { SupportService_INTERFACE } from './sample/support.interface.js'
+import { Account } from '@prisma/client'
+import { UUID } from 'crypto'
 
 const am = './messages/support/am.txt' // Authorized Messages
 const rm = './messages/support/rm.txt' // Randrom Messages
 
 @Injectable()
-export class SupportService implements SupportServiceInterface {
+export class SupportService implements SupportService_INTERFACE {
     constructor(private readonly prisma: PrismaService) {}
 
-    async writeSupport(text: string, accountId?: string): Promise<boolean> {
+    async writeSupport(text: string, accountId?: string): Promise<true> {
         const filename = accountId ? am : rm
         const content = accountId ? `${accountId}: ${text}` : text
 
@@ -21,12 +23,14 @@ export class SupportService implements SupportServiceInterface {
     // Функция 2: очистить файл rm или am
     async clearSupport(
         fileOption: number,
-        accountId: string
-    ): Promise<boolean | string> {
-        const check = await this.prisma.account.findUnique({
+        accountId: UUID
+    ): Promise<true | string> {
+        const check: Account | null = await this.prisma.account.findUnique({
             where: { id: accountId },
         })
-        if (check.accountRole === 'user') {
+        if (!check) {
+            throw new Error(`Не существующий пользователь: ${accountId}`)
+        } else if (check.accountRole === 'user') {
             return 'Не имеете доступа'
         }
         const filename = fileOption === 1 ? rm : am
@@ -36,11 +40,13 @@ export class SupportService implements SupportServiceInterface {
     }
 
     // Функция 3: вернуть содержимое файла rm или am
-    async readSupport(fileOption: number, accountId: string): Promise<string> {
-        const check = await this.prisma.account.findUnique({
+    async readSupport(fileOption: number, accountId: UUID): Promise<string> {
+        const check: Account | null = await this.prisma.account.findUnique({
             where: { id: accountId },
         })
-        if (check.accountRole === 'user') {
+        if (!check) {
+            throw new Error(`Не существующий пользователь: ${accountId}`)
+        } else if (check.accountRole === 'user') {
             return 'Не имеете доступа'
         }
         const filename = fileOption === 1 ? rm : am

@@ -10,7 +10,7 @@ export abstract class BaseGuard implements CanActivate {
     abstract handleRequest(
         request: FastifyRequest,
         reply: FastifyReply
-    ): boolean | Promise<boolean>
+    ): Promise<boolean>
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest<FastifyRequest>()

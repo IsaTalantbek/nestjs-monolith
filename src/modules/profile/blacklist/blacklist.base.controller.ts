@@ -16,6 +16,7 @@ import { BlacklistService } from './blacklist.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UUID } from 'crypto'
+import { GiveBlacklistDTO } from './sample/blacklist.dto.js'
 
 @Log()
 @Controller('profile/blacklist')
@@ -61,19 +62,19 @@ export abstract class BlackListController_BASE {
     protected abstract giveBlacklist(
         reply: FastifyReply,
         req: FastifyRequest
-    ): Promise<any>
+    ): Promise<GiveBlacklistDTO[]>
     protected abstract addToBlacklist(
         reply: FastifyReply,
         req: FastifyRequest,
         vsPid: UUID
-    ): Promise<any>
+    ): Promise<string>
     protected abstract deleteToBlacklist(
         reply: FastifyReply,
         req: FastifyRequest,
         vsPid: UUID
-    ): Promise<any>
+    ): Promise<string>
     protected abstract deleteAllToBlacklist(
         reply: FastifyReply,
         req: FastifyRequest
-    ): Promise<any>
+    ): Promise<string>
 }
