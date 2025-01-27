@@ -32,7 +32,10 @@ export abstract class Guard_BASE implements CanActivate {
                 DATE
             )
             const errorLog: string = this.logService.errorSample(error)
-            this.logService.error(requestLog + errorLog, './logs/errors.log')
+            this.logService.error(
+                requestLog + errorLog,
+                `${process.env.DEFAULT_LOG_FILE}/errors.log`
+            )
             return false
         }
     }

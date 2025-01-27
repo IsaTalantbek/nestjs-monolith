@@ -4,12 +4,12 @@ import {
     ExecutionContext,
     CallHandler,
 } from '@nestjs/common'
-import { LoggerService } from './log/logger.service.js'
-import { catchError, Observable, tap } from 'rxjs'
 import { Reflector } from '@nestjs/core'
+import { catchError, Observable, tap } from 'rxjs'
+import { FastifyRequest } from 'fastify'
+import { LoggerService } from './log/logger.service.js'
 import { LOG_CONSTANT } from '../common/decorators/logger.decorator.js'
 import { errorStatic } from './util/error/error.static.js'
-import { FastifyRequest } from 'fastify'
 
 @Injectable()
 export class AppInterceptor implements NestInterceptor {

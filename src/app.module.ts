@@ -5,7 +5,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 import { BasePackModule } from './base.pack.module.js'
 import { AppInterceptor } from './core/app.interceptor.js'
 import { SessionGuard } from './common/guards/session/session.base.guard.js'
-import { SessionGuardModule } from './common/guards/session/session.guards.module.js'
+import { SessionGuardModule } from './common/guards/session/service/session.guard.module.js'
 
 @Module({
     imports: [

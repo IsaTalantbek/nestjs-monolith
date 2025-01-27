@@ -3,7 +3,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import {
     CookieService,
     UserData,
-    UserDataArray,
 } from '../../../../core/keys/cookie/cookie.service.js'
 import {
     JwtAccessTokenData,
@@ -11,7 +10,7 @@ import {
 } from '../../../../core/keys/jwt/jwt.auth.service.js'
 import { SessionService } from '../../../../core/session/session.service.js'
 import { UUID } from 'crypto'
-import { LoggerService } from '../../../../core/log/logger.service.js'
+import { Session } from '@prisma/client'
 
 @Injectable()
 export class SessionCheck {
@@ -46,7 +45,8 @@ export class SessionCheck {
             const decoded = await this.jwtAuth.verifyRefreshToken(refreshToken)
             if (decoded) {
                 const sessionId: UUID = decoded.sessionId
-                const session = await this.session.getSession(sessionId)
+                const session: Session =
+                    await this.session.getSession(sessionId)
                 if (!session) {
                     return this.handleSessionExpired(reply)
                 } else if (session.deleted === true) {

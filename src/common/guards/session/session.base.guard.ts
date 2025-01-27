@@ -4,24 +4,24 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { Reflector } from '@nestjs/core'
 import { LoggerService } from '../../../core/log/logger.service.js'
 import { SESSION_GUARD_CONSTANT } from '../../../common/decorators/guard.decorator.js'
-import { SessionUnauthorired } from './service/session.unauthorized.service.js'
 import { SessionAuthorized } from './service/session.authorized.service.js'
+import { SessionUnauthorized } from './service/session.unauthorized.service.js'
 import { SessionCheck } from './service/session.check.service.js'
-import { SGM } from './session.guard.js'
+import { SGM } from './session.guard.enum.js'
 
 @Injectable()
 export class SessionGuard extends Guard_BASE {
     constructor(
         private readonly reflector: Reflector,
-        private readonly loggerService: LoggerService,
-        private readonly unauthorized: SessionUnauthorired,
         private readonly authorized: SessionAuthorized,
-        private readonly check: SessionCheck
+        private readonly unauthorized: SessionUnauthorized,
+        private readonly check: SessionCheck,
+        private readonly loggerService: LoggerService
     ) {
         super(loggerService)
     }
 
-    async handleRequest(
+    protected async handleRequest(
         reply: FastifyReply,
         req: FastifyRequest,
         context: ExecutionContext

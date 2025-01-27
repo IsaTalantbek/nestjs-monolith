@@ -23,11 +23,9 @@ export class SessionAuthorized {
 
     private handleSessionExpired(reply: FastifyReply): boolean {
         this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
-        return true
-    }
-
-    private ifAuthorizedSend(reply: FastifyReply): boolean {
-        reply.status(403).send({ message: 'Кажется вы уже авторизованы' })
+        reply.status(401).send({
+            message: 'Ваш сеанс истек. Пожалуйста, войдите снова',
+        })
         return false
     }
 
@@ -40,7 +38,7 @@ export class SessionAuthorized {
                 await this.jwtAuth.verifyAccessToken(accessToken)
             if (decoded) {
                 req.user = this.cookie.userData(decoded)
-                return this.ifAuthorizedSend(reply)
+                return true
             } else {
                 this.cookie.clearCookie(reply, this.cookie.accessTokenName)
             }
@@ -86,10 +84,11 @@ export class SessionAuthorized {
                     accountId: accountId,
                     sessionId: sessionId,
                 } as UserData)
-                return this.ifAuthorizedSend(reply)
+                return true
             }
         }
         this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
-        return true
+        reply.status(401).send({ message: 'Вы не авторизованы' })
+        return false
     }
 }

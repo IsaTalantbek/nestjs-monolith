@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Param,
+    Query,
+    Req,
+    Res,
+    UseGuards,
+} from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
     MyAccountDTO,
@@ -9,13 +17,16 @@ import { Log } from '../../../common/decorators/logger.decorator.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 import { ProfileService } from './profile.service.js'
 import { Guard } from '../../../common/decorators/guard.decorator.js'
+import { SGM } from '../../../common/guards/session/session.guard.enum.js'
+import { RGM } from '../../../common/guards/role/role.guard.enum.js'
+import { RoleGuard } from '../../../common/guards/role/role.guard.js'
 
 @Log('profile')
-@Guard('un')
+@Guard(SGM.authorized)
 @Controller('profile')
 export abstract class ProfileController_BASE {
     constructor(protected readonly service: ProfileService) {}
-
+    @Guard(SGM.authorized)
     @Get()
     protected async myProfile_BASE(
         @Res() reply: FastifyReply,
@@ -24,16 +35,16 @@ export abstract class ProfileController_BASE {
     ) {
         return await this.myProfile(reply, req, slugDTO)
     }
-    @Guard('ch')
+    @Guard(SGM.authorized, RGM.support)
+    @UseGuards(RoleGuard)
     @Get('account')
     protected async myAccount_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest
     ) {
-        console.log(req.user)
         return await this.myAccount(reply, req)
     }
-    @Guard('au')
+    @Guard(SGM.check)
     @Get(':slug')
     protected async userProfile_BASE(
         @Res() reply: FastifyReply,
