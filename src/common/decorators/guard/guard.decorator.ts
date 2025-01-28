@@ -1,16 +1,16 @@
 import { SetMetadata } from '@nestjs/common'
-import { SGM } from '../guards/session/session.guard.enum.js'
-import { RGM } from '../guards/role/role.guard.enum.js'
+import { SGM } from '../../guards/session/session.guard.index.js'
+import { RGM } from '../../guards/role/role.guard.index.js'
 
 export const SESSION_GUARD_CONSTANT = 'session_guard_constant'
 export const ROLE_GUARD_CONSTANT = 'role_guard_constant'
 
-export function Guard(sessionGuard: SGM, role?: RGM) {
-    if (!sessionGuard) {
-        throw new Error(
-            'Вы не выбрали конкретный сессионый гвард в Guard-декораторе'
-        )
-    }
+interface GuardDecorator {
+    only: SGM
+    role?: RGM
+}
+
+export function Guard({ only, role }: GuardDecorator): Function {
     return function (
         target: Object | Function,
         propertyKey?: string | symbol,
@@ -23,7 +23,7 @@ export function Guard(sessionGuard: SGM, role?: RGM) {
                 propertyKey,
                 descriptor
             )
-            SetMetadata(SESSION_GUARD_CONSTANT, sessionGuard)(
+            SetMetadata(SESSION_GUARD_CONSTANT, only)(
                 target,
                 propertyKey,
                 descriptor
@@ -31,10 +31,7 @@ export function Guard(sessionGuard: SGM, role?: RGM) {
         } else {
             // Класс-декоратор
             SetMetadata(ROLE_GUARD_CONSTANT, role)(target as Function)
-            SetMetadata(
-                SESSION_GUARD_CONSTANT,
-                sessionGuard
-            )(target as Function)
+            SetMetadata(SESSION_GUARD_CONSTANT, only)(target as Function)
         }
     }
 }

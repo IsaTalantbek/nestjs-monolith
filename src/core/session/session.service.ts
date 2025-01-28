@@ -120,13 +120,13 @@ export class SessionService {
     // Очистка просроченных сессий
     async cleanExpiredSessions(accountId: UUID): Promise<boolean> {
         return this.mutex.lock(accountId, async () => {
-            const date = new Date()
+            const DATE = new Date().toISOString()
             return this.prisma.$transaction(async (prisma) => {
                 const find = await prisma.session.findMany({
                     where: {
                         accountId: accountId,
                         deleted: false,
-                        expiresAt: { lt: new Date() },
+                        expiresAt: { lt: new Date().toISOString() },
                     },
                 })
                 const superUserSession = find.find(
@@ -156,12 +156,12 @@ export class SessionService {
                 await prisma.session.updateMany({
                     where: {
                         accountId: accountId,
-                        expiresAt: { lt: new Date() },
+                        expiresAt: { lt: new Date().toISOString() },
                         deleted: false,
                     },
                     data: {
                         deleted: true,
-                        deletedAt: date,
+                        deletedAt: DATE,
                         deletedBy: 'SessionService',
                     },
                 })
@@ -171,17 +171,17 @@ export class SessionService {
     }
     async cleanExpiredSession(sessionId: UUID): Promise<boolean> {
         return this.mutex.lock(sessionId, async () => {
-            const date = new Date()
+            const DATE = new Date().toISOString()
             return this.prisma.$transaction(async (prisma) => {
                 const res = await prisma.session.update({
                     where: {
                         id: sessionId,
-                        expiresAt: { lt: new Date() },
+                        expiresAt: { lt: new Date().toISOString() },
                         deleted: false,
                     },
                     data: {
                         deleted: true,
-                        deletedAt: date,
+                        deletedAt: DATE,
                         deletedBy: 'ExpireSession',
                     },
                 })

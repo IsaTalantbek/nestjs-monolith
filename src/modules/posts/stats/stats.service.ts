@@ -264,7 +264,7 @@ export class StatsService {
     }
 
     async deleteStats(postId: string, accountId: string) {
-        const date = new Date()
+        const date = new Date().toISOString()
 
         return this.mutex.lock(accountId, async () => {
             const postWithInfo = await this.prisma.post.findUnique({

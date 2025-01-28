@@ -6,12 +6,14 @@ import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
 import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
-import { Guard } from '../../../common/decorators/guard.decorator.js'
-import { SGM } from '../../../common/guards/session/session.guard.enum.js'
+import {
+    Guard,
+    SGM,
+} from '../../../common/decorators/guard/guard.decorator.index.js'
 
 @Log()
+@Guard({ only: SGM.unauthorized })
 @UseGuards(IpAdressGuard)
-@Guard(SGM.unauthorized)
 @Controller('auth')
 export class AuthController {
     constructor(

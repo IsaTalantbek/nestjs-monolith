@@ -7,7 +7,6 @@ import {
 import { ConfigService } from '@nestjs/config'
 import { ValidationPipe } from '@nestjs/common'
 import cookie from '@fastify/cookie'
-import RateLimit from '@fastify/rate-limit'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
@@ -21,24 +20,10 @@ async function bootstrap() {
     //   credentials: true,
     // });
 
-    app.register(RateLimit, {
-        max: 80, // максимальное количество запросов
-        timeWindow: '1 minute', // за одну минуту
-        keyGenerator: (req) => req.ip, // Идентификатор пользователя (по IP)
-    })
     // Получаем ConfigService из контейнера зависимостей NestJS
     const configService = app.get(ConfigService)
     //const cookieSettings = app.get(CookieService)
     await app.register(cookie)
-
-    //await app.register(session, {
-    //    secret: configService.get<string>('SESSION_SECRET'),
-    //    cookie: cookieSettings.cookieSettings,
-    //    saveUninitialized: false,
-    //})
-
-    //app.use(passport.initialize())
-    //app.use(passport.session())
 
     app.useGlobalPipes(
         new ValidationPipe({

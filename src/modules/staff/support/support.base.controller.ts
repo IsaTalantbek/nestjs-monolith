@@ -7,13 +7,21 @@ import {
     Post,
     Req,
     Res,
+    UseGuards,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDTO } from './sample/support.dto.js'
 import { SupportService } from './support.service.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
+import {
+    Guard,
+    RGM,
+    RoleGuard,
+    SGM,
+} from '../../../common/decorators/guard/guard.decorator.index.js'
 
 @Log()
+@Guard({ only: SGM.check })
 @Controller('support')
 export abstract class SupportController_BASE {
     constructor(protected readonly service: SupportService) {}
@@ -26,6 +34,8 @@ export abstract class SupportController_BASE {
     ) {
         return await this.writeSupport(reply, req, textDTO)
     }
+    @Guard({ only: SGM.authorized, role: RGM.support })
+    @UseGuards(RoleGuard)
     @Get(':fileOption')
     async readSupport_BASE(
         @Res() reply: FastifyReply,
@@ -34,6 +44,8 @@ export abstract class SupportController_BASE {
     ) {
         return await this.readSupport(reply, req, fileOption)
     }
+    @Guard({ only: SGM.authorized, role: RGM.support })
+    @UseGuards(RoleGuard)
     @Delete(':fileOption')
     async clearSupport_BASE(
         @Param('fileOption') fileOption: string,

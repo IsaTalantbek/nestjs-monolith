@@ -63,7 +63,7 @@ export class CommentService {
         return true
     }
     async deleteComment(commentId, accountId) {
-        const date = new Date()
+        const date = new Date().toISOString()
 
         const check = await this.prisma.comment.findUnique({
             where: { id: commentId },

@@ -16,27 +16,25 @@ import {
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 import { ProfileService } from './profile.service.js'
-import { Guard } from '../../../common/decorators/guard.decorator.js'
-import { SGM } from '../../../common/guards/session/session.guard.enum.js'
-import { RGM } from '../../../common/guards/role/role.guard.enum.js'
-import { RoleGuard } from '../../../common/guards/role/role.guard.js'
+import {
+    Guard,
+    SGM,
+} from '../../../common/decorators/guard/guard.decorator.index.js'
 
-@Log('profile')
-@Guard(SGM.authorized)
+@Log({ filename: 'profile', silent: true })
+@Guard({ only: SGM.authorized })
 @Controller('profile')
 export abstract class ProfileController_BASE {
     constructor(protected readonly service: ProfileService) {}
-    @Guard(SGM.authorized)
     @Get()
     protected async myProfile_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest,
         @Query('slug') slugDTO: SlugQueryDTO
     ) {
+        throw new Error('hello')
         return await this.myProfile(reply, req, slugDTO)
     }
-    @Guard(SGM.authorized, RGM.support)
-    @UseGuards(RoleGuard)
     @Get('account')
     protected async myAccount_BASE(
         @Res() reply: FastifyReply,
@@ -44,7 +42,7 @@ export abstract class ProfileController_BASE {
     ) {
         return await this.myAccount(reply, req)
     }
-    @Guard(SGM.check)
+    @Guard({ only: SGM.check })
     @Get(':slug')
     protected async userProfile_BASE(
         @Res() reply: FastifyReply,

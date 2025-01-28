@@ -807,3 +807,669 @@ Data: {
 --- END 2025-01-25T12:56:54.075Z ---
             
 
+
+--- START 2025-01-27T11:47:56.797Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NzgzNTYsImV4cCI6MTczNzk3ODY1Nn0.6SHoC7up9wg1iv5OOFgjO7m2UWwQurS4G11vY01J0sU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:36:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-27T11:47:56.807Z ---
+
+
+--- START 2025-01-27T11:47:59.382Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NzgzNTYsImV4cCI6MTczNzk3ODY1Nn0.6SHoC7up9wg1iv5OOFgjO7m2UWwQurS4G11vY01J0sU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:36:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-27T11:47:59.384Z ---
+
+
+--- START 2025-01-27T11:48:03.724Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NzgzNTYsImV4cCI6MTczNzk3ODY1Nn0.6SHoC7up9wg1iv5OOFgjO7m2UWwQurS4G11vY01J0sU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:36:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-27T11:48:03.725Z ---
+
+
+--- START 2025-01-27T11:48:12.686Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NzgzNTYsImV4cCI6MTczNzk3ODY1Nn0.6SHoC7up9wg1iv5OOFgjO7m2UWwQurS4G11vY01J0sU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:48:12.691Z ---
+            
+
+
+--- START 2025-01-27T11:48:36.562Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NzgzNTYsImV4cCI6MTczNzk3ODY1Nn0.6SHoC7up9wg1iv5OOFgjO7m2UWwQurS4G11vY01J0sU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:48:36.566Z ---
+            
+
+
+--- START 2025-01-27T11:51:42.234Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NzgzNTYsImV4cCI6MTczNzk3ODY1Nn0.6SHoC7up9wg1iv5OOFgjO7m2UWwQurS4G11vY01J0sU; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:51:42.249Z ---
+            
+
+
+--- START 2025-01-27T11:51:44.485Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:51:44.489Z ---
+            
+
+
+--- START 2025-01-27T11:51:44.613Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:51:44.616Z ---
+            
+
+
+--- START 2025-01-27T11:51:44.811Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:51:44.815Z ---
+            
+
+
+--- START 2025-01-27T11:51:46.600Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:51:46.603Z ---
+            
+
+
+--- START 2025-01-27T11:52:07.143Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:52:07.154Z ---
+            
+
+
+--- START 2025-01-27T11:52:09.277Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:52:09.280Z ---
+            
+
+
+--- START 2025-01-27T11:52:09.857Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:52:09.860Z ---
+            
+
+
+--- START 2025-01-27T11:52:10.523Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:52:10.526Z ---
+            
+
+
+--- START 2025-01-27T11:52:10.894Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:52:10.898Z ---
+            
+
+
+--- START 2025-01-27T11:55:12.424Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:55:12.437Z ---
+            
+
+
+--- START 2025-01-27T11:55:12.962Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:55:12.965Z ---
+            
+
+
+--- START 2025-01-27T11:55:13.314Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:55:13.317Z ---
+            
+
+
+--- START 2025-01-27T11:55:13.347Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:55:13.350Z ---
+            
+
+
+--- START 2025-01-27T11:55:13.504Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-27T11:55:13.508Z ---
+            
+
+
+--- START 2025-01-27T11:55:37.518Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "14c82bf9-ebe2-4491-8f22-ffa3ced86c86"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5Nzg3MDIsImV4cCI6MTczNzk3OTAwMn0.rgtie_TWXWb_VpfRmKh3rgVk02UrAi16wYZWW3grZtw; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIxNGM4MmJmOS1lYmUyLTQ0OTEtOGYyMi1mZmEzY2VkODZjODYiLCJpYXQiOjE3Mzc5NjgzMTMsImV4cCI6MTczODU3MzExM30.FHdnsTxRNBMeNxNfoNL3uIRuCdLQ-uf6VU1ashlWF6g
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:36:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-27T11:55:37.527Z ---
+
+
+--- START 2025-01-28T07:25:42.270Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "da46672f-ca81-44f2-9394-e46a8909dfb1"
+}
+Cookie: aAuthToken=; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJkYTQ2NjcyZi1jYTgxLTQ0ZjItOTM5NC1lNDZhODkwOWRmYjEiLCJpYXQiOjE3MzgwNDkxMjYsImV4cCI6MTczODY1MzkyNn0.9_y-8Y9AcVCq_bSob64xyhMaVDse-91uaIExmzvsdxo
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-28T07:25:42.276Z ---
+            
+
+
+--- START 2025-01-28T07:26:31.995Z ---
+
+- Request -
+URL: /profile
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "da46672f-ca81-44f2-9394-e46a8909dfb1"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiJkYTQ2NjcyZi1jYTgxLTQ0ZjItOTM5NC1lNDZhODkwOWRmYjEiLCJpYXQiOjE3MzgwNDkxNDIsImV4cCI6MTczODA0OTQ0Mn0.lyCHc2qVuSEZR4UshyBZ5q6kZV4_68SX8Fti2CvwKGE; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJkYTQ2NjcyZi1jYTgxLTQ0ZjItOTM5NC1lNDZhODkwOWRmYjEiLCJpYXQiOjE3MzgwNDkxMjYsImV4cCI6MTczODY1MzkyNn0.9_y-8Y9AcVCq_bSob64xyhMaVDse-91uaIExmzvsdxo
+Params: {}
+Body: undefined
+Query: {}
+
+- Error -
+Message: hello
+Stack: Error: hello
+    at ProfileController.myProfile_BASE (D:\Games\OT\Database\New_Project\prologue\src\modules\profile\profile\profile.base.controller.ts:35:15)
+    at D:\Games\OT\Database\New_Project\prologue\node_modules\@nestjs\core\router\router-execution-context.js:38:29
+
+--- END 2025-01-28T07:26:31.999Z ---
+
+
+--- START 2025-01-28T07:27:37.856Z ---
+
+- Request -
+URL: /profile/account
+Method: GET
+User: {
+  "accountId": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "sessionId": "da46672f-ca81-44f2-9394-e46a8909dfb1"
+}
+Cookie: aAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJiY2JkMTY2MS1lMTc5LTQ1MDktOTIxZS1kMTlhMmVhOTcxMWUiLCJzZXNzaW9uSWQiOiJkYTQ2NjcyZi1jYTgxLTQ0ZjItOTM5NC1lNDZhODkwOWRmYjEiLCJpYXQiOjE3MzgwNDkxNDIsImV4cCI6MTczODA0OTQ0Mn0.lyCHc2qVuSEZR4UshyBZ5q6kZV4_68SX8Fti2CvwKGE; rAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJkYTQ2NjcyZi1jYTgxLTQ0ZjItOTM5NC1lNDZhODkwOWRmYjEiLCJpYXQiOjE3MzgwNDkxMjYsImV4cCI6MTczODY1MzkyNn0.9_y-8Y9AcVCq_bSob64xyhMaVDse-91uaIExmzvsdxo
+Params: {}
+Body: undefined
+Query: {}
+
+- Response -
+Status: 200
+Data: {
+  "id": "bcbd1661-e179-4509-921e-d19a2ea9711e",
+  "email": "User1@gmail.com",
+  "phone": null,
+  "createdAt": "2025-01-20T12:07:41.745Z",
+  "tfaCode": null,
+  "accountUI": "234bf420-68ff-4545-bc7d-c02a4e1ea793"
+}
+
+--- END 2025-01-28T07:27:37.860Z ---
+            
+

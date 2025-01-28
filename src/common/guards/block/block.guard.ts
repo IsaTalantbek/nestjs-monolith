@@ -3,14 +3,16 @@ import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
 import { Guard_BASE } from '../base.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { LoggerService } from '../../../core/log/logger.service.js'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class IpAdressGuard extends Guard_BASE {
     constructor(
         private readonly blockManager: IpAdressBlockService,
-        private readonly LoggerService: LoggerService
+        private readonly loggerService: LoggerService,
+        private readonly configService: ConfigService
     ) {
-        super(LoggerService)
+        super(loggerService, configService)
     }
 
     async handleRequest(

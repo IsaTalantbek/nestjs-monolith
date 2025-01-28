@@ -40,6 +40,7 @@ export class AuthService {
     ): Promise<NewRefreshToken> {
         return this.mutex.lock(accountId, async () => {
             const expiresAt = new Date(Date.now() + ttl)
+            console.log(accountId)
             const existSession: Session = await this.prisma.session.findFirst({
                 where: {
                     accountId: accountId,
@@ -48,18 +49,23 @@ export class AuthService {
                     headers,
                 },
             })
-            const sessionId: UUID = existSession.id as UUID
-            if (existSession?.expiresAt < new Date()) {
-                await this.session.cleanExpiredSession(sessionId)
-            } else if (existSession) {
-                const { newRefreshToken } =
-                    await this.jwtAuth.generateRefreshToken(sessionId)
-                return {
-                    newRefreshToken,
+            if (existSession) {
+                const sessionId: UUID = existSession.id as UUID
+
+                if (
+                    existSession?.expiresAt.toISOString() <
+                    new Date().toISOString()
+                ) {
+                    await this.session.cleanExpiredSession(sessionId)
+                } else {
+                    const { newRefreshToken } =
+                        await this.jwtAuth.generateRefreshToken(sessionId)
+                    return {
+                        newRefreshToken,
+                    }
                 }
             }
             let superUser: boolean
-
             const superUserCheck = await this.prisma.session.findFirst({
                 where: { deleted: false, superUser: true, accountId },
             })

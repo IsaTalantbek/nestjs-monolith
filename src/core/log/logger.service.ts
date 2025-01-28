@@ -36,8 +36,7 @@ Query: ${this.safeJSON(request.query as object)}
 Status: 200
 Data: ${this.safeJSON(result)}
 
---- END ${new Date().toISOString()} ---
-            
+--- END ${new Date().toISOString()} ---            
 `
     }
 

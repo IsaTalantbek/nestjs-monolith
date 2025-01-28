@@ -56,7 +56,9 @@ export class SessionCheck {
                             'Вашу сессию кто-то завершил досрочно. Напишите в поддержку, если это сделали не вы',
                     })
                     return false
-                } else if (session.expiresAt < new Date()) {
+                } else if (
+                    session.expiresAt.toISOString() < new Date().toISOString()
+                ) {
                     this.session.cleanExpiredSession(sessionId)
                     return this.handleSessionExpired(reply)
                 }

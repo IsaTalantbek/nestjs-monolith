@@ -3,17 +3,19 @@ import { Guard_BASE } from '../base.guard.js'
 import { Reflector } from '@nestjs/core'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { LoggerService } from '../../../core/log/logger.service.js'
-import { ROLE_GUARD_CONSTANT } from '../../../common/decorators/guard.decorator.js'
+import { ROLE_GUARD_CONSTANT } from '../../../common/decorators/guard/guard.decorator.index.js'
 import { RoleCheck } from './service/role.check.service.js'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class RoleGuard extends Guard_BASE {
     constructor(
         private readonly reflector: Reflector,
         private readonly check: RoleCheck,
-        private readonly loggerService: LoggerService
+        private readonly loggerService: LoggerService,
+        private readonly configService: ConfigService
     ) {
-        super(loggerService)
+        super(loggerService, configService)
     }
 
     protected async handleRequest(
