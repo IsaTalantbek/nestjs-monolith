@@ -57,20 +57,24 @@ export abstract class BlackListController_BASE {
     ) {
         return await this.deleteAllToBlacklist(reply, req)
     }
+
     protected abstract giveBlacklist(
         reply: FastifyReply,
         req: FastifyRequest
     ): Promise<GiveBlacklistDTO[]>
+
     protected abstract addToBlacklist(
         reply: FastifyReply,
         req: FastifyRequest,
         vsPid: UUID
     ): Promise<string>
+
     protected abstract deleteToBlacklist(
         reply: FastifyReply,
         req: FastifyRequest,
         vsPid: UUID
     ): Promise<string>
+
     protected abstract deleteAllToBlacklist(
         reply: FastifyReply,
         req: FastifyRequest

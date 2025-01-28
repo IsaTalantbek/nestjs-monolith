@@ -1,13 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Put,
-    Query,
-    Req,
-    Res,
-    UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, Get, Put, Query, Req, Res } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
     GivePrivacyQueryDTO,
@@ -29,6 +20,7 @@ export abstract class PrivacyController_BASE {
     ) {
         return await this.givePrivacy(reply, req, givePrivacyDTO)
     }
+
     @Put()
     protected async updatePrivacy_BASE(
         @Res() reply: FastifyReply,
@@ -37,11 +29,13 @@ export abstract class PrivacyController_BASE {
     ) {
         return await this.updatePrivacy(reply, req, updatePrivacyDTO)
     }
+
     protected abstract givePrivacy(
         reply: FastifyReply,
         req: FastifyRequest,
         givePrivacyDTO: GivePrivacyQueryDTO
     )
+
     protected abstract updatePrivacy(
         reply: FastifyReply,
         req: FastifyRequest,

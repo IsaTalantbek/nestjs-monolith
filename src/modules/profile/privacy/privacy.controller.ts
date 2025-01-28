@@ -11,6 +11,7 @@ export class PrivacyController extends PrivacyController_BASE {
     constructor(private readonly privacyService: PrivacyService) {
         super(privacyService)
     }
+
     async givePrivacy(
         reply: FastifyReply,
         req: FastifyRequest,
@@ -30,6 +31,7 @@ export class PrivacyController extends PrivacyController_BASE {
         reply.status(200).send(result)
         return result
     }
+
     async updatePrivacy(
         reply: FastifyReply,
         req: FastifyRequest,

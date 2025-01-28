@@ -40,7 +40,6 @@ export class AuthService {
     ): Promise<NewRefreshToken> {
         return this.mutex.lock(accountId, async () => {
             const expiresAt = new Date(Date.now() + ttl)
-            console.log(accountId)
             const existSession: Session = await this.prisma.session.findFirst({
                 where: {
                     accountId: accountId,

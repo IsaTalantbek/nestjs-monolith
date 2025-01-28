@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
+    CookieN,
     CookieService,
     UserData,
 } from '../../../../core/keys/cookie/cookie.service.js'
@@ -81,7 +82,7 @@ export class SessionAuthorized {
                 const { newAccessToken } =
                     await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
-                this.cookie.setCookie(reply, newAccessToken, 'a')
+                this.cookie.setCookie(reply, newAccessToken, CookieN.access)
                 req.user = this.cookie.userData({
                     accountId: accountId,
                     sessionId: sessionId,

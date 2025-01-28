@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import {
     CookieService,
     UserData,
+    CookieN,
 } from '../../../../core/keys/cookie/cookie.service.js'
 import {
     JwtAccessTokenData,
@@ -62,7 +63,7 @@ export class SessionUnauthorized {
                         message:
                             'Вашу сессию кто-то завершил досрочно. Напишите в поддержку, если это сделали не вы',
                     })
-                    return false
+                    return true
                 } else if (
                     session.expiresAt.toISOString() < new Date().toISOString()
                 ) {
@@ -83,7 +84,7 @@ export class SessionUnauthorized {
                 const { newAccessToken } =
                     await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
-                this.cookie.setCookie(reply, newAccessToken, 'a')
+                this.cookie.setCookie(reply, newAccessToken, CookieN.access)
                 req.user = this.cookie.userData({
                     accountId: accountId,
                     sessionId: sessionId,

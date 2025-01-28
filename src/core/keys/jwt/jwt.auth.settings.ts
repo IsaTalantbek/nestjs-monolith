@@ -13,12 +13,12 @@ export class JwtAuthSettings {
         return this.configService.get<string>('JWT_REFRESH_SECRET')
     }
 
-    get accessExpire(): { expiresIn: string } {
-        return { expiresIn: '5m' }
+    get accessExpire(): { expiresIn: number } {
+        return { expiresIn: 300 } // 5m
     }
 
-    get refreshExpire(): { expiresIn: string } {
-        return { expiresIn: '7d' }
+    get refreshExpire(): { expiresIn: number } {
+        return { expiresIn: 604800 } // 7d
     }
 
     // Методы для возврата всех настроек сразу

@@ -30,6 +30,7 @@ export abstract class FriendController_BASE {
     ) {
         return await this.giveFriends(reply, req, optionDTO)
     }
+
     @UsePipes(ParamUuidPipe)
     @Post(':vsAid')
     async addFriend_BASE(
@@ -39,6 +40,7 @@ export abstract class FriendController_BASE {
     ) {
         return await this.addFriend(reply, req, vsAid)
     }
+
     @UsePipes(ParamUuidPipe)
     @Put(':friendId')
     async acceptFriend_BASE(
@@ -48,6 +50,7 @@ export abstract class FriendController_BASE {
     ) {
         return await this.acceptFriend(reply, req, friendId)
     }
+
     @UsePipes(ParamUuidPipe)
     @Delete('friendId')
     async deleteFriend_BASE(
@@ -63,16 +66,19 @@ export abstract class FriendController_BASE {
         req: FastifyRequest,
         option: ActiveWaitingFriendDTO
     )
+
     protected abstract addFriend(
         reply: FastifyReply,
         req: FastifyRequest,
         vsAid: UUID
     )
+
     protected abstract acceptFriend(
         reply: FastifyReply,
         req: FastifyRequest,
         friendAid: UUID
     )
+
     protected abstract deleteFriend(
         reply: FastifyReply,
         req: FastifyRequest,

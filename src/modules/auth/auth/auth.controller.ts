@@ -1,7 +1,10 @@
 import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { AuthService } from './auth.service.js'
-import { CookieService } from '../../../core/keys/cookie/cookie.service.js'
+import {
+    CookieN,
+    CookieService,
+} from '../../../core/keys/cookie/cookie.service.js'
 import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
 import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
 import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
@@ -46,7 +49,7 @@ export class AuthController {
                 req.ip,
                 req.headers['user-agent']
             )
-            this.cookie.setCookie(reply, newRefreshToken, 'r')
+            this.cookie.setCookie(reply, newRefreshToken, CookieN.refresh)
             return reply
                 .status(200)
                 .send({ message: 'Успешный логин', token: newRefreshToken })

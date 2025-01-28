@@ -1,12 +1,4 @@
-import {
-    Controller,
-    Get,
-    Param,
-    Query,
-    Req,
-    Res,
-    UseGuards,
-} from '@nestjs/common'
+import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
     MyAccountDTO,
@@ -35,6 +27,7 @@ export abstract class ProfileController_BASE {
         throw new Error('hello')
         return await this.myProfile(reply, req, slugDTO)
     }
+
     @Get('account')
     protected async myAccount_BASE(
         @Res() reply: FastifyReply,
@@ -42,6 +35,7 @@ export abstract class ProfileController_BASE {
     ) {
         return await this.myAccount(reply, req)
     }
+
     @Guard({ only: SGM.check })
     @Get(':slug')
     protected async userProfile_BASE(
@@ -57,10 +51,12 @@ export abstract class ProfileController_BASE {
         req: FastifyRequest,
         slugDTO: SlugQueryDTO
     ): Promise<MyProfileDTO | string>
+
     protected abstract myAccount(
         reply: FastifyReply,
         req: FastifyRequest
     ): Promise<MyAccountDTO | string>
+
     protected abstract userProfile(
         reply: FastifyReply,
         req: FastifyRequest,

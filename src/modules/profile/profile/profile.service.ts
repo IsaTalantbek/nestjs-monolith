@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { Account, Post, Subscription } from '@prisma/client'
+import { Account, Post, Subscription, Profile } from '@prisma/client'
 import { plainToInstance } from 'class-transformer'
+import { UUID } from 'crypto'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import { MyAccountDTO, MyProfileDTO } from './sample/profile.dto.js'
 import {
@@ -10,8 +11,6 @@ import {
     ProfileService_INTERFACE,
     UserProfileData,
 } from './sample/profile.interface.js'
-import { UUID } from 'crypto'
-import { Profile } from '@prisma/client'
 
 @Injectable()
 export class ProfileService implements ProfileService_INTERFACE {

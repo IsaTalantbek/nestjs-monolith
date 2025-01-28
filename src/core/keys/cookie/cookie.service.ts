@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { UUID } from 'crypto'
 import { FastifyReply } from 'fastify'
 
-interface CookieOption {
-    option: 'a' | 'r'
+export enum CookieN { // Cookie Name
+    access, // Access Token
+    refresh, // Refresh Token
 }
 
 export interface UserDataArray {
@@ -35,19 +36,15 @@ export class CookieService {
         return 'rAuthToken'
     }
 
-    public setCookie(
-        reply: FastifyReply,
-        token: string, // Уточните ожидаемый формат токена (например, строка)
-        option: CookieOption['option']
-    ) {
+    public setCookie(reply: FastifyReply, token: string, option: CookieN) {
         switch (option) {
-            case 'a':
+            case CookieN.access:
                 return reply.setCookie(
                     this.accessTokenName,
                     token,
                     this.cookieSettings
                 )
-            case 'r':
+            case CookieN.refresh:
                 return reply.setCookie(
                     this.refreshTokenName,
                     token,
