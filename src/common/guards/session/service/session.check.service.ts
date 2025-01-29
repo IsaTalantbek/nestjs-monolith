@@ -21,6 +21,33 @@ export class SessionCheck {
         private readonly session: SessionService
     ) {}
 
+    private async sessionCheck(
+        reply: FastifyReply,
+        req: FastifyRequest,
+        session: Session
+    ): Promise<boolean> {
+        const ipPrefix = req.ip.split('.').slice(0, 2).join('.')
+        if (!session) {
+            return this.handleSessionExpired(reply)
+        } else if (session.deleted === true) {
+            this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
+            reply.status(401).send({
+                message:
+                    'Вашу сессию кто-то завершил досрочно. Напишите в поддержку, если это сделали не вы',
+            })
+            return false
+        } else if (session.expiresAt.toISOString() < new Date().toISOString()) {
+            this.session.cleanExpiredSession(session.id as UUID)
+            return this.handleSessionExpired(reply)
+        } else if (
+            ipPrefix !== session.ipAdress ||
+            req.headers['user-agent'] !== session.headers
+        ) {
+            return this.handleSessionExpired(reply)
+        }
+        return
+    }
+
     private handleSessionExpired(reply: FastifyReply): boolean {
         this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
         return true
@@ -48,28 +75,11 @@ export class SessionCheck {
                 const sessionId: UUID = decoded.sessionId
                 const session: Session =
                     await this.session.getSession(sessionId)
-                if (!session) {
-                    return this.handleSessionExpired(reply)
-                } else if (session.deleted === true) {
-                    this.cookie.clearCookie(reply, this.cookie.refreshTokenName)
-                    reply.status(401).send({
-                        message:
-                            'Вашу сессию кто-то завершил досрочно. Напишите в поддержку, если это сделали не вы',
-                    })
-                    return false
-                } else if (
-                    session.expiresAt.toISOString() < new Date().toISOString()
-                ) {
-                    this.session.cleanExpiredSession(sessionId)
-                    return this.handleSessionExpired(reply)
-                }
-                const ipPrefix = req.ip.split('.').slice(0, 2).join('.')
 
-                if (
-                    ipPrefix !== session.ipAdress ||
-                    req.headers['user-agent'] !== session.headers
-                ) {
-                    return this.handleSessionExpired(reply)
+                const check = await this.sessionCheck(reply, req, session)
+
+                if (typeof check === 'boolean') {
+                    return check
                 }
 
                 const accountId: UUID = session.accountId as UUID

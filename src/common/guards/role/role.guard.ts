@@ -34,7 +34,9 @@ export class RoleGuard extends Guard_BASE {
                 context.getClass()
             )
             if (!metadata) {
-                throw new Error('Вы указали неправильную роль в гварде')
+                throw new Error(
+                    `Вы указали неправильную роль в гварде:${req.url}`
+                )
             }
         }
         return await this.check.use(req, metadata)
