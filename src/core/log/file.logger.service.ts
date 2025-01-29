@@ -17,36 +17,36 @@ export class FileLoggerService extends LoggerService {
         }
     }
 
-    private getLogger(filePath: string): winston.Logger {
-        if (!this.loggers[filePath]) {
+    private getLogger(filename: string): winston.Logger {
+        if (!this.loggers[filename]) {
             // Проверяем лимит и очищаем старые логеры
             this.cleanupOldLoggers()
 
             // Создаём новый логер
-            this.loggers[filePath] = winston.createLogger({
+            this.loggers[filename] = winston.createLogger({
                 level: 'info',
                 format: winston.format.combine(
                     winston.format.timestamp(),
                     winston.format.json({ deterministic: false })
                 ),
                 transports: [
-                    new winston.transports.File({ filename: filePath }),
+                    new winston.transports.File({ filename: filename }),
                 ],
             })
         }
-        return this.loggers[filePath]
+        return this.loggers[filename]
     }
 
     public log(
         message: string | SuccessLog | ErrorLog,
-        filePath: string
+        filename: string
     ): void {
-        const logger = this.getLogger(filePath)
+        const logger: winston.Logger = this.getLogger(filename)
         logger.info(message)
     }
 
-    public error(message: string | ErrorLog, filePath: string): void {
-        const logger = this.getLogger(filePath)
+    public error(message: string | ErrorLog, filename: string): void {
+        const logger: winston.Logger = this.getLogger(filename)
         logger.error(message)
     }
 
@@ -57,14 +57,14 @@ export class FileLoggerService extends LoggerService {
         requestDATE?: string,
         resultDATE?: string
     ): void {
-        const successLog = this.createSuccessLog(
+        const successLog: SuccessLog = this.createSuccessLog(
             request,
             result,
             requestDATE,
             resultDATE,
             filename
         )
-        const logger = this.getLogger(filename)
+        const logger: winston.Logger = this.getLogger(filename)
         logger.info(successLog)
     }
 
@@ -75,14 +75,14 @@ export class FileLoggerService extends LoggerService {
         requestDATE?: string,
         errorDATE?: string
     ): void {
-        const errorLog = this.createErrorLog(
+        const errorLog: ErrorLog = this.createErrorLog(
             request,
             error,
             requestDATE,
             errorDATE,
             filename
         )
-        const logger = this.getLogger(filename)
+        const logger: winston.Logger = this.getLogger(filename)
         logger.error(errorLog)
     }
 }

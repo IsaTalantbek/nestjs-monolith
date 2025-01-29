@@ -7,7 +7,7 @@ import {
 } from '../../../core/keys/cookie/cookie.service.js'
 import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
 import { IpAdressGuard } from '../../../common/guards/ipAdress/ip.adress.guard.js'
-import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
+import { IpAdressBlockService } from '../../../core/util/ipAdress/ip.adress.block.service.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import {
     GuardConfig,

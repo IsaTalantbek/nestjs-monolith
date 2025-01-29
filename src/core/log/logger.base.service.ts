@@ -24,20 +24,26 @@ export interface ErrorSample {
     stack: string | 'undefined'
     end: string
 }
-export interface SuccessLog extends RequestSample, ResponseSample {}
-export interface ErrorLog extends RequestSample, ErrorSample {}
+export interface SuccessLog {
+    request: RequestSample
+    response: ResponseSample
+}
+export interface ErrorLog {
+    request: RequestSample
+    error: ErrorSample
+}
 
 export abstract class LoggerService {
-    protected safeJSON(obj: object | any): any {
-        try {
-            if (typeof obj !== 'object') {
-                return obj
-            }
-            return JSON.stringify(obj, null, 2)
-        } catch {
-            return false
-        }
-    }
+    //protected safeJSON(obj: object | any): any {
+    //    try {
+    //        if (typeof obj !== 'object') {
+    //            return obj
+    //        }
+    //        return JSON.stringify(obj, null, 2)
+    //    } catch {
+    //        return false
+    //    }
+    //}
 
     protected giveRequestSample(
         request: FastifyRequest,
@@ -49,26 +55,11 @@ export abstract class LoggerService {
             start: requestDATE || new Date().toISOString(),
             url: request.url,
             method: request.method,
-            user:
-                request.user !== undefined && request.user !== null
-                    ? request.user
-                    : 'undefined',
-            cookies:
-                request.cookies !== undefined && request.cookies !== null
-                    ? request.cookies
-                    : 'undefined',
-            params:
-                request.params !== undefined && request.params !== null
-                    ? request.params
-                    : 'undefined',
-            body:
-                request.body !== undefined && request.body !== null
-                    ? request.body
-                    : 'undefined',
-            query:
-                request.query !== undefined && request.query !== null
-                    ? request.query
-                    : 'undefined',
+            user: request.user || 'undefined',
+            cookies: request.cookies || {},
+            params: request.params || {},
+            body: request.body || {},
+            query: request.query || {},
         }
     }
 
@@ -97,13 +88,16 @@ export abstract class LoggerService {
         resultDATE?: string,
         filename?: string
     ): SuccessLog {
-        const requestLog = this.giveRequestSample(
+        const requestLog: RequestSample = this.giveRequestSample(
             request,
             requestDATE,
             filename
         )
-        const responseLog = this.giveResponseSample(result, resultDATE)
-        return { ...requestLog, ...responseLog }
+        const responseLog: ResponseSample = this.giveResponseSample(
+            result,
+            resultDATE
+        )
+        return { request: requestLog, response: responseLog }
     }
 
     public createErrorLog(
@@ -113,12 +107,12 @@ export abstract class LoggerService {
         errorDATE?: string,
         filename?: string
     ): ErrorLog {
-        const requestLog = this.giveRequestSample(
+        const requestLog: RequestSample = this.giveRequestSample(
             request,
             requestDATE,
             filename
         )
-        const errorLog = this.giveErrorSample(error, errorDATE)
-        return { ...requestLog, ...errorLog }
+        const errorLog: ErrorSample = this.giveErrorSample(error, errorDATE)
+        return { request: requestLog, error: errorLog }
     }
 }
