@@ -1,54 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { FastifyError, FastifyRequest } from 'fastify'
 import * as winston from 'winston'
+import { ErrorLog, LoggerService, SuccessLog } from './logger.base.service.js'
+import { FastifyRequest } from 'fastify'
 
 @Injectable()
-export class LoggerService {
+export class FileLoggerService extends LoggerService {
     private readonly loggers: Record<string, winston.Logger> = {}
     private readonly maxLoggers = 100 // Максимальное количество логеров (настраиваемое)
-
-    private safeJSON(obj: object): JSON | string {
-        try {
-            return JSON.stringify(obj, null, 2)
-        } catch {
-            return '[Unserializable Object]'
-        }
-    }
-
-    public requestSample(request: FastifyRequest, DATE?: any): string {
-        return `
---- START ${DATE || new Date().toISOString()} ---
-
-- Request -
-URL: ${request.url}
-Method: ${request.method}
-User: ${this.safeJSON(request.user)}
-Cookie: ${request.headers.cookie}
-Params: ${this.safeJSON(request.params as object)}
-Body: ${this.safeJSON(request.body as object)}
-Query: ${this.safeJSON(request.query as object)}
-`
-    }
-
-    public responseSample(result: object): string {
-        return `
-- Response -
-Status: 200
-Data: ${this.safeJSON(result)}
-
---- END ${new Date().toISOString()} ---            
-`
-    }
-
-    public errorSample(error: FastifyError): string {
-        return `
-- Error -
-Message: ${error?.message || 'Unknown error'}
-Stack: ${error?.stack || 'No stack trace'}
-
---- END ${new Date().toISOString()} ---
-`
-    }
 
     private cleanupOldLoggers(): void {
         const keys = Object.keys(this.loggers)
@@ -69,7 +27,7 @@ Stack: ${error?.stack || 'No stack trace'}
                 level: 'info',
                 format: winston.format.combine(
                     winston.format.timestamp(),
-                    winston.format.printf(({ message }) => `${message}`)
+                    winston.format.json({ deterministic: false })
                 ),
                 transports: [
                     new winston.transports.File({ filename: filePath }),
@@ -79,13 +37,52 @@ Stack: ${error?.stack || 'No stack trace'}
         return this.loggers[filePath]
     }
 
-    log(message: string, filePath: string): void {
+    public log(
+        message: string | SuccessLog | ErrorLog,
+        filePath: string
+    ): void {
         const logger = this.getLogger(filePath)
         logger.info(message)
     }
 
-    error(message: string, filePath: string): void {
+    public error(message: string | ErrorLog, filePath: string): void {
         const logger = this.getLogger(filePath)
         logger.error(message)
+    }
+
+    public successLog(
+        filename: string,
+        request: FastifyRequest,
+        result: any,
+        requestDATE?: string,
+        resultDATE?: string
+    ): void {
+        const successLog = this.createSuccessLog(
+            request,
+            result,
+            requestDATE,
+            resultDATE,
+            filename
+        )
+        const logger = this.getLogger(filename)
+        logger.info(successLog)
+    }
+
+    public errorLog(
+        filename: string,
+        request: FastifyRequest,
+        error: Error,
+        requestDATE?: string,
+        errorDATE?: string
+    ): void {
+        const errorLog = this.createErrorLog(
+            request,
+            error,
+            requestDATE,
+            errorDATE,
+            filename
+        )
+        const logger = this.getLogger(filename)
+        logger.error(errorLog)
     }
 }

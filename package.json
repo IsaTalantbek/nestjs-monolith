@@ -1,6 +1,6 @@
 {
     "name": "prologue",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "description": "акундалякака",
     "author": "isat",
     "private": true,
@@ -36,6 +36,7 @@
         "dotenv": "^16.4.7",
         "fastify": "5.2.1",
         "jsonwebtoken": "^9.0.2",
+        "nestjs-pino": "^4.3.0",
         "prisma": "^6.2.1",
         "reflect-metadata": "^0.2.0",
         "rxjs": "^7.8.1",

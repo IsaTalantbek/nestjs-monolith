@@ -9,12 +9,12 @@ import { Log } from '../../../common/decorators/logger.decorator.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 import { ProfileService } from './profile.service.js'
 import {
-    Guard,
+    GuardConfig,
     SGM,
 } from '../../../common/decorators/guard/guard.decorator.index.js'
 
 @Log({ filename: 'profile', silent: true })
-@Guard({ only: SGM.authorized })
+@GuardConfig({ only: SGM.authorized })
 @Controller('profile')
 export abstract class ProfileController_BASE {
     constructor(protected readonly service: ProfileService) {}
@@ -36,7 +36,7 @@ export abstract class ProfileController_BASE {
         return await this.myAccount(reply, req)
     }
 
-    @Guard({ only: SGM.check })
+    @GuardConfig({ only: SGM.check })
     @Get(':slug')
     protected async userProfile_BASE(
         @Res() reply: FastifyReply,

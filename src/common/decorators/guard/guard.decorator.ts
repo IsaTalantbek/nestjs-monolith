@@ -10,7 +10,7 @@ interface GuardDecorator {
     role?: RGM
 }
 
-export function Guard({ only, role }: GuardDecorator): Function {
+export function GuardConfig({ only, role }: GuardDecorator): Function {
     return function (
         target: Object | Function,
         propertyKey?: string | symbol,

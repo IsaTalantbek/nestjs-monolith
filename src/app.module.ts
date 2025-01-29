@@ -6,6 +6,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 import { BasePackModule } from './base.pack.module.js'
 import { LoggerInterceptor } from './core/log.interceptor.js'
 import { SessionGuard } from './common/guards/session/session.guard.index.js'
+import { LoggerModule } from 'nestjs-pino'
 
 @Module({
     imports: [
@@ -29,6 +30,19 @@ import { SessionGuard } from './common/guards/session/session.guard.index.js'
                 limit: 100,
             },
         ]),
+        LoggerModule.forRoot({
+            pinoHttp: {
+                level: 'warn', // Логирует только warn и выше (убирает debug/info)
+                serializers: {
+                    req(req) {
+                        return { method: req.method, url: req.url } // Оставляет только метод и URL запроса
+                    },
+                    res(res) {
+                        return { statusCode: res.statusCode }
+                    },
+                },
+            },
+        }),
         Modules,
         BasePackModule,
     ],

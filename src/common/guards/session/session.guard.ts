@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable } from '@nestjs/common'
 import { Guard_BASE } from '../base.guard.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Reflector } from '@nestjs/core'
-import { LoggerService } from '../../../core/log/logger.service.js'
+import { FileLoggerService } from '../../../core/log/file.logger.service.js'
 import { SESSION_GUARD_CONSTANT } from '../../../common/decorators/guard/guard.decorator.index.js'
 import { SessionAuthorized } from './service/session.authorized.service.js'
 import { SessionUnauthorized } from './service/session.unauthorized.service.js'
@@ -17,7 +17,7 @@ export class SessionGuard extends Guard_BASE {
         private readonly authorized: SessionAuthorized,
         private readonly unauthorized: SessionUnauthorized,
         private readonly check: SessionCheck,
-        private readonly loggerService: LoggerService,
+        private readonly loggerService: FileLoggerService,
         private readonly configService: ConfigService
     ) {
         super(loggerService, configService)

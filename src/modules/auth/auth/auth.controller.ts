@@ -6,16 +6,16 @@ import {
     CookieService,
 } from '../../../core/keys/cookie/cookie.service.js'
 import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
-import { IpAdressGuard } from '../../../common/guards/block/block.guard.js'
+import { IpAdressGuard } from '../../../common/guards/ipAdress/ip.adress.guard.js'
 import { IpAdressBlockService } from '../../../core/util/block/block.service.js'
 import { Log } from '../../../common/decorators/logger.decorator.js'
 import {
-    Guard,
+    GuardConfig,
     SGM,
 } from '../../../common/decorators/guard/guard.decorator.index.js'
 
 @Log()
-@Guard({ only: SGM.unauthorized })
+@GuardConfig({ only: SGM.unauthorized })
 @UseGuards(IpAdressGuard)
 @Controller('auth')
 export class AuthController {

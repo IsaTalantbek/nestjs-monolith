@@ -6,42 +6,23 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { catchError, Observable, tap } from 'rxjs'
-import { FastifyRequest } from 'fastify'
-import { LoggerService } from './log/logger.service.js'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { FileLoggerService } from './log/file.logger.service.js'
 import { LOG_CONSTANT } from '../common/decorators/logger.decorator.js'
 import { errorStatic } from './util/error/error.static.js'
 import { ConfigService } from '@nestjs/config'
 import { errorMessage } from './util/error/error.message.js'
+import { ErrorLog } from './log/logger.base.service.js'
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
     constructor(
         private reflector: Reflector,
         private readonly config: ConfigService,
-        private readonly loggerService: LoggerService
+        private readonly loggerService: FileLoggerService
     ) {}
 
-    private async logProcess(
-        result: any,
-        logFilePath: string,
-        errorFilePath: string,
-        requestLog: string
-    ): Promise<any> {
-        if (logFilePath === errorFilePath) {
-            return
-        }
-        const responseLog = this.loggerService.responseSample(result)
-
-        const endLog = requestLog + responseLog
-
-        this.loggerService.log(endLog, logFilePath)
-        return result
-    }
-
-    async intercept(
-        context: ExecutionContext,
-        next: CallHandler
-    ): Promise<Observable<any>> {
+    giveMetadata(context: ExecutionContext) {
         let baseFilePath: string
         let silentLog: boolean
 
@@ -50,8 +31,10 @@ export class LoggerInterceptor implements NestInterceptor {
                 LOG_CONSTANT,
                 context.getHandler()
             ) || {}
+
         if (filename) {
             baseFilePath = filename
+
             silentLog = silent
         } else if (!filename) {
             const { filename, silent } = this.reflector.get<{
@@ -59,8 +42,9 @@ export class LoggerInterceptor implements NestInterceptor {
                 silent: boolean
             }>(LOG_CONSTANT, context.getClass())
             if (!filename) {
-                return next.handle()
+                return {}
             }
+
             baseFilePath = filename
             silentLog = silent
         } else {
@@ -68,53 +52,90 @@ export class LoggerInterceptor implements NestInterceptor {
                 `Ошибка, не передан filename или silent ${filename}, ${silent}`
             )
         }
+        return { baseFilePath, silentLog }
+    }
+
+    async intercept(
+        context: ExecutionContext,
+        next: CallHandler
+    ): Promise<Observable<any>> {
+        let { baseFilePath, silentLog } = this.giveMetadata(context)
+        if (!baseFilePath) {
+            return next.handle()
+        }
         const request: FastifyRequest = context.switchToHttp().getRequest()
+
         const defaultLogFile = this.config.get<string>('DEFAULT_LOG_FILE')
+
         const defaultErrorLogFile = this.config.get<string>(
             'DEFAULT_ERROR_LOG_FILE'
         )
+
         if (baseFilePath === 'default_log_file') {
             baseFilePath = defaultErrorLogFile
         }
         const errorFilePath: string = `${defaultLogFile}/${defaultErrorLogFile}.log`
+
         const logFilePath: string = `${defaultLogFile}/${baseFilePath}.log`
 
-        const requestLog: string = this.loggerService.requestSample(request)
+        const requestDATE = new Date().toISOString()
 
         return next.handle().pipe(
             tap(async (result) => {
-                return await this.logProcess(
-                    result,
+                if (logFilePath === errorFilePath) {
+                    return
+                }
+                this.loggerService.successLog(
                     logFilePath,
-                    errorFilePath,
-                    requestLog
+                    request,
+                    result,
+                    requestDATE
                 )
+                return result
             }),
             catchError(async (error) => {
-                const reply = context.switchToHttp().getResponse()
-                const req = context.switchToHttp().getRequest()
+                const errorDATE = new Date().toISOString()
+                const reply: FastifyReply = context.switchToHttp().getResponse()
 
                 if (error?.status && error?.status < 500) {
                     // Пропускаем ошибки валидации или не системные
-                    const errorLog = this.loggerService.errorSample(error)
+                    const errorLog: ErrorLog =
+                        this.loggerService.createErrorLog(
+                            request,
+                            error,
+                            requestDATE,
+                            errorDATE
+                        )
 
-                    const endLog = requestLog + errorLog
-
-                    this.loggerService.log(endLog, logFilePath)
+                    this.loggerService.log(errorLog, logFilePath)
 
                     return reply.status(error.status).send(error.response)
                 }
-                const errorLog = this.loggerService.errorSample(error)
 
-                const endLog = requestLog + errorLog
+                this.loggerService.errorLog(
+                    logFilePath,
+                    request,
+                    error,
+                    requestDATE,
+                    errorDATE
+                )
 
-                this.loggerService.error(endLog, logFilePath)
+                this.loggerService.errorLog(
+                    errorFilePath,
+                    request,
+                    error,
+                    requestDATE,
+                    errorDATE
+                )
 
-                this.loggerService.error(endLog, errorFilePath)
                 if (silentLog === true) {
-                    return errorMessage(reply, req, 'получить нужные данные')
+                    return errorMessage(
+                        reply,
+                        request,
+                        'получить нужные данные'
+                    )
                 } else {
-                    return errorStatic(error, reply, req)
+                    return errorStatic(error, reply, request)
                 }
             })
         )

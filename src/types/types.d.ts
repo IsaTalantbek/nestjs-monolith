@@ -1,8 +1,12 @@
 import { UUID } from 'crypto'
 import 'fastify'
 
+export interface RequestUserInterface {
+    user?: { accountId: UUID; sessionId: UUID }
+}
+
 declare module 'fastify' {
     interface FastifyRequest {
-        user?: { accountId: UUID; sessionId: UUID }
+        user?: RequestUserInterface['user']
     }
 }

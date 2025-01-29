@@ -6,7 +6,7 @@ import {
 } from '@nestjs/platform-fastify'
 import { ConfigService } from '@nestjs/config'
 import { ValidationPipe } from '@nestjs/common'
-import cookie from '@fastify/cookie'
+import fastifyCookieParser from '@fastify/cookie'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
@@ -22,11 +22,13 @@ async function bootstrap() {
 
     // Получаем ConfigService из контейнера зависимостей NestJS
     const configService = app.get(ConfigService)
-    //const cookieSettings = app.get(CookieService)
-    await app.register(cookie)
+
+    //Куки парсер
+    await app.register(fastifyCookieParser)
 
     app.useGlobalPipes(
         new ValidationPipe({
+            transform: true, // Чтобы `class-transformer` мог преобразовать типы
             whitelist: true, // Удаляет поля, которые не указаны в DTO
             forbidNonWhitelisted: true, // Если есть лишние поля — выбросить ошибку
         })
