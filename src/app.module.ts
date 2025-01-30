@@ -46,13 +46,6 @@ import { LoggerModule } from 'nestjs-pino'
         Modules,
         BasePackModule,
     ],
-    providers: [
-        {
-            provide: APP_INTERCEPTOR,
-            useClass: LoggerInterceptor,
-        },
-        { provide: APP_GUARD, useClass: SessionGuard },
-        { provide: APP_GUARD, useClass: ThrottlerGuard },
-    ],
+    providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

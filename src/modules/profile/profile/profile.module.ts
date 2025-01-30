@@ -5,7 +5,7 @@ import { PrismaModule } from '../../../core/database/prisma.module.js'
 import { RoleGuardModule } from '../../../common/guards/role/service/role.guard.module.js'
 
 @Module({
-    imports: [PrismaModule, RoleGuardModule],
+    imports: [PrismaModule],
     controllers: [ProfileController],
     providers: [ProfileService],
 })

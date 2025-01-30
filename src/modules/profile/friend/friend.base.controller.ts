@@ -11,13 +11,11 @@ import {
     UsePipes,
 } from '@nestjs/common'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UUID } from 'crypto'
 import { ActiveWaitingFriendDTO } from './sample/friend.dto.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { FriendService } from './friend.service.js'
 
-@Log()
 @Controller('profile/friends')
 export abstract class FriendController_BASE {
     constructor(protected readonly service: FriendService) {}

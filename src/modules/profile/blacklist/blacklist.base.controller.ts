@@ -13,11 +13,9 @@ import {
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { BlacklistService } from './blacklist.service.js'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UUID } from 'crypto'
 import { GiveBlacklistDTO } from './sample/blacklist.dto.js'
 
-@Log()
 @Controller('profile/blacklist')
 export abstract class BlackListController_BASE {
     constructor(protected readonly service: BlacklistService) {}

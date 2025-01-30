@@ -1,8 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SupportBodyDTO } from './sample/support.dto.js'
 import { SupportService } from './support.service.js'
-import { SessionCheck } from '../../../common/guards/session/service/session.check.service.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { SupportController_BASE } from './support.base.controller.js'
 
 export class SupportController extends SupportController_BASE {

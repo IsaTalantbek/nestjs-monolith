@@ -13,10 +13,8 @@ import {
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { CommentService } from './comment.service.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UpdateCommentDto, WriteCommentDto } from './comment.dto.js'
 
-@Log()
 @Controller('feed/comment')
 export class CommentController {
     constructor(private readonly comment: CommentService) {}

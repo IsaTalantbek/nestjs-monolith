@@ -11,10 +11,8 @@ import {
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { UUID } from 'crypto'
 import { ParamUuidPipe } from '../../../common/pipes/paramUUID.pipe.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { SubscribeService } from './subscribe.service.js'
 
-@Log()
 @Controller('profile/subscribe')
 export abstract class SubscribeController_BASE {
     constructor(protected readonly service: SubscribeService) {}

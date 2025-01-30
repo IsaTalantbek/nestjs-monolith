@@ -3,9 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { GivePostQueryDto } from './posts.dto.js'
 import { PostsService } from './posts.service.js'
 import { PrismaService } from '../../core/database/prisma.service.js'
-import { Log } from '../../common/decorators/logger.decorator.js'
 
-@Log()
 @Controller('feed')
 export class PostsController {
     constructor(

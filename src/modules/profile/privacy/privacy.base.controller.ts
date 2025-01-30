@@ -4,10 +4,8 @@ import {
     GivePrivacyQueryDTO,
     UpdatePrivacyBodyDTO,
 } from './sample/privacy.dto.js'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { PrivacyService } from './privacy.service.js'
 
-@Log()
 @Controller('profile/privacy')
 export abstract class PrivacyController_BASE {
     constructor(protected readonly service: PrivacyService) {}

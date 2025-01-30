@@ -8,11 +8,11 @@ import { Reflector } from '@nestjs/core'
 import { catchError, Observable, tap } from 'rxjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { FileLoggerService } from './log/file.logger.service.js'
-import { LOG_CONSTANT } from '../common/decorators/logger.decorator.js'
 import { errorStatic } from './util/error/error.static.js'
 import { ConfigService } from '@nestjs/config'
 import { errorMessage } from './util/error/error.message.js'
 import { ErrorLog } from './log/logger.base.service.js'
+import { LOG_CONSTANT } from '../common/decorators/route/route.decorator.index.js'
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {

@@ -3,7 +3,7 @@ import { Guard_BASE } from '../base.guard.js'
 import { Reflector } from '@nestjs/core'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { FileLoggerService } from '../../../core/log/file.logger.service.js'
-import { ROLE_GUARD_CONSTANT } from '../../../common/decorators/guard/guard.decorator.index.js'
+import { ROLE_GUARD_CONSTANT } from '../../../common/decorators/route/route.decorator.index.js'
 import { RoleCheck } from './service/role.check.service.js'
 import { ConfigService } from '@nestjs/config'
 
@@ -34,9 +34,7 @@ export class RoleGuard extends Guard_BASE {
                 context.getClass()
             )
             if (!metadata) {
-                throw new Error(
-                    `Вы указали неправильную роль в гварде:${req.url}`
-                )
+                return true
             }
         }
         return await this.check.use(req, metadata)

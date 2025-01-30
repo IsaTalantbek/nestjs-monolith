@@ -11,15 +11,8 @@ import {
 import { SessionService } from '../../../core/session/session.service.js'
 import { CookieService } from '../../../core/keys/cookie/cookie.service.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Log } from '../../../common/decorators/logger.decorator.js'
 import { UUID } from 'crypto'
-import {
-    GuardConfig,
-    SGM,
-} from '../../../common/decorators/guard/guard.decorator.index.js'
 
-@Log()
-@GuardConfig({ only: SGM.unauthorized })
 @Controller('session')
 export class SessionController {
     constructor(
