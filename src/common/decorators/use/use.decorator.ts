@@ -19,9 +19,9 @@ interface DecoratorItem {
 
 // Интерфейс для опций декоратора Use
 interface UseDecoratorOptions {
-    guards?: DecoratorItem[] | DecoratorItem['use'] // Массив гвардов
-    pipes?: DecoratorItem[] | DecoratorItem['use'] // Массив пайпов
-    interceptors?: DecoratorItem[] | DecoratorItem['use'] // Массив интерцепторов
+    guards?: (DecoratorItem | Type<CanActivate>)[] // Массив гвардов
+    pipes?: (DecoratorItem | Type<PipeTransform>)[] // Массив пайпов
+    interceptors?: (DecoratorItem | Type<NestInterceptor>)[] // Массив интерцепторов
 }
 
 // Функция для создания массива декораторов
@@ -47,10 +47,6 @@ function createDecoratorArray(
     })
 }
 
-function normalizeItems(items: DecoratorItem[] | DecoratorItem['use']) {
-    return Array.isArray(items) ? items : [items]
-}
-
 // Основная функция-декоратор Use
 export function Use(options: UseDecoratorOptions) {
     const { guards = [], pipes = [], interceptors = [] } = options
@@ -58,27 +54,18 @@ export function Use(options: UseDecoratorOptions) {
     const decorators = []
 
     // Добавление гвардов
-    if (guards) {
-        decorators.push(
-            ...createDecoratorArray(normalizeItems(guards), UseGuards)
-        )
+    if (guards.length) {
+        decorators.push(...createDecoratorArray(guards, UseGuards))
     }
 
     // Добавление пайпов
-    if (pipes) {
-        decorators.push(
-            ...createDecoratorArray(normalizeItems(pipes), UsePipes)
-        )
+    if (pipes.length) {
+        decorators.push(...createDecoratorArray(pipes, UsePipes))
     }
 
     // Добавление интерцепторов
-    if (interceptors) {
-        decorators.push(
-            ...createDecoratorArray(
-                normalizeItems(interceptors),
-                UseInterceptors
-            )
-        )
+    if (interceptors.length) {
+        decorators.push(...createDecoratorArray(interceptors, UseInterceptors))
     }
 
     // Применение всех декораторов

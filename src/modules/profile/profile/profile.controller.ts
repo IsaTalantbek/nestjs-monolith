@@ -12,6 +12,7 @@ import { UDE, User } from '../../../common/decorators/user/user.decorator.js'
 import {
     LOG_CONSTANT,
     Route,
+    SessionGuard,
     SGM,
 } from '../../../common/decorators/route/route.decorator.index.js'
 import { Change } from '../../../common/decorators/change/change.js'
@@ -19,11 +20,9 @@ import { IpAdressBlockService } from '../../../core/util/ipAdress/ip.adress.bloc
 import { Use } from '../../../common/decorators/use/use.decorator.js'
 import { IpAdressGuard } from '../../../common/guards/ipAdress/ip.adress.guard.js'
 import { LoggerInterceptor } from '../../../common/interceptors/log/log.interceptor.js'
+import { SESSION_GUARD_CONSTANT } from '../../../common/decorators/meta/key.js'
 
 @Controller('profile')
-@Route({
-    guard: { only: SGM.authorized },
-})
 export class ProfileController {
     constructor(
         protected readonly service: ProfileService,
@@ -32,7 +31,14 @@ export class ProfileController {
 
     @Get()
     @Use({
-        guards: IpAdressGuard,
+        guards: [
+            IpAdressGuard,
+            {
+                use: SessionGuard,
+                key: SESSION_GUARD_CONSTANT,
+                metadata: SGM.authorized,
+            },
+        ],
         interceptors: [
             {
                 use: LoggerInterceptor,
@@ -67,6 +73,8 @@ export class ProfileController {
     }
 
     @Get('account')
+    @Route({ guard: { only: SGM.authorized } })
+    @Change({ guard: { only: SGM.unauthorized } })
     protected async myAccount_BASE(
         @Res() reply: FastifyReply,
         @Req() req: FastifyRequest

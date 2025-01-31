@@ -4,12 +4,12 @@ import {
     ROLE_GUARD_CONSTANT,
     SESSION_GUARD_CONSTANT,
     GuardRouteInterface,
-    LogRouteInterface,
 } from '../route/route.decorator.index.js'
+import { LogMetadataInterface } from '../meta/key.js'
 
 interface ChangeInterface {
     guard?: GuardRouteInterface
-    log?: LogRouteInterface
+    log?: LogMetadataInterface
 }
 
 export function Change({
