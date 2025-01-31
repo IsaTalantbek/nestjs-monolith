@@ -7,12 +7,12 @@ import {
 import { Reflector } from '@nestjs/core'
 import { catchError, Observable, tap } from 'rxjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { FileLoggerService } from './log/file.logger.service.js'
-import { errorStatic } from './util/error/error.static.js'
+import { FileLoggerService } from '../../../core/log/file.logger.service.js'
+import { errorStatic } from '../../../core/util/error/error.static.js'
 import { ConfigService } from '@nestjs/config'
-import { errorMessage } from './util/error/error.message.js'
-import { ErrorLog } from './log/logger.base.service.js'
-import { LOG_CONSTANT } from '../common/decorators/route/route.decorator.index.js'
+import { errorMessage } from '../../../core/util/error/error.message.js'
+import { ErrorLog } from '../../../core/log/logger.base.service.js'
+import { LOG_CONSTANT } from '../../decorators/route/route.decorator.index.js'
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
@@ -25,41 +25,46 @@ export class LoggerInterceptor implements NestInterceptor {
     giveMetadata(context: ExecutionContext) {
         let baseFilePath: string
         let silentLog: boolean
+        let hideLog: boolean
 
-        const { filename, silent } =
-            this.reflector.get<{ filename: string; silent: boolean }>(
-                LOG_CONSTANT,
-                context.getHandler()
-            ) || {}
-
-        if (filename) {
-            baseFilePath = filename
-
-            silentLog = silent
-        } else if (!filename) {
-            const { filename, silent } = this.reflector.get<{
+        const { filename, silent, hide } =
+            this.reflector.get<{
                 filename: string
                 silent: boolean
-            }>(LOG_CONSTANT, context.getClass())
+                hide: boolean
+            }>(LOG_CONSTANT, context.getHandler()) ?? {}
+        if (filename) {
+            baseFilePath = filename
+            hideLog = hide
+            silentLog = silent
+        } else if (!filename) {
+            const { filename, silent, hide } =
+                this.reflector.get<{
+                    filename: string
+                    silent: boolean
+                    hide: boolean
+                }>(LOG_CONSTANT, context.getClass()) ?? {}
             if (!filename) {
                 return {}
             }
 
             baseFilePath = filename
             silentLog = silent
+            hideLog = hide
         } else {
             throw new Error(
-                `Ошибка, не передан filename или silent ${filename}, ${silent}`
+                `Ошибка, не передан filename, silent или hide: ${filename}, ${silent}, ${hide}`
             )
         }
-        return { baseFilePath, silentLog }
+        return { baseFilePath, silentLog, hideLog }
     }
 
     async intercept(
         context: ExecutionContext,
         next: CallHandler
     ): Promise<Observable<any>> {
-        let { baseFilePath, silentLog } = this.giveMetadata(context)
+        let { baseFilePath, silentLog, hideLog } = this.giveMetadata(context)
+
         if (!baseFilePath) {
             return next.handle()
         }
@@ -88,7 +93,7 @@ export class LoggerInterceptor implements NestInterceptor {
                 this.loggerService.successLog(
                     logFilePath,
                     request,
-                    result,
+                    hideLog === true ? 'secret' : result,
                     requestDATE
                 )
                 return result

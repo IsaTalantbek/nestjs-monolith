@@ -6,7 +6,8 @@ import {
 } from '@nestjs/common'
 import { SessionGuard, SGM } from '../../guards/session/session.guard.index.js'
 import { RGM, RoleGuard } from '../../guards/role/role.guard.index.js'
-import { LoggerInterceptor } from '../../../core/log.interceptor.js'
+import { LoggerInterceptor } from '../../interceptors/log/log.interceptor.js'
+import { LogMetadataInterface } from '../meta/key.js'
 
 export const SESSION_GUARD_CONSTANT = 'session_guard_constant'
 export const ROLE_GUARD_CONSTANT = 'role_guard_constant'
@@ -21,7 +22,7 @@ export enum MR { //method Route
 
 interface RouteInterface {
     guard: GuardRouteInterface
-    log?: LogRouteInterface
+    log?: LogMetadataInterface
 }
 
 export interface GuardRouteInterface {
@@ -29,14 +30,13 @@ export interface GuardRouteInterface {
     role?: RGM
 }
 
-export interface LogRouteInterface {
-    filename: string
-    silent: boolean
-}
-
 export function Route({
     guard: { only, role },
-    log: { filename, silent } = { filename: 'default_log_file', silent: false },
+    log: { filename, silent, hide } = {
+        filename: 'default_log_file',
+        silent: false,
+        hide: false,
+    },
 }: RouteInterface): Function {
     const decorators = []
 
@@ -46,7 +46,7 @@ export function Route({
     }
 
     return applyDecorators(
-        SetMetadata(LOG_CONSTANT, { filename, silent }),
+        SetMetadata(LOG_CONSTANT, { filename, silent, hide }),
         UseInterceptors(LoggerInterceptor),
         SetMetadata(SESSION_GUARD_CONSTANT, only),
         UseGuards(SessionGuard),

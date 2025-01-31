@@ -10,39 +10,60 @@ import { ProfileService } from './profile.service.js'
 import { UUID } from 'crypto'
 import { UDE, User } from '../../../common/decorators/user/user.decorator.js'
 import {
+    LOG_CONSTANT,
     Route,
     SGM,
 } from '../../../common/decorators/route/route.decorator.index.js'
 import { Change } from '../../../common/decorators/change/change.js'
+import { IpAdressBlockService } from '../../../core/util/ipAdress/ip.adress.block.service.js'
+import { Use } from '../../../common/decorators/use/use.decorator.js'
+import { IpAdressGuard } from '../../../common/guards/ipAdress/ip.adress.guard.js'
+import { LoggerInterceptor } from '../../../common/interceptors/log/log.interceptor.js'
 
 @Controller('profile')
 @Route({
     guard: { only: SGM.authorized },
-    log: { filename: 'profile', silent: false },
 })
 export class ProfileController {
-    constructor(protected readonly service: ProfileService) {}
+    constructor(
+        protected readonly service: ProfileService,
+        protected readonly block: IpAdressBlockService
+    ) {}
 
     @Get()
-    @Change({ log: { filename: 'lom', silent: true } })
+    @Use({
+        guards: IpAdressGuard,
+        interceptors: [
+            {
+                use: LoggerInterceptor,
+                key: LOG_CONSTANT,
+                metadata: { filename: 'pp', silent: true, hide: false },
+            },
+        ],
+    })
     protected async myProfile_BASE(
         @Res() reply: FastifyReply,
+        @Req() req: FastifyRequest,
         @Query('slug') slugDTO: SlugQueryDTO,
         @User({ id: UDE.accountId }) accountId: UUID
     ) {
-        const { slug } = slugDTO || {}
-        const result: string | MyProfileDTO = await this.service.myProfile(
-            accountId,
-            slug
-        )
-        if (!(result instanceof MyProfileDTO)) {
-            reply.status(400).send({
-                message: result,
-            })
+        try {
+            const { slug } = slugDTO || {}
+            const result: string | MyProfileDTO = await this.service.myProfile(
+                accountId,
+                slug
+            )
+            if (!(result instanceof MyProfileDTO)) {
+                reply.status(400).send({
+                    message: result,
+                })
+                return result
+            }
+            reply.status(200).send(result)
             return result
+        } finally {
+            this.block.unlock(req.ip)
         }
-        reply.status(200).send(result)
-        return result
     }
 
     @Get('account')

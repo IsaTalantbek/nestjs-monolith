@@ -20,7 +20,7 @@ export class IpAdressGuard extends Guard_BASE {
         req: FastifyRequest
     ): Promise<boolean> {
         const ipAdress = req.ip
-
+        console.log('hello')
         // Если запрос блокирован, отклоняем новый
         if (this.blockManager.isLocked(ipAdress)) {
             reply.status(400).send({ message: 'Ваш запрос обрабатывается' })

@@ -53,7 +53,7 @@ export class FileLoggerService extends LoggerService {
     public successLog(
         filename: string,
         request: FastifyRequest,
-        result: any,
+        result: 'secret' | any,
         requestDATE?: string,
         resultDATE?: string
     ): void {

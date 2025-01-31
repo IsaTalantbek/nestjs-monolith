@@ -5,14 +5,19 @@ import {
 } from './src/common/decorators/route/route.decorator.index.js'
 import { Change } from './src/common/decorators/change/change.js'
 
+@Controller('controller')
 @Route({
     guard: { only: SGM.authorized, role: RGM.admin },
     log: { filename: 'profile', silent: true },
 })
-class Controller {
+export class Controller {
+    constructor() {}
+
+    @Get()
     @Change({ guard: { only: SGM.check } })
     async method() {}
 
+    @Put()
     @Change({ log: { filename: 'gg', silent: false } })
     async method2() {}
 }

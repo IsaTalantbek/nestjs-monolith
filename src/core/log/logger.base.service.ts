@@ -64,7 +64,7 @@ export abstract class LoggerService {
     }
 
     protected giveResponseSample(
-        result: any,
+        result: 'secret' | any,
         resultDATE?: string
     ): ResponseSample {
         return {
@@ -83,7 +83,7 @@ export abstract class LoggerService {
 
     public createSuccessLog(
         request: FastifyRequest,
-        result: any,
+        result: 'secret' | any,
         requestDATE?: string,
         resultDATE?: string,
         filename?: string

@@ -4,8 +4,6 @@ import { ConfigModule } from '@nestjs/config'
 import { Modules } from './modules/modules.module.js'
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 import { BasePackModule } from './base.pack.module.js'
-import { LoggerInterceptor } from './core/log.interceptor.js'
-import { SessionGuard } from './common/guards/session/session.guard.index.js'
 import { LoggerModule } from 'nestjs-pino'
 
 @Module({

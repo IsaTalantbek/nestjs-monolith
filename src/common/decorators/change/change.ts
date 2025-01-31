@@ -14,7 +14,11 @@ interface ChangeInterface {
 
 export function Change({
     guard: { only, role } = { only: undefined, role: undefined },
-    log: { filename, silent } = { filename: undefined, silent: undefined },
+    log: { filename, silent, hide } = {
+        filename: undefined,
+        silent: undefined,
+        hide: undefined,
+    },
 }: ChangeInterface): Function {
     const decorators = []
 
@@ -24,8 +28,8 @@ export function Change({
     if (role) {
         decorators.push(SetMetadata(ROLE_GUARD_CONSTANT, role))
     }
-    if (filename && silent) {
-        decorators.push(SetMetadata(LOG_CONSTANT, { filename, silent }))
+    if (filename) {
+        decorators.push(SetMetadata(LOG_CONSTANT, { filename, silent, hide }))
     }
     return applyDecorators(...decorators)
 }
