@@ -1,5 +1,5 @@
 import { UUID } from 'crypto'
-import { GiveBlacklistDTO } from './blacklist.dto'
+import { GiveBlacklistDTO } from './blacklist.dto.js'
 
 export interface BlacklistService_INTERFACE {
     giveBlacklist(accountId: UUID): Promise<GiveBlacklistDTO[]>

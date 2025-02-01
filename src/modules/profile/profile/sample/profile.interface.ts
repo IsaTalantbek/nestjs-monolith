@@ -1,6 +1,6 @@
 import { Post, Subscription } from '@prisma/client'
 import { Prisma } from '@prisma/client'
-import { MyAccountDTO, MyProfileDTO } from './profile.dto'
+import { MyAccountDTO, MyProfileDTO } from './profile.dto.js'
 
 export type ProfilePrivacyStats = Prisma.ProfileGetPayload<{
     include: { privacy: true; stats: true }

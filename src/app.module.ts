@@ -15,7 +15,7 @@ import { LoggerModule } from 'nestjs-pino'
             {
                 name: 'short',
                 ttl: 1000,
-                limit: 3,
+                limit: 5,
             },
             {
                 name: 'medium',

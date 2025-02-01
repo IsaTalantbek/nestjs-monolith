@@ -4,31 +4,10 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common'
-import { SessionGuard, SGM } from '../../guards/session/session.guard.index.js'
-import { RGM, RoleGuard } from '../../guards/role/role.guard.index.js'
-import { LoggerInterceptor } from '../../interceptors/log/log.interceptor.js'
-import { LogMetadataInterface } from '../meta/key.js'
-
-export const SESSION_GUARD_CONSTANT = 'session_guard_constant'
-export const ROLE_GUARD_CONSTANT = 'role_guard_constant'
-export const LOG_CONSTANT = 'logging_file'
-
-export enum MR { //method Route
-    Get = 'get',
-    Post = 'post',
-    Put = 'put',
-    Delete = 'delete',
-}
-
-interface RouteInterface {
-    guard: GuardRouteInterface
-    log?: LogMetadataInterface
-}
-
-export interface GuardRouteInterface {
-    only: SGM
-    role?: RGM
-}
+import { ROLE_GUARD_CONSTANT, RoleGuard } from '../../guards/role/index.js'
+import { LOG_CONSTANT, LoggerInterceptor } from '@log-interceptor'
+import { SESSION_GUARD_CONSTANT, SessionGuard } from '@session-guard'
+import { RouteInterface } from '@route-decorator'
 
 export function Route({
     guard: { only, role },

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import * as winston from 'winston'
-import { ErrorLog, LoggerService, SuccessLog } from './logger.base.service.js'
 import { FastifyRequest } from 'fastify'
+import { ErrorLog, SuccessLog } from './log.interface.js'
+import { LoggerService } from './logger.base.service.js'
 
 @Injectable()
 export class FileLoggerService extends LoggerService {

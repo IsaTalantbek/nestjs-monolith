@@ -6,8 +6,8 @@ import {
     CookieService,
 } from '../../../core/keys/cookie/cookie.service.js'
 import { CreateUserDto, loginUserDto, PreRegisterUserDto } from './auth.dto.js'
-import { IpAdressGuard } from '../../../common/guards/ipAdress/ip.adress.guard.js'
-import { IpAdressBlockService } from '../../../core/util/ipAdress/ip.adress.block.service.js'
+import { IpAdressGuard } from '../../../common/guards/ip-block/ip.adress.guard.js'
+import { IpAdressBlockService } from '../../../core/util/ip-block/ip.adress.block.service.js'
 
 @UseGuards(IpAdressGuard)
 @Controller('auth')

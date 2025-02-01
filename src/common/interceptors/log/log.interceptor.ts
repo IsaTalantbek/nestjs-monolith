@@ -7,12 +7,11 @@ import {
 import { Reflector } from '@nestjs/core'
 import { catchError, Observable, tap } from 'rxjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { FileLoggerService } from '../../../core/log/file.logger.service.js'
-import { errorStatic } from '../../../core/util/error/error.static.js'
 import { ConfigService } from '@nestjs/config'
+import { errorStatic } from '../../../core/util/error/error.static.js'
 import { errorMessage } from '../../../core/util/error/error.message.js'
-import { ErrorLog } from '../../../core/log/logger.base.service.js'
-import { LOG_CONSTANT } from '../../decorators/route/route.decorator.index.js'
+import { LOG_CONSTANT } from './log.metadata.js'
+import { FileLoggerService, ErrorLog } from '@log-services'
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {

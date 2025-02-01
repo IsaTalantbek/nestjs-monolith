@@ -1,11 +1,11 @@
 {
     "compilerOptions": {
         // A_ Устанавливаем более современный модуль (ES2022, для поддержки новых стандартов)
-        "module": "ESNext",
+        "module": "Node16",
         // Создаем файл деклараций (TypeScript typings)
         "declaration": true,
         // Используем стандартный алгоритм разрешения модулей Node.js
-        "moduleResolution": "node",
+        "moduleResolution": "node16",
         // Убираем комментарии при компиляции
         "removeComments": true,
         // Генерация метаданных для декораторов
@@ -13,7 +13,7 @@
         // Включаем экспериментальную поддержку декораторов
         "experimentalDecorators": true,
         // Разрешаем использование синтетических `default` импортов
-        "allowSyntheticDefaultImports": true,
+        "allowSyntheticDefaultImports": false,
         // Включаем совместимость с CommonJS и ES модулями
         "esModuleInterop": true,
         // A_ Устанавливаем целевой язык JavaScript (ES2022)
@@ -22,8 +22,27 @@
         "sourceMap": true,
         // Указываем выходной каталог для скомпилированного кода
         "outDir": "./dist",
-        // Базовый путь для поиска модулей
-        "baseUrl": "./",
+        //
+        "baseUrl": "./src",
+        // Подключаем пути для поиска модулей
+        "paths": {
+            "@log-services": ["core/log/index.js"],
+            //
+            "@log-interceptor": ["common/interceptors/log/index.js"],
+            //
+            "@session-guard": ["common/guards/session/index.js"],
+            "@role-guard": ["common/guards/role/index.js"],
+            "@ip-block-guard": ["common/guards/ip-block/index.js"],
+            //
+            "@user-decorator": ["common/decorators/user/index.js"],
+            "@change-decorator": ["common/decorators/change/index.js"],
+            "@use-decorator": ["common/decorators/use/index.js"],
+            "@route-decorator": ["common/decorators/route/index.js"],
+            //
+            "@util-error": ["core/util/error/index.js"],
+            "@util-mutex": ["core/util/mutex/index.js"],
+            "@util-ip-block": ["core/util/ip-block/index.js"]
+        },
         // Ускоряет сборку, позволяет делать инкрементальную компиляцию
         "incremental": true
         // A_ Включаем проверку библиотек для дополнительной строгости

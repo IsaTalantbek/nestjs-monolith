@@ -9,20 +9,7 @@ import {
     CanActivate,
     NestInterceptor,
 } from '@nestjs/common'
-
-// Интерфейс для описания элемента декоратора
-interface DecoratorItem {
-    use: Type<CanActivate> | Type<PipeTransform> | Type<NestInterceptor> // Тип элемента (гвард, пайп или интерцептор)
-    key?: string // Ключ метаданных
-    metadata?: any // Значение метаданных
-}
-
-// Интерфейс для опций декоратора Use
-interface UseDecoratorOptions {
-    guards?: (DecoratorItem | Type<CanActivate>)[] // Массив гвардов
-    pipes?: (DecoratorItem | Type<PipeTransform>)[] // Массив пайпов
-    interceptors?: (DecoratorItem | Type<NestInterceptor>)[] // Массив интерцепторов
-}
+import { DecoratorItem, UseDecoratorOptions } from './use.interface.js'
 
 // Функция для создания массива декораторов
 function createDecoratorArray(

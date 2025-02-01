@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { UUID } from 'crypto'
-import { GivePrivacyDTO } from './privacy.dto'
+import { GivePrivacyDTO } from './privacy.dto.js'
 
 export type ProfileWithPrivacy = Prisma.ProfileGetPayload<{
     include: { privacy: true }

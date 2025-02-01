@@ -1,6 +1,6 @@
 import { UUID } from 'crypto'
-import { ActiveWaitingFriend } from './friend.dto'
-import { GiveFriendsDTO } from '../../privacy/sample/privacy.dto'
+import { ActiveWaitingFriend } from './friend.dto.js'
+import { GiveFriendsDTO } from '../../privacy/sample/privacy.dto.js'
 
 export interface FriendService_INTERFACE {
     giveFriends(

@@ -1,11 +1,11 @@
 import { ExecutionContext, Injectable } from '@nestjs/common'
-import { Guard_BASE } from '../base.guard.js'
 import { Reflector } from '@nestjs/core'
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { FileLoggerService } from '../../../core/log/file.logger.service.js'
-import { ROLE_GUARD_CONSTANT } from '../../../common/decorators/route/route.decorator.index.js'
-import { RoleCheck } from './service/role.check.service.js'
 import { ConfigService } from '@nestjs/config'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Guard_BASE } from '../base.guard.js'
+import { FileLoggerService } from '../../../core/log/file.logger.service.js'
+import { RoleCheck } from './service/role.check.service.js'
+import { ROLE_GUARD_CONSTANT } from './role.guard.metadata.js'
 
 @Injectable()
 export class RoleGuard extends Guard_BASE {

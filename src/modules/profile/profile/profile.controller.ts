@@ -7,20 +7,15 @@ import {
 } from './sample/profile.dto.js'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 import { ProfileService } from './profile.service.js'
+import { Use } from '@use-decorator'
+import { SESSION_GUARD_CONSTANT, SessionGuard, SGM } from '@session-guard'
+import { IpAdressGuard } from '@ip-block-guard'
+import { UseLoggerInterceptor } from '@log-interceptor'
+import { UDE, User } from '@user-decorator'
 import { UUID } from 'crypto'
-import { UDE, User } from '../../../common/decorators/user/user.decorator.js'
-import {
-    LOG_CONSTANT,
-    Route,
-    SessionGuard,
-    SGM,
-} from '../../../common/decorators/route/route.decorator.index.js'
-import { Change } from '../../../common/decorators/change/change.js'
-import { IpAdressBlockService } from '../../../core/util/ipAdress/ip.adress.block.service.js'
-import { Use } from '../../../common/decorators/use/use.decorator.js'
-import { IpAdressGuard } from '../../../common/guards/ipAdress/ip.adress.guard.js'
-import { LoggerInterceptor } from '../../../common/interceptors/log/log.interceptor.js'
-import { SESSION_GUARD_CONSTANT } from '../../../common/decorators/meta/key.js'
+import { Change } from '@change-decorator'
+import { Route } from '@route-decorator'
+import { IpAdressBlockService } from '@util-ip-block'
 
 @Controller('profile')
 export class ProfileController {
@@ -28,7 +23,6 @@ export class ProfileController {
         protected readonly service: ProfileService,
         protected readonly block: IpAdressBlockService
     ) {}
-
     @Get()
     @Use({
         guards: [
@@ -40,11 +34,11 @@ export class ProfileController {
             },
         ],
         interceptors: [
-            {
-                use: LoggerInterceptor,
-                key: LOG_CONSTANT,
-                metadata: { filename: 'pp', silent: true, hide: false },
-            },
+            UseLoggerInterceptor({
+                filename: 'profile',
+                silent: false,
+                hide: false,
+            }),
         ],
     })
     protected async myProfile_BASE(

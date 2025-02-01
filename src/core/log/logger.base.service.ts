@@ -1,37 +1,11 @@
 import { FastifyRequest } from 'fastify'
-import { FastifyRequestType } from 'fastify/types/type-provider'
-import { RequestUserInterface } from '../../types/types.js'
-
-export interface RequestSample {
-    filename: string | 'undefined'
-    start: string
-    url: string
-    method: string
-    user: RequestUserInterface['user'] | 'undefined'
-    cookies: FastifyRequest['cookies'] | 'undefined'
-    params: FastifyRequestType['params'] | 'undefined'
-    body: FastifyRequestType['body'] | 'undefined'
-    query: FastifyRequestType['query'] | 'undefined'
-}
-
-export interface ResponseSample {
-    result: any
-    end: string
-}
-
-export interface ErrorSample {
-    error: string | 'undefined'
-    stack: string | 'undefined'
-    end: string
-}
-export interface SuccessLog {
-    request: RequestSample
-    response: ResponseSample
-}
-export interface ErrorLog {
-    request: RequestSample
-    error: ErrorSample
-}
+import {
+    ErrorLog,
+    ErrorSample,
+    RequestSample,
+    ResponseSample,
+    SuccessLog,
+} from './log.interface.js'
 
 export abstract class LoggerService {
     //protected safeJSON(obj: object | any): any {

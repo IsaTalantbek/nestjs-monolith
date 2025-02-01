@@ -1,18 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
 import { FastifyRequest } from 'fastify'
-
-export enum UDE { // User Decorator Enum
-    accountId = 'accountId',
-    sessionId = 'sessionId',
-}
-
-export interface UserDecorator {
-    id: UDE
-    optional?: boolean
-}
+import { UserDecoratorOptions } from './user.interface.js'
 
 export const User = createParamDecorator(
-    ({ id, optional = false }: UserDecorator, ctx: ExecutionContext) => {
+    ({ id, optional = false }: UserDecoratorOptions, ctx: ExecutionContext) => {
         const request: FastifyRequest = ctx.switchToHttp().getRequest()
         if (optional === false) {
             const check = request.user[id]
