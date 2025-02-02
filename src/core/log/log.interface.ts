@@ -8,7 +8,7 @@ export interface RequestSample {
     url: string
     method: string
     user: RequestUserInterface['user'] | 'undefined'
-    cookies: FastifyRequest['cookies'] | 'undefined'
+    cookies: Array<string> | 'undefined'
     params: FastifyRequestType['params'] | 'undefined'
     body: FastifyRequestType['body'] | 'undefined'
     query: FastifyRequestType['query'] | 'undefined'

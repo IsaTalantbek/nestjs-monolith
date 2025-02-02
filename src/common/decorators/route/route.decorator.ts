@@ -10,7 +10,7 @@ import { SESSION_GUARD_CONSTANT, SessionGuard } from '@session-guard'
 import { RouteInterface } from '@route-decorator'
 
 export function Route({
-    guard: { only, role },
+    session: { only, role },
     log: { filename, silent, hide } = {
         filename: 'default_log_file',
         silent: false,

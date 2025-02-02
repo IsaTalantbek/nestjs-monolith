@@ -3,15 +3,15 @@ import {
     NestInterceptor,
     ExecutionContext,
     CallHandler,
+    HttpException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { catchError, Observable, tap } from 'rxjs'
+import { catchError, Observable, tap, throwError } from 'rxjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { ConfigService } from '@nestjs/config'
-import { errorStatic } from '../../../core/util/error/error.static.js'
-import { errorMessage } from '../../../core/util/error/error.message.js'
 import { LOG_CONSTANT } from './log.metadata.js'
 import { FileLoggerService, ErrorLog } from '@log-services'
+import { CriticalErrorException } from '@util-error'
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
@@ -21,7 +21,76 @@ export class LoggerInterceptor implements NestInterceptor {
         private readonly loggerService: FileLoggerService
     ) {}
 
-    giveMetadata(context: ExecutionContext) {
+    async intercept(
+        context: ExecutionContext,
+        next: CallHandler
+    ): Promise<Observable<any>> {
+        let { baseFilePath, silentLog, hideLog } = this.giveMetadata(context)
+
+        if (!baseFilePath) {
+            return next.handle()
+        }
+        const request: FastifyRequest = context.switchToHttp().getRequest()
+
+        const { errorFilePath, logFilePath } = this.givePaths(baseFilePath)
+
+        const requestDATE = new Date().toISOString()
+
+        return next.handle().pipe(
+            tap((result) => {
+                if (logFilePath === errorFilePath) {
+                    return
+                }
+                this.loggerService.successLog(
+                    logFilePath,
+                    request,
+                    hideLog === true ? 'secret' : result,
+                    requestDATE
+                )
+                return result
+            }),
+            catchError((error) => {
+                const errorDATE = new Date().toISOString()
+
+                if (error instanceof HttpException) {
+                    // Пропускаем ошибки валидации и пользовательские (<500)
+                    if (error.getStatus() < 500) {
+                        const errorLog: ErrorLog =
+                            this.loggerService.createErrorLog(
+                                request,
+                                error,
+                                requestDATE,
+                                errorDATE
+                            )
+                        this.loggerService.log(errorLog, logFilePath)
+                        return throwError(() => error)
+                    }
+                }
+
+                this.loggerService.errorLog(
+                    logFilePath,
+                    request,
+                    error,
+                    requestDATE,
+                    errorDATE
+                )
+
+                this.loggerService.errorLog(
+                    errorFilePath,
+                    request,
+                    error,
+                    requestDATE,
+                    errorDATE
+                )
+
+                throw new CriticalErrorException(
+                    request,
+                    silentLog === true ? undefined : error
+                )
+            })
+        )
+    }
+    private giveMetadata(context: ExecutionContext) {
         let baseFilePath: string
         let silentLog: boolean
         let hideLog: boolean
@@ -57,18 +126,7 @@ export class LoggerInterceptor implements NestInterceptor {
         }
         return { baseFilePath, silentLog, hideLog }
     }
-
-    async intercept(
-        context: ExecutionContext,
-        next: CallHandler
-    ): Promise<Observable<any>> {
-        let { baseFilePath, silentLog, hideLog } = this.giveMetadata(context)
-
-        if (!baseFilePath) {
-            return next.handle()
-        }
-        const request: FastifyRequest = context.switchToHttp().getRequest()
-
+    private givePaths(baseFilePath: string) {
         const defaultLogFile = this.config.get<string>('DEFAULT_LOG_FILE')
 
         const defaultErrorLogFile = this.config.get<string>(
@@ -82,66 +140,6 @@ export class LoggerInterceptor implements NestInterceptor {
 
         const logFilePath: string = `${defaultLogFile}/${baseFilePath}.log`
 
-        const requestDATE = new Date().toISOString()
-
-        return next.handle().pipe(
-            tap(async (result) => {
-                if (logFilePath === errorFilePath) {
-                    return
-                }
-                this.loggerService.successLog(
-                    logFilePath,
-                    request,
-                    hideLog === true ? 'secret' : result,
-                    requestDATE
-                )
-                return result
-            }),
-            catchError(async (error) => {
-                const errorDATE = new Date().toISOString()
-                const reply: FastifyReply = context.switchToHttp().getResponse()
-
-                if (error?.status && error?.status < 500) {
-                    // Пропускаем ошибки валидации или не системные
-                    const errorLog: ErrorLog =
-                        this.loggerService.createErrorLog(
-                            request,
-                            error,
-                            requestDATE,
-                            errorDATE
-                        )
-
-                    this.loggerService.log(errorLog, logFilePath)
-
-                    return reply.status(error.status).send(error.response)
-                }
-
-                this.loggerService.errorLog(
-                    logFilePath,
-                    request,
-                    error,
-                    requestDATE,
-                    errorDATE
-                )
-
-                this.loggerService.errorLog(
-                    errorFilePath,
-                    request,
-                    error,
-                    requestDATE,
-                    errorDATE
-                )
-
-                if (silentLog === true) {
-                    return errorMessage(
-                        reply,
-                        request,
-                        'получить нужные данные'
-                    )
-                } else {
-                    return errorStatic(error, reply, request)
-                }
-            })
-        )
+        return { errorFilePath, logFilePath }
     }
 }

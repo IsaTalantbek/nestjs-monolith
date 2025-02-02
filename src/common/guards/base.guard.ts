@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { FileLoggerService } from '@log-services'
-import { errorStatic } from '@util-error'
+import { CriticalErrorException } from '@util-error'
 
 @Injectable()
 export abstract class Guard_BASE implements CanActivate {
@@ -26,12 +26,6 @@ export abstract class Guard_BASE implements CanActivate {
             return await this.handleRequest(reply, request, context)
         } catch (error) {
             const errorDATE: string = new Date().toISOString()
-            errorStatic(
-                error,
-                reply,
-                request,
-                'Возникла ошибка при попытке авторизации, если это вам мешает, напишите что случилось'
-            )
             const filename = `${this.config.get<string>('DEFAULT_LOG_FILE')}/${this.config.get<string>('DEFAULT_ERROR_LOG_FILE')}.log`
             this.logService.errorLog(
                 filename,
@@ -40,7 +34,11 @@ export abstract class Guard_BASE implements CanActivate {
                 requestDATE,
                 errorDATE
             )
-            return false
+            throw new CriticalErrorException(
+                request,
+                error,
+                'подтверждения личности'
+            )
         }
     }
 }

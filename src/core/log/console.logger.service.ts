@@ -5,11 +5,11 @@ import { PinoLogger } from 'nestjs-pino'
 export class ConsoleLoggerService {
     constructor(private readonly logger: PinoLogger) {}
 
-    log(message: JSON | object): void {
+    public log(message: JSON | object): void {
         this.logger.info(message)
     }
 
-    error(message: JSON | object): void {
+    public error(message: JSON | object): void {
         this.logger.error(message)
     }
 }

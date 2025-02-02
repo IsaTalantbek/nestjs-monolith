@@ -23,25 +23,25 @@
         // Указываем выходной каталог для скомпилированного кода
         "outDir": "./dist",
         //
-        "baseUrl": "./src",
+        "baseUrl": "./",
         // Подключаем пути для поиска модулей
         "paths": {
-            "@log-services": ["core/log/index.js"],
+            "@log-services": ["src/core/log/index.js"],
             //
-            "@log-interceptor": ["common/interceptors/log/index.js"],
+            "@log-interceptor": ["src/common/interceptors/log/index.js"],
             //
-            "@session-guard": ["common/guards/session/index.js"],
-            "@role-guard": ["common/guards/role/index.js"],
-            "@ip-block-guard": ["common/guards/ip-block/index.js"],
+            "@session-guard": ["src/common/guards/session/index.js"],
+            "@role-guard": ["src/common/guards/role/index.js"],
+            "@ip-block-guard": ["src/common/guards/ip-block/index.js"],
             //
-            "@user-decorator": ["common/decorators/user/index.js"],
-            "@change-decorator": ["common/decorators/change/index.js"],
-            "@use-decorator": ["common/decorators/use/index.js"],
-            "@route-decorator": ["common/decorators/route/index.js"],
+            "@user-decorator": ["src/common/decorators/user/index.js"],
+            "@change-decorator": ["src/common/decorators/change/index.js"],
+            "@use-decorator": ["src/common/decorators/use/index.js"],
+            "@route-decorator": ["src/common/decorators/route/index.js"],
             //
-            "@util-error": ["core/util/error/index.js"],
-            "@util-mutex": ["core/util/mutex/index.js"],
-            "@util-ip-block": ["core/util/ip-block/index.js"]
+            "@util-error": ["src/core/util/error/index.js"],
+            "@util-mutex": ["src/core/util/mutex/index.js"],
+            "@util-ip-block": ["src/core/util/ip-block/index.js"]
         },
         // Ускоряет сборку, позволяет делать инкрементальную компиляцию
         "incremental": true

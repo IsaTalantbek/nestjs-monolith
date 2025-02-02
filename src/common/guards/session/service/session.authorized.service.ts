@@ -97,6 +97,7 @@ export class SessionAuthorized {
                     accountId: accountId,
                     sessionId: sessionId,
                 } as UserData)
+
                 return true
             }
         }

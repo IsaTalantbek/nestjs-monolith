@@ -3,11 +3,11 @@ import { RGM } from '@role-guard'
 import { SGM } from '@session-guard'
 
 export interface RouteInterface {
-    guard: GuardRouteInterface
+    session: SessionRouteInterface
     log?: LogMetadataInterface
 }
 
-export interface GuardRouteInterface {
+export interface SessionRouteInterface {
     only: SGM
     role?: RGM
 }
