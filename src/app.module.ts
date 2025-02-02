@@ -25,20 +25,12 @@ import { LoggerModule } from 'nestjs-pino'
             {
                 name: 'long',
                 ttl: 60000,
-                limit: 100,
+                limit: 80,
             },
         ]),
         LoggerModule.forRoot({
             pinoHttp: {
                 level: 'warn', // Логирует только warn и выше (убирает debug/info)
-                serializers: {
-                    req(req) {
-                        return { method: req.method, url: req.url } // Оставляет только метод и URL запроса
-                    },
-                    res(res) {
-                        return { statusCode: res.statusCode }
-                    },
-                },
             },
         }),
         Modules,

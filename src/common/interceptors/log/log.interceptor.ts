@@ -12,16 +12,19 @@ import { ConfigService } from '@nestjs/config'
 import { LOG_CONSTANT } from './log.metadata.js'
 import { FileLoggerService, ErrorLog } from '@log-services'
 import { CriticalErrorException } from '@util-error'
+import { BaseInterceptor } from '../base.interceptor.js'
 
 @Injectable()
-export class LoggerInterceptor implements NestInterceptor {
+export class LoggerInterceptor extends BaseInterceptor {
     constructor(
         private reflector: Reflector,
-        private readonly config: ConfigService,
-        private readonly loggerService: FileLoggerService
-    ) {}
+        protected readonly config: ConfigService,
+        protected readonly loggerService: FileLoggerService
+    ) {
+        super(config, loggerService)
+    }
 
-    async intercept(
+    async process(
         context: ExecutionContext,
         next: CallHandler
     ): Promise<Observable<any>> {
@@ -33,9 +36,7 @@ export class LoggerInterceptor implements NestInterceptor {
         const request: FastifyRequest = context.switchToHttp().getRequest()
 
         const { errorFilePath, logFilePath } = this.givePaths(baseFilePath)
-
         const requestDATE = new Date().toISOString()
-
         return next.handle().pipe(
             tap((result) => {
                 if (logFilePath === errorFilePath) {

@@ -36,7 +36,7 @@ export abstract class Guard_BASE implements CanActivate {
             )
             throw new CriticalErrorException(
                 request,
-                error,
+                undefined,
                 'подтверждения личности'
             )
         }
