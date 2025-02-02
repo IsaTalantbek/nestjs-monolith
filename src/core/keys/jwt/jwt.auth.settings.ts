@@ -6,7 +6,7 @@ export class JwtAuthSettings {
     constructor(private readonly configService: ConfigService) {}
 
     get accessSecret(): string {
-        return this.configService.get<string>('JWT_SECRET')
+        return this.configService.get<string>('JWT_ACCESS_SECRET')
     }
 
     get refreshSecret(): string {
@@ -14,11 +14,19 @@ export class JwtAuthSettings {
     }
 
     get accessExpire(): { expiresIn: number } {
-        return { expiresIn: 300 } // 5m
+        return {
+            expiresIn: Number(
+                this.configService.get<number>('JWT_ACCESS_EXPIRE')
+            ),
+        } // 5m
     }
 
     get refreshExpire(): { expiresIn: number } {
-        return { expiresIn: 604800 } // 7d
+        return {
+            expiresIn: Number(
+                this.configService.get<number>('JWT_REFRESH_EXPIRE')
+            ),
+        } // 7d
     }
 
     // Методы для возврата всех настроек сразу

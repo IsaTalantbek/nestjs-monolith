@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { UUID } from 'crypto'
 import { FastifyReply } from 'fastify'
 
@@ -18,22 +19,24 @@ export interface UserData {
 
 @Injectable()
 export class CookieService {
+    constructor(private readonly config: ConfigService) {}
+
     get cookieSettings() {
         return {
             httpOnly: true,
             secure: true,
-            maxAge: 604800,
+            maxAge: Number(this.config.get<number>('COOKIE_MAX_EXPIRE')),
             sameSite: 'strict' as 'strict',
             path: '/',
         }
     }
 
     get accessTokenName() {
-        return 'aAuthToken'
+        return this.config.get<string>('COOKIE_ACCESS_NAME')
     }
 
     get refreshTokenName() {
-        return 'rAuthToken'
+        return this.config.get<string>('COOKIE_REFRESH_NAME')
     }
 
     public setCookie(reply: FastifyReply, token: string, option: CookieN) {
