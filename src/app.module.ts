@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { ConfigModule } from '@nestjs/config'
-import { Modules } from './modules/modules.module.js'
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
-import { BasePackModule } from './base.pack.module.js'
+import { APP_GUARD } from '@nestjs/core'
 import { LoggerModule } from 'nestjs-pino'
+import { Modules } from './modules/modules.module.js'
+import { BasePackModule } from './base.pack.module.js'
 
 @Module({
     imports: [

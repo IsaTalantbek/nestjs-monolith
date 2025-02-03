@@ -1,21 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { UUID } from 'crypto'
 import { FastifyReply } from 'fastify'
-
-export enum CookieN { // Cookie Name
-    access, // Access Token
-    refresh, // Refresh Token
-}
-
-export interface UserDataArray {
-    data: [string, string]
-}
-
-export interface UserData {
-    accountId: UUID
-    sessionId: UUID
-}
+import { CN, UserData, UserDataArray } from './cookie.interface.js'
 
 @Injectable()
 export class CookieService {
@@ -39,15 +25,15 @@ export class CookieService {
         return this.config.get<string>('COOKIE_REFRESH_NAME')
     }
 
-    public setCookie(reply: FastifyReply, token: string, option: CookieN) {
+    public setCookie(reply: FastifyReply, token: string, option: CN) {
         switch (option) {
-            case CookieN.access:
+            case CN.access:
                 return reply.setCookie(
                     this.accessTokenName,
                     token,
                     this.cookieSettings
                 )
-            case CookieN.refresh:
+            case CN.refresh:
                 return reply.setCookie(
                     this.refreshTokenName,
                     token,
@@ -62,7 +48,7 @@ export class CookieService {
         args.forEach((cookie) => reply.clearCookie(cookie))
     }
 
-    public userData(data: UserData | UserDataArray): UserData {
+    public userData(data: any | UserDataArray): UserData {
         // Если session — объект
         if (data && typeof data === 'object') {
             const newData = (data as UserDataArray).data
@@ -80,8 +66,10 @@ export class CookieService {
             }
 
             // Если это просто объект с другими свойствами
-            const { accountId, sessionId } = data as UserData
-
+            const { accountId, sessionId } = data as any
+            if (!accountId || !sessionId) {
+                throw new Error('Invalid userData format in cookieService')
+            }
             return {
                 accountId: accountId,
                 sessionId: sessionId,

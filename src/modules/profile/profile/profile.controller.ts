@@ -8,18 +8,18 @@ import {
     Res,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { Route } from '@decorator/route'
+import { IpAdressBlockService } from '@util/ip-block'
+import { SGM } from '@guard/session'
+import { UDE, User } from '@decorator/user'
 import {
     MyAccountDTO,
     MyProfileDTO,
     SlugQueryDTO,
 } from './sample/profile.dto.js'
-import { UUID } from 'crypto'
 import { MinData, UserProfileData } from './sample/profile.interface.js'
 import { ProfileService } from './profile.service.js'
-import { SGM } from '@session-guard'
-import { UDE, User } from '@user-decorator'
-import { Route } from '@route-decorator'
-import { IpAdressBlockService } from '@util-ip-block'
+import { UUID } from 'crypto'
 
 @Controller('profile')
 @Route({

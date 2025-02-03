@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module.js'
 import {
     FastifyAdapter,
     NestFastifyApplication,
@@ -7,6 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config'
 import { ValidationPipe } from '@nestjs/common'
 import fastifyCookieParser from '@fastify/cookie'
+import { AppModule } from './app.module.js'
 
 async function bootstrap() {
     // Создаем приложение с использованием Fastify
@@ -35,7 +35,7 @@ async function bootstrap() {
     )
     // Запуск сервера на Fastify
     await app.listen(
-        configService.get<number>('PORT'),
+        configService.get<string>('PORT'),
         '127.0.0.1',
         (err, address) => {
             if (err) {

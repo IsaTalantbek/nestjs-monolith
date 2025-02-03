@@ -26,22 +26,27 @@
         "baseUrl": "./",
         // Подключаем пути для поиска модулей
         "paths": {
-            "@log-services": ["src/core/log/index.js"],
+            "@core/log": ["src/core/log/index.js"],
+            "@core/cookie": ["src/core/keys/cookie/index.js"],
+            "@core/jwt-auth": ["src/core/keys/jwt/index.js"],
+            "@core/prisma": ["src/core/database/index.js"],
             //
-            "@log-interceptor": ["src/common/interceptors/log/index.js"],
+            "@service/session": ["src/common/service/session/index.js"],
             //
-            "@session-guard": ["src/common/guards/session/index.js"],
-            "@role-guard": ["src/common/guards/role/index.js"],
-            "@ip-block-guard": ["src/common/guards/ip-block/index.js"],
+            "@interceptor/log": ["src/common/interceptors/log/index.js"],
             //
-            "@user-decorator": ["src/common/decorators/user/index.js"],
-            "@change-decorator": ["src/common/decorators/change/index.js"],
-            "@use-decorator": ["src/common/decorators/use/index.js"],
-            "@route-decorator": ["src/common/decorators/route/index.js"],
+            "@guard/session": ["src/common/guards/session/index.js"],
+            "@guard/role": ["src/common/guards/role/index.js"],
+            "@guard/ip-block": ["src/common/guards/ip-block/index.js"],
             //
-            "@util-error": ["src/core/util/error/index.js"],
-            "@util-mutex": ["src/core/util/mutex/index.js"],
-            "@util-ip-block": ["src/core/util/ip-block/index.js"]
+            "@decorator/user": ["src/common/decorators/user/index.js"],
+            "@decorator/change": ["src/common/decorators/change/index.js"],
+            "@decorator/use": ["src/common/decorators/use/index.js"],
+            "@decorator/route": ["src/common/decorators/route/index.js"],
+            //
+            "@util/error": ["src/core/util/error/index.js"],
+            "@util/mutex": ["src/core/util/mutex/index.js"],
+            "@util/ip-block": ["src/core/util/ip-block/index.js"]
         },
         // Ускоряет сборку, позволяет делать инкрементальную компиляцию
         "incremental": true

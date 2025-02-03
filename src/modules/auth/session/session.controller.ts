@@ -8,7 +8,7 @@ import {
     Param,
     Put,
 } from '@nestjs/common'
-import { SessionService } from '../../../core/session/session.service.js'
+import { SessionService } from '../../../common/service/session/session.service.js'
 import { CookieService } from '../../../core/keys/cookie/cookie.service.js'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { UUID } from 'crypto'

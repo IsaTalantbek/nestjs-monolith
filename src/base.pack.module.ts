@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
-import { LoggerModule } from './core/log/logger.module.js'
-import { SessionGuardModule } from './common/guards/session/service/session.guard.module.js'
+import { LoggerModule } from '@core/log'
+import { SessionGuardModule } from '@guard/session'
 
 @Global()
 @Module({

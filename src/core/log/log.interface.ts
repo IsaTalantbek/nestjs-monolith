@@ -1,4 +1,3 @@
-import { FastifyRequest } from 'fastify'
 import { RequestUserInterface } from '../../types/types.js'
 import { FastifyRequestType } from 'fastify/types/type-provider.js'
 

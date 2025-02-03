@@ -1,7 +1,7 @@
+import { PrismaService } from '@core/prisma'
 import { Injectable } from '@nestjs/common'
 import { Account } from '@prisma/client'
 import { FastifyRequest } from 'fastify'
-import { PrismaService } from '../../../../core/database/prisma.service.js'
 import { RGM } from '../role.guard.metadata.js'
 
 @Injectable()

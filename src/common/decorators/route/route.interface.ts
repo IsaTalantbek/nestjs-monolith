@@ -1,6 +1,6 @@
-import { LogMetadataInterface } from '@log-interceptor'
-import { RGM } from '@role-guard'
-import { SGM } from '@session-guard'
+import { RGM } from '@guard/role'
+import { SGM } from '@guard/session'
+import { LogMetadataInterface } from '@interceptor/log'
 
 export interface RouteInterface {
     session: SessionRouteInterface

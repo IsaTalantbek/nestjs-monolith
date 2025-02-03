@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common'
+import { Session } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import {
-    CookieN,
-    CookieService,
-    UserData,
-} from '../../../../core/keys/cookie/cookie.service.js'
+import { SessionService } from '@service/session'
 import {
     JwtAccessTokenData,
     JwtAuthService,
     JwtRefreshTokenData,
-} from '../../../../core/keys/jwt/jwt.auth.service.js'
-import { SessionService } from '../../../../core/session/session.service.js'
+} from '@core/jwt-auth'
+import { CN, CookieService, UserData } from '@core/cookie'
 import { UUID } from 'crypto'
-import { Session } from '@prisma/client'
 
 @Injectable()
 export class SessionAuthorized {
@@ -92,11 +88,11 @@ export class SessionAuthorized {
                 const { newAccessToken } =
                     await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
-                this.cookie.setCookie(reply, newAccessToken, CookieN.access)
-                req.user = this.cookie.userData({
+                this.cookie.setCookie(reply, newAccessToken, CN.access)
+                req.user = {
                     accountId: accountId,
                     sessionId: sessionId,
-                } as UserData)
+                } as UserData
 
                 return true
             }

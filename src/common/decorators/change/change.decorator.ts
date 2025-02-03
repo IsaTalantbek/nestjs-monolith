@@ -1,11 +1,11 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common'
-import { LOG_CONSTANT } from '@log-interceptor'
-import { SESSION_GUARD_CONSTANT } from '@session-guard'
-import { ROLE_GUARD_CONSTANT } from '@role-guard'
+import { SESSION_GUARD_CONSTANT } from '@guard/session'
+import { ROLE_GUARD_CONSTANT } from '@guard/role'
+import { LOG_CONSTANT } from '@interceptor/log'
 import { ChangeInterface } from './change.interface.js'
 
 export function Change({
-    guard: { only, role } = { only: undefined, role: undefined },
+    session: { only, role } = { only: undefined, role: undefined },
     log: { filename, silent, hide } = {
         filename: undefined,
         silent: undefined,

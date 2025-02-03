@@ -1,8 +1,8 @@
+import { PrismaService } from '@core/prisma'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../database/prisma.service.js'
-import { MutexService } from '../util/mutex/mutex.service.js'
-import { UUID } from 'crypto'
 import { Session } from '@prisma/client'
+import { MutexService } from '@util/mutex'
+import { UUID } from 'crypto'
 
 @Injectable()
 export class SessionService {

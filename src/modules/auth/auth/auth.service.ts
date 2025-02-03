@@ -2,11 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../core/database/prisma.service.js'
 import bcrypt from 'bcryptjs'
 import { loginForm, registerForm } from './auth.dto.js'
-import {
-    JwtAuthService,
-    NewRefreshToken,
-} from '../../../core/keys/jwt/jwt.auth.service.js'
-import { SessionService } from '../../../core/session/session.service.js'
+import { JwtAuthService, NewRefreshToken } from '@core/jwt-auth'
+import { SessionService } from '../../../common/service/session/session.service.js'
 import { MutexService } from '../../../core/util/mutex/mutex.service.js'
 import { Session } from '@prisma/client'
 import { UUID } from 'crypto'

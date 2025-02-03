@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { SessionUnauthorized } from '../service/session.unauthorized.service.js'
-import { SessionCheck } from '../service/session.check.service.js'
-import { SessionAuthorized } from '../service/session.authorized.service.js'
-import { JwtAuthModule } from '../../../../core/keys/jwt/jwt.auth.module.js'
-import { CookieModule } from '../../../../core/keys/cookie/cookie.module.js'
-import { SessionModule } from '../../../../core/session/session.module.js'
+import { CookieModule } from '@core/cookie'
+import { JwtAuthModule } from '@core/jwt-auth'
+import { SessionModule } from '@service/session'
+import { SessionUnauthorized } from './session.unauthorized.service.js'
+import { SessionCheck } from './session.check.service.js'
+import { SessionAuthorized } from './session.authorized.service.js'
 
 @Module({
     imports: [JwtAuthModule, CookieModule, SessionModule],

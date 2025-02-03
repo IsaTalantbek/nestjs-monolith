@@ -3,24 +3,12 @@ import jwt from 'jsonwebtoken'
 import { JwtAuthSettings } from './jwt.auth.settings.js'
 import { UUID } from 'crypto'
 import { promisify } from 'util'
-
-export interface JwtAccessTokenData {
-    sessionId: UUID
-    accountId: UUID
-    iat: number
-    exp: number
-}
-export interface JwtRefreshTokenData {
-    sessionId: UUID
-    iat: number
-    exp: number
-}
-export interface NewAccessToken {
-    newAccessToken: string
-}
-export interface NewRefreshToken {
-    newRefreshToken: string
-}
+import {
+    JwtAccessTokenData,
+    JwtRefreshTokenData,
+    NewAccessToken,
+    NewRefreshToken,
+} from './jwt.auth.interface.js'
 
 @Injectable()
 export class JwtAuthService {

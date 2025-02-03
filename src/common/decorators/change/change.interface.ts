@@ -1,7 +1,7 @@
-import { LogMetadataInterface } from '@log-interceptor'
-import { SessionRouteInterface } from '@route-decorator'
+import { SessionRouteInterface } from '@decorator/route'
+import { LogMetadataInterface } from '@interceptor/log'
 
 export interface ChangeInterface {
-    guard?: SessionRouteInterface
+    session?: SessionRouteInterface
     log?: LogMetadataInterface
 }

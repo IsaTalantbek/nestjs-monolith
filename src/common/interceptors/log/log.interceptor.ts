@@ -1,17 +1,16 @@
 import {
     Injectable,
-    NestInterceptor,
     ExecutionContext,
     CallHandler,
     HttpException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { catchError, Observable, tap, throwError } from 'rxjs'
-import { FastifyReply, FastifyRequest } from 'fastify'
 import { ConfigService } from '@nestjs/config'
+import { catchError, Observable, tap, throwError } from 'rxjs'
+import { FastifyRequest } from 'fastify'
+import { ErrorLog, FileLoggerService } from '@core/log'
+import { CriticalErrorException } from '@util/error'
 import { LOG_CONSTANT } from './log.metadata.js'
-import { FileLoggerService, ErrorLog } from '@log-services'
-import { CriticalErrorException } from '@util-error'
 import { BaseInterceptor } from '../base.interceptor.js'
 
 @Injectable()
@@ -102,6 +101,7 @@ export class LoggerInterceptor extends BaseInterceptor {
                 silent: boolean
                 hide: boolean
             }>(LOG_CONSTANT, context.getHandler()) ?? {}
+
         if (filename) {
             baseFilePath = filename
             hideLog = hide
@@ -113,6 +113,7 @@ export class LoggerInterceptor extends BaseInterceptor {
                     silent: boolean
                     hide: boolean
                 }>(LOG_CONSTANT, context.getClass()) ?? {}
+
             if (!filename) {
                 return {}
             }
@@ -134,7 +135,7 @@ export class LoggerInterceptor extends BaseInterceptor {
             'DEFAULT_ERROR_LOG_FILE'
         )
 
-        if (baseFilePath === 'default_log_file') {
+        if (baseFilePath === 'default') {
             baseFilePath = defaultErrorLogFile
         }
         const errorFilePath: string = `${defaultLogFile}/${defaultErrorLogFile}.log`

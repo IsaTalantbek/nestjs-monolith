@@ -1,17 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { FastifyReply, FastifyRequest } from 'fastify'
-import {
-    CookieN,
-    CookieService,
-    UserData,
-} from '../../../../core/keys/cookie/cookie.service.js'
-import {
-    JwtAccessTokenData,
-    JwtAuthService,
-} from '../../../../core/keys/jwt/jwt.auth.service.js'
-import { SessionService } from '../../../../core/session/session.service.js'
-import { UUID } from 'crypto'
 import { Session } from '@prisma/client'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { CN, CookieService, UserData } from '@core/cookie'
+import { JwtAccessTokenData, JwtAuthService } from '@core/jwt-auth'
+import { SessionService } from '@service/session'
+import { UUID } from 'crypto'
 
 @Injectable()
 export class SessionCheck {
@@ -87,11 +80,11 @@ export class SessionCheck {
                 const { newAccessToken } =
                     await this.jwtAuth.generateAccessToken(accountId, sessionId)
 
-                this.cookie.setCookie(reply, newAccessToken, CookieN.access)
-                req.user = this.cookie.userData({
+                this.cookie.setCookie(reply, newAccessToken, CN.access)
+                req.user = {
                     accountId: accountId,
                     sessionId: sessionId,
-                } as UserData)
+                } as UserData
                 return true
             }
         }

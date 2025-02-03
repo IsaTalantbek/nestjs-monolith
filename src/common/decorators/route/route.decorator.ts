@@ -4,16 +4,16 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common'
-import { ROLE_GUARD_CONSTANT, RoleGuard } from '../../guards/role/index.js'
-import { LOG_CONSTANT, LoggerInterceptor } from '@log-interceptor'
-import { SESSION_GUARD_CONSTANT, SessionGuard } from '@session-guard'
-import { RouteInterface } from '@route-decorator'
+import { LOG_CONSTANT, LoggerInterceptor } from '@interceptor/log'
+import { SESSION_GUARD_CONSTANT, SessionGuard } from '@guard/session'
+import { ROLE_GUARD_CONSTANT, RoleGuard } from '@guard/role'
+import { RouteInterface } from './route.interface.js'
 
 export function Route({
     session: { only, role },
     log: { filename, silent, hide } = {
-        filename: 'default_log_file',
-        silent: false,
+        filename: 'default',
+        silent: true,
         hide: false,
     },
 }: RouteInterface): Function {
