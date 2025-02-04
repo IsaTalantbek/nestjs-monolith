@@ -30,10 +30,10 @@ export abstract class LoggerService {
             url: request.url,
             method: request.method,
             user: request.user || 'undefined',
-            cookies: Object.keys(request.cookies || 'undefined'),
-            params: request.params || 'undefined',
-            body: request.body || 'undefined',
-            query: request.query || 'undefined',
+            cookies: Object.keys(request.cookies || {}),
+            params: request.params || {},
+            body: request.body || {},
+            query: request.query || {},
         }
     }
 
