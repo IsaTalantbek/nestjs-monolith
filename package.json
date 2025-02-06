@@ -1,13 +1,13 @@
 {
     "name": "prologue",
-    "version": "5.0.4",
+    "version": "5.1.0",
     "description": "акундалякака",
     "author": "isat",
     "private": true,
     "license": "UNLICENSED",
     "type": "module",
     "scripts": {
-        "build": "nest build && tsc-alias && npm run start:prod",
+        "build": "nest build && tsc-alias",
         "build:watch": "concurrently --kill-others \"tsc -w\" \"tsc-alias -w\" \"npm run start:prod\"",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start:nest": "nest start",
@@ -19,7 +19,8 @@
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "jest --config ./test/jest-e2e.json"
+        "test:e2e": "jest --config ./test/jest-e2e.json",
+        "db:deploy": "npx prisma migrate deploy && npx prisma generate"
     },
     "dependencies": {
         "@fastify/cookie": "^11.0.2",
