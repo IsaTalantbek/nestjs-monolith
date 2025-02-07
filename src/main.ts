@@ -36,7 +36,7 @@ async function bootstrap() {
     // Запуск сервера на Fastify
     await app.listen(
         configService.get<string>('APP_PORT'),
-        '127.0.0.1',
+        '0.0.0.0',
         (err, address) => {
             if (err) {
                 console.error(err)

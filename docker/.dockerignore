@@ -1,0 +1,5 @@
+.git
+.env
+.eslintrc.js
+.gitignore
+.prettierignore

@@ -46,7 +46,6 @@ export class ProfileController {
             if (typeof result === 'string') {
                 throw new BadRequestException(result)
             }
-            throw new Error('hello')
             return result
         } finally {
             this.block.unlock(req.ip)
