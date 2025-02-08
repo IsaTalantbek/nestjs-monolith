@@ -17,5 +17,5 @@ EXPOSE 3000
 # 6. Устанавливаем зависимость для ожидания загрузки БД
 RUN apt-get update && apt-get install -y wait-for-it
 
-# 7. Запускаем в dev-режиме (например, с nodemon)
-CMD ["npm", "run", "start:dev"]
+# 7. Запускаем команду ожидания базы данных и затем приложение
+CMD /bin/bash -c "wait-for-it database:5432 -- npm run start:dev"

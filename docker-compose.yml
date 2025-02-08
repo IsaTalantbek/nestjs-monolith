@@ -1,12 +1,12 @@
 services:
     app:
         volumes:
-            - .:/app # Монтируем весь проект внутрь контейнера
-            - /app/node_modules # Исключаем node_modules, чтобы не затирать их
-        command: /bin/bash -c "wait-for-it database:5432 -- npm run start:dev"
+            - .:/app # Снести на проде
+            - /app/node_modules # Снести на проде
+        command: /bin/bash -c "wait-for-it database:5432 -- npm run start:dev" # Снести на проде
         build:
             context: .
-            dockerfile: docker/dockerfile.dev
+            dockerfile: docker/dockerfile.dev # Поменять на .prod
         container_name: nest-app
         env_file:
             - .env

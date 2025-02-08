@@ -5,9 +5,8 @@ import {
     Param,
     Query,
     Req,
-    Res,
 } from '@nestjs/common'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyRequest } from 'fastify'
 import { Route } from '@decorator/route'
 import { IpAdressBlockService } from '@util/ip-block'
 import { SGM } from '@guard/session'
@@ -17,7 +16,7 @@ import {
     MyProfileDTO,
     SlugQueryDTO,
 } from './sample/profile.dto.js'
-import { MinData, UserProfileData } from './sample/profile.interface.js'
+import { MinData, UserProfileData } from './sample/profile.service.interface.js'
 import { ProfileService } from './profile.service.js'
 import { UUID } from 'crypto'
 
@@ -53,19 +52,14 @@ export class ProfileController {
     }
 
     @Get('account')
-    protected async myAccount_BASE(
-        @Res() reply: FastifyReply,
-        @Req() req: FastifyRequest
-    ) {
+    protected async myAccount_BASE(@Req() req: FastifyRequest) {
         const accountId = req.user!.accountId
         const result: MyAccountDTO = await this.service.myAccount(accountId)
-        reply.status(200).send(result)
         return result
     }
 
     @Get(':slug')
     protected async userProfile_BASE(
-        @Res() reply: FastifyReply,
         @Req() req: FastifyRequest,
         @Param('slug') slug: string
     ) {
@@ -73,10 +67,8 @@ export class ProfileController {
         const result: MinData | UserProfileData | string =
             await this.service.userProfile(slug, accountId)
         if (typeof result === 'string') {
-            reply.status(400).send({ message: result })
-            return result
+            throw new BadRequestException(result)
         }
-        reply.status(200).send(result)
         return result
     }
 }

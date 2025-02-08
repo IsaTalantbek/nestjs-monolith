@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
+import { IpAdressBlockModule } from '@util/ip-block'
+import { PrismaModule } from '@core/prisma'
 import { ProfileController } from './profile.controller.js'
 import { ProfileService } from './profile.service.js'
-import { PrismaModule } from '../../../core/database/prisma.module.js'
-import { IpAdressBlockModule } from '../../../core/util/ip-block/ip.adress.block.module.js'
 
 @Module({
     imports: [PrismaModule, IpAdressBlockModule],

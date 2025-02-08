@@ -10,7 +10,7 @@ import {
     ProfilePrivacyStats,
     ProfileService_INTERFACE,
     UserProfileData,
-} from './sample/profile.interface.js'
+} from './sample/profile.service.interface.js'
 
 @Injectable()
 export class ProfileService implements ProfileService_INTERFACE {
